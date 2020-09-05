@@ -1,0 +1,102 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Interests</title>
+    <link href="~/Content/CodeAtWork/tachyons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href='https://fonts.googleapis.com/css?family=Antic Didone' rel='stylesheet'>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link href="~/Content/CodeAtWork/Interests.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+    <div class="wrapper">
+        <h1 style="font-family: 'Antic Didone';"> What Do You Want To Learn?</h1>
+        <p style="font-family: 'Antic Didone';"> Search for and select Interests below. We'll use them to make content recommendations.</p>
+
+        <input type="text" name="search" placeholder="Search...">
+        <table id="topics">
+            <tr>
+                <td>
+                    <i class="fas fa-laptop-code learnCode" onclick="toggleCategory('learnCode')"></i>
+                </td>
+                <td>
+                    <i class="fas fa-chart-line learnData" onclick="toggleCategory('learnData')"></i>
+                </td>
+            </tr>
+            <tr id="ToLearnLabels">
+                <td class="Categorylabel learnCode selectedTopic" onclick="toggleCategory(this)">
+                    Software Development
+                </td>
+                <td class="Categorylabel learnData" onclick="toggleCategory(this)">
+                    Data
+                </td>
+            </tr>
+        </table>
+
+        <p>Most Popular Topics</p>
+        <div id="TopicPills">
+            <div class="ph3 mt4">
+                <a id="Pill_1" class="f6 br-pill ba ph3 pv2 mb2 dib isNotSubscribed" onclick="subscribeTopic(this)"> .Net</a>
+                <a id="Pill_2" class="f6 br-pill ba ph3 pv2 mb2 dib isNotSubscribed" onclick="subscribeTopic(this)"> .Net</a>
+                <a id="Pill_3" class="f6 br-pill ba ph3 pv2 mb2 dib isNotSubscribed" onclick="subscribeTopic(this)"> .Net</a>
+            </div>
+        </div>
+        <div class="w3-container">
+            <p><button class="w3-button w3-round" style="background-color: #0084bd">Done</button></p>
+
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+
+    var susbcribedTopics = [];
+
+    $(".learnCode").hover(function () {
+        $(".learnCode").css("color", "grey");
+    }, function () {
+        $(".learnCode").css("color", "white");
+    });
+
+    $(".learnData").hover(function () {
+        $(".learnData").css("color", "grey");
+    }, function () {
+        $(".learnData").css("color", "white");
+    });
+
+    function subscribeTopic(item) {
+        $(item).toggleClass("isNotSubscribed isSubscribed");
+
+        if (susbcribedTopics.indexOf(item.id) == -1) {
+            susbcribedTopics.push(item.id);
+        }
+        else {
+            susbcribedTopics.splice(susbcribedTopics.indexOf(item.id), 1);
+        }
+    }
+
+    function toggleCategory(item) {
+        var elem = item;
+        if (typeof item === 'string')
+            elem = document.getElementsByClassName("Categorylabel " + item)[0];
+
+        if (!elem.classList.contains('selectedTopic')) {
+            var selectedCat = document.getElementsByClassName("selectedTopic")[0];
+            $(selectedCat).removeClass("selectedTopic");
+            $(elem).addClass("selectedTopic");
+
+            //Change Pills
+        }
+
+    }
+</script>

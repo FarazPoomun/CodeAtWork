@@ -1,0 +1,97 @@
+﻿body {
+    background-color: #0d0f12;
+    font-size: 22px;
+    color: white;
+}
+
+.wrapper {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 8%;
+    text-align: center;
+}
+
+input[type=text] {
+    width: 30%;
+    margin-top: 2%;
+    font-size: 16px;
+    background-color: #181c20;
+    background-image: url('../../Design/Icons/search-13-64.ico');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 5%;
+    transition: width 0.4s ease-in-out;
+    background-size: 1.2vw;
+    border: none;
+    caret-color: white;
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+    input[type=text]:focus {
+        width: 80%;
+    }
+
+::placeholder {
+    color: white;
+    font-size: medium;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+textarea:focus, input:focus {
+    outline: none;
+}
+
+#topics {
+    margin-top:5%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td {
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    width: 50%;
+}
+.fas {
+    font-size: 4vw;
+    padding-bottom: 7%;
+}
+
+#ToLearnLabels td {
+    padding-bottom: 5%;
+    border-bottom: 1px solid white;
+}
+
+.br-pill {
+    border-color: white;
+    border-width: thin;
+    font-size: medium;
+    margin-right: 0.5%;
+}
+
+.isNotSubscribed:hover {
+    background-color: white;
+    border-color: white;
+    color: black;
+}
+
+.isSubscribed {
+    border-color: #0084bd;
+    background-color: #0084bd;
+}
+
+#TopicPills {
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.selectedTopic {
+    border-bottom: thick solid #0084bd !important;
+}
+
+.selectedTopicIcon {
+    color: #0084bd;
+}
