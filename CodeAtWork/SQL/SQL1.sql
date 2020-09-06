@@ -52,3 +52,19 @@ values (@CatId, 'MongoDB'),
 (@CatId, 'T-SQL'),
 (@CatId, 'PostgreSQL'),
 (@CatId, 'Google Analytics')
+
+
+Create table AppUser(
+AppUserId int primary key identity (1,1),
+Username varchar (max) not null,
+Password varchar (max) not null
+)
+
+Insert into AppUser
+values ('Admin',1)
+
+Create Table UserSubscribedTopic(
+UserSubscribedTopicId int primary key identity (1,1),
+AppUserId int Foreign Key references AppUser,
+InterestCategoryTopicId int Foreign key references InterestCategoryTopic
+)

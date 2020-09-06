@@ -16,7 +16,7 @@
     <link href="~/Content/CodeAtWork/Interests.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 </head>
-<body>
+<body onload="initializePage()">
 
     <div class="wrapper">
         <h1 style="font-family: 'Antic Didone';"> What Do You Want To Learn?</h1>
@@ -43,15 +43,11 @@
         </table>
 
         <p>Most Popular Topics</p>
-        <div id="TopicPills">
-            <div class="ph3 mt4">
-                <a id="Pill_1" class="f6 br-pill ba ph3 pv2 mb2 dib isNotSubscribed" onclick="subscribeTopic(this)"> .Net</a>
-                <a id="Pill_2" class="f6 br-pill ba ph3 pv2 mb2 dib isNotSubscribed" onclick="subscribeTopic(this)"> .Net</a>
-                <a id="Pill_3" class="f6 br-pill ba ph3 pv2 mb2 dib isNotSubscribed" onclick="subscribeTopic(this)"> .Net</a>
-            </div>
+        <div class="ph3 mt4" id="TopicPills">
+            <!-- Will be generated from db-->
         </div>
         <div class="w3-container">
-            <p><button class="w3-button w3-round" style="background-color: #0084bd">Done</button></p>
+            <p><button class="w3-button w3-round" style="background-color: #0084bd" onclick="UpdateTopics()">Done</button></p>
 
         </div>
     </div>
@@ -59,8 +55,7 @@
 </html>
 
 <script>
-
-    var susbcribedTopics = [];
+    var storedPillsPerCategory = []; // Load per category once
 
     $(".learnCode").hover(function () {
         $(".learnCode").css("color", "grey");
@@ -72,17 +67,15 @@
         $(".learnData").css("color", "grey");
     }, function () {
         $(".learnData").css("color", "white");
-    });
+        });
+
+    function initializePage() {
+        document.getElementById("TopicPills").innerHTML = '@ViewBag.TopicPills';
+        storedPillsPerCategory.push({ CategoryName : "Software Development", Pills: '@ViewBag.TopicPills'});
+    }
 
     function subscribeTopic(item) {
         $(item).toggleClass("isNotSubscribed isSubscribed");
-
-        if (susbcribedTopics.indexOf(item.id) == -1) {
-            susbcribedTopics.push(item.id);
-        }
-        else {
-            susbcribedTopics.splice(susbcribedTopics.indexOf(item.id), 1);
-        }
     }
 
     function toggleCategory(item) {
@@ -95,8 +88,60 @@
             $(selectedCat).removeClass("selectedTopic");
             $(elem).addClass("selectedTopic");
 
-            //Change Pills
-        }
+            if (!storedPillsPerCategory.map(t => { return t.CategoryName == elem.innerHTML.trim(" ") }).filter(item => item)[0]) {
+                storedPillsPerCategory.map(z => {
+                    if (z.CategoryName == selectedCat.innerHTML.trim(" "))
+                        return z;
+                }).filter(item => item)[0].Pills = document.getElementById("TopicPills").innerHTML;
 
+                var ajaxPost = $.post('/CodeAtWork/GetTopicsByCategoryName', { CatergoryName: elem.innerHTML.trim(" ") });
+                Promise.all([ajaxPost]).then((results) => {
+                    document.getElementById("TopicPills").innerHTML = results[0];
+                    storedPillsPerCategory.push({ CategoryName: elem.innerHTML.trim(" "), Pills: results[0] });
+                });
+            }
+            else {
+                storedPillsPerCategory.map(z => {
+                    if (z.CategoryName == selectedCat.innerHTML.trim(" "))
+                        return z;
+                }).filter(item => item)[0].Pills = document.getElementById("TopicPills").innerHTML;
+
+                document.getElementById("TopicPills").innerHTML = storedPillsPerCategory.map(t => {
+                    if (t.CategoryName == elem.innerHTML.trim(" "))
+                        return t.Pills;
+                }).filter(item => item)[0];
+            }
+        }
     }
+
+    function UpdateTopics() {
+        var UpdatePills = [];
+
+        var selectedCat = document.getElementsByClassName("selectedTopic")[0];
+
+        storedPillsPerCategory.map(z => {
+            if (z.CategoryName == selectedCat.innerHTML.trim(" "))
+                return z;
+        }).filter(item => item)[0].Pills = document.getElementById("TopicPills").innerHTML;
+
+        storedPillsPerCategory.forEach(z => {
+            var tempElem = document.createElement('div');
+            tempElem.innerHTML = z.Pills;
+            var allTopicsUnderCat = tempElem.getElementsByClassName("br-pill");
+
+            for (t = 0; t < allTopicsUnderCat.length - 1; t++)
+            {
+                var x = allTopicsUnderCat[t];
+                var interestCategoryTopicId = parseInt(x.id.split('_')[1]);
+                var obj = { InterestCategoryName: z.CategoryName, InterestCategoryTopicId: interestCategoryTopicId, IsSubscribed: !!x.classList.contains('isSubscribed') };
+                UpdatePills.push(obj);
+            };
+        });
+
+        var ajaxPost = $.post('/CodeAtWork/UpdateInterestTopics', { InterestTopics: UpdatePills });
+        Promise.all([ajaxPost]).then((results) => { });
+    }
+
+    //To save => compile an objects ids and whether class isSubscribed is true
+
 </script>
