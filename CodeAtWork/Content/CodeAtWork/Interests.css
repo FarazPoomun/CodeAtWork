@@ -69,6 +69,8 @@ td {
     border-width: thin;
     font-size: medium;
     margin-right: 0.5%;
+    cursor:pointer;
+    display: inline-flex;
 }
 
 .isNotSubscribed:hover {

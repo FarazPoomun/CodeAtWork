@@ -18,7 +18,30 @@ namespace CodeAtWork.BL
         #region DB calls
         public HtmlString GetTopicsByCategoryName(string CategoryName = "Software Development")
         {
-            return ConvertTopicsToHTMLSting(dal.GetTopicsByCategoryName(CategoryName));
+            return ConvertTopicsToHTMLSting(dal.GetTopicsByCategoryName( new List<string>() { CategoryName }));
+        }
+
+        public void SaveTopics(List<InterestCategoryTopicToBeSaved> topics)
+        {
+            Dictionary<int, bool> newTopicsToUpdate = new Dictionary<int, bool>();
+
+            var existingTopics = dal.GetTopicsByCategoryName(topics.Select(z => z.InterestCategoryName).Distinct().ToList());
+
+            topics.ForEach(
+                t => {
+                    var existingSelection = existingTopics
+                    .FirstOrDefault(z => z.InterestCategoryTopicId == t.InterestCategoryTopicId && z.IsSelected != t.IsSelected);
+
+                    if(existingSelection != null)
+                    {
+                        newTopicsToUpdate.Add(t.InterestCategoryTopicId, t.IsSelected);
+                    }
+                });
+
+            if (newTopicsToUpdate.Any())
+            {
+                dal.SaveTopics(newTopicsToUpdate);
+            }
         }
 
         #endregion
@@ -33,7 +56,5 @@ namespace CodeAtWork.BL
 
             return new HtmlString(topicsString);
         }
-
-
     }
 }

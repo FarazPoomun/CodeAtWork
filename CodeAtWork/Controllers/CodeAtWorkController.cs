@@ -29,6 +29,7 @@ namespace CodeAtWork.Controllers
 
         public void UpdateInterestTopics(List<InterestCategoryTopicToBeSaved> InterestTopics)
         {
+            bl.SaveTopics(InterestTopics);
             //return bl.GetTopicsByCategoryName(CatergoryName);
         }
     }

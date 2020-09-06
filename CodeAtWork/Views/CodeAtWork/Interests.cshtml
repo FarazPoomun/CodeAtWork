@@ -22,7 +22,7 @@
         <h1 style="font-family: 'Antic Didone';"> What Do You Want To Learn?</h1>
         <p style="font-family: 'Antic Didone';"> Search for and select Interests below. We'll use them to make content recommendations.</p>
 
-        <input type="text" name="search" placeholder="Search...">
+        <input type="text" name="search" placeholder="Search..." onkeyup="UpdateSearchCriteria(this)">
         <table id="topics">
             <tr>
                 <td>
@@ -133,15 +133,69 @@
             {
                 var x = allTopicsUnderCat[t];
                 var interestCategoryTopicId = parseInt(x.id.split('_')[1]);
-                var obj = { InterestCategoryName: z.CategoryName, InterestCategoryTopicId: interestCategoryTopicId, IsSubscribed: !!x.classList.contains('isSubscribed') };
+                var obj = { InterestCategoryName: z.CategoryName, InterestCategoryTopicId: interestCategoryTopicId, IsSelected: !!x.classList.contains('isSubscribed') };
                 UpdatePills.push(obj);
-            };
+            }
         });
 
         var ajaxPost = $.post('/CodeAtWork/UpdateInterestTopics', { InterestTopics: UpdatePills });
         Promise.all([ajaxPost]).then((results) => { });
     }
 
-    //To save => compile an objects ids and whether class isSubscribed is true
+    function UpdateSearchCriteria(searchBox) {
+        var searchedVal = searchBox.value.toLowerCase();
+        if (!IsNullOrEmpty(searchedVal)) {
+            storedPillsPerCategory.forEach(z => {
+                var tempElem = document.createElement('div');
+                tempElem.innerHTML = z.Pills;
+                var allTopicsUnderCat = tempElem.getElementsByClassName("br-pill");
 
+                for (t = 0; t < allTopicsUnderCat.length ; t++) {
+                    var x = allTopicsUnderCat[t];
+                    if (!x.text.toLowerCase().includes(searchedVal)) {
+                        $(x).css("display", "none");
+                    }
+                    else {
+                        $(x).css("display", "inline-flex");
+                    }
+                }
+
+                z.Pills = tempElem.innerHTML;
+            });
+
+            var selectedCat = document.getElementsByClassName("selectedTopic")[0];
+            var pillsDiv = document.getElementById("TopicPills");
+
+            pillsDiv.innerHTML= storedPillsPerCategory.map(z => {
+                if (z.CategoryName == selectedCat.innerHTML.trim(" "))
+                    return z;
+            }).filter(item => item)[0].Pills;
+        }
+        else {
+            storedPillsPerCategory.forEach(z => {
+                var tempElem = document.createElement('div');
+                tempElem.innerHTML = z.Pills;
+                var allTopicsUnderCat = tempElem.getElementsByClassName("br-pill");
+
+                for (t = 0; t < allTopicsUnderCat.length - 1; t++) {
+                    var x = allTopicsUnderCat[t];
+                     $(x).css("display", "inline-flex");
+                }
+
+                z.Pills = tempElem.innerHTML;
+            });
+
+            var selectedCat = document.getElementsByClassName("selectedTopic")[0];
+            var pillsDiv = document.getElementById("TopicPills");
+
+            pillsDiv.innerHTML = storedPillsPerCategory.map(z => {
+                if (z.CategoryName == selectedCat.innerHTML.trim(" "))
+                    return z;
+            }).filter(item => item)[0].Pills;
+        }
+    }
+
+    function IsNullOrEmpty(value) {
+        return !value || value.length == 0;
+    }
 </script>
