@@ -1,3 +1,73 @@
 ﻿body {
-    background-color:black;
+    font-size: 22px;
 }
+
+.wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+    .wrapper > div {
+        height: 60vh;
+        width: 100%;
+        color: white;
+    }
+
+        .wrapper > div:nth-child(odd) {
+            background-color: #181818;
+        }
+
+        .wrapper > div:nth-child(even) {
+            background-color: black;
+        }
+
+#imgWorking {
+    float: right;
+    height: 100%;
+    position: relative;
+}
+
+.innerDivWritting {
+    width: 50% !important;
+    font-size: 1.5vw;
+    position: absolute;
+    margin-left: 5%;
+}
+
+.underliningText {
+    position: absolute;
+    margin-top: 5.6%;
+    height: 1.5%;
+    margin-left: -1vh;
+}
+
+.HomePathsDiv {
+    margin-left: 5%;
+    height: 75%;
+    width: 50%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    padding-top: 3.5%;
+    grid-column-gap: 6%;
+    grid-row-gap: 9%;
+}
+
+    .HomePathsDiv > div {
+        background-color: #181818;
+    }
+
+.animateDivOverImage {
+    background-color: #181818;
+    position: relative;
+    width: 80%;
+    height: 100%;
+    z-index: 1;
+    float:left;
+    transition: width .35s ease-in-out;
+    transform-style: preserve-3d;
+}
+
+    .animateDivOverImage:hover {
+        width: 50%;
+    }

@@ -136,19 +136,26 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CodeAtWork\CodeAtWorkLayout.css" />
     <Content Include="Content\CodeAtWork\Home.css" />
     <Content Include="Content\CodeAtWork\Interests.css" />
     <Content Include="Content\CodeAtWork\tachyons.min.css" />
+    <Content Include="Content\w3.css" />
+    <Content Include="Design\Home\image-res.img.8880e86d-10e5-4b1f-b6fb-232df114d17f.png" />
+    <Content Include="Design\Home\line-long-skills.png" />
     <Content Include="Design\Icons\search-13-64.ico" />
     <Content Include="Design\Icons\searchicon.png" />
+    <Content Include="Design\AppLogo.png" />
     <Content Include="Design\Topics\pngwave.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\a076d05399.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\CodeAtWork\Interests.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -176,6 +183,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\CodeAtWork\Home.cshtml" />
     <Content Include="Views\CodeAtWork\Interests.cshtml" />
+    <Content Include="Views\Shared\CodeAtWorkLayout.cshtml" />
+    <Content Include="Views\CodeAtWork\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

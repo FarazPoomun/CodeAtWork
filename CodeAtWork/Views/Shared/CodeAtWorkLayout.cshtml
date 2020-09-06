@@ -1,0 +1,74 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/CodeAtWork/CodeAtWorkLayout.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="navbar">
+        <div id="navbarButtons">
+            <img src="~/Design/AppLogo.png" id="appLogo" class="vertical-center" />
+            <div id="navbarLinks">
+                <a href="#home" class="center">Home</a>
+                <a href="#news" class="center">News</a>
+                <div class="dropdown centerDropDown">
+                    <button class="dropbtn" onclick="OpenDropMenu('CoursesList')">
+                        Courses
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content" id="CoursesList">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                </div>
+                <div class="dropdown centerDropDown">
+                    <button class="dropbtn" onclick="OpenDropMenu('PathsList')">
+                        Paths
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content" id="PathsList">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        @RenderBody()
+    </div>
+</body>
+</html>
+<script>
+    /* When the user clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function OpenDropMenu(elemId) {
+        document.getElementById(elemId).classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (e) {
+        if (!e.target.matches('.dropbtn')) {
+            var myDropdown = document.getElementById("CoursesList");
+            if (myDropdown.classList.contains('show')) {
+                myDropdown.classList.remove('show');
+            }
+
+            var myDropdown = document.getElementById("PathsList");
+            if (myDropdown.classList.contains('show')) {
+                myDropdown.classList.remove('show');
+            }
+        }
+    }
+</script>
