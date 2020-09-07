@@ -121,6 +121,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BL\InterestsBL.cs" />
+    <Compile Include="Controllers\CodeAtWorkAppController.cs" />
     <Compile Include="Controllers\CodeAtWorkController.cs" />
     <Compile Include="DAL\Common.cs" />
     <Compile Include="DAL\InterestDAL.cs" />
@@ -135,6 +136,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CodeAtWorkApp\CodeAtWorkAppLayout.css" />
     <Content Include="Content\CodeAtWork\CodeAtWorkLayout.css" />
     <Content Include="Content\CodeAtWork\Home.css" />
     <Content Include="Content\CodeAtWork\Interests.css" />
@@ -182,6 +184,8 @@
     <Content Include="Views\CodeAtWork\Interests.cshtml" />
     <Content Include="Views\Shared\CodeAtWorkLayout.cshtml" />
     <Content Include="Views\CodeAtWork\Login.cshtml" />
+    <Content Include="Views\CodeAtWorkApp\Index.cshtml" />
+    <Content Include="Views\Shared\CodeAtWorkAppLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

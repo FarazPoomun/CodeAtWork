@@ -1,0 +1,64 @@
+﻿body {
+    background-color: #0d0f12;
+    margin: auto;
+    color:ghostwhite;
+}
+
+
+.navbar {
+    overflow: hidden;
+    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 50px;
+    z-index: 100;
+    box-shadow: 3px -2px 21px 2px dimgrey;
+}
+
+#appLogo {
+    width: 70%;
+    margin-top: 3px;
+    margin-left: 10px;
+}
+
+
+#navbarButtons {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 10% 3% 3% auto 3% 4% 4% 5%;
+    grid-column-gap: 1%;
+}
+
+.navbarSvgs {
+    color: darkgrey;
+    width: 29px;
+    margin-top: 3px;
+}
+
+.navGrid {
+    text-align: center;
+    cursor: pointer;
+    font-size: 13px;
+    color: darkgrey;
+}
+
+    .navGrid:hover {
+        background-color: #353b42;
+    }
+
+.dot {
+    font-size: 25px;
+    height: 35px;
+    width: 35px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    color: ghostwhite;
+    line-height: 39px;
+    margin-top: 7px;
+    text-align: center;
+}
