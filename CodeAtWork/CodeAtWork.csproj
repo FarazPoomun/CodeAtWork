@@ -122,7 +122,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BL\InterestsBL.cs" />
     <Compile Include="Controllers\CodeAtWorkController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\Common.cs" />
     <Compile Include="DAL\InterestDAL.cs" />
     <Compile Include="Global.asax.cs">
@@ -143,6 +142,7 @@
     <Content Include="Content\w3.css" />
     <Content Include="Design\Home\image-res.img.8880e86d-10e5-4b1f-b6fb-232df114d17f.png" />
     <Content Include="Design\Home\line-long-skills.png" />
+    <Content Include="Design\Home\line-yellow.png" />
     <Content Include="Design\Icons\search-13-64.ico" />
     <Content Include="Design\Icons\searchicon.png" />
     <Content Include="Design\AppLogo.png" />
@@ -178,9 +178,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\CodeAtWork\Home.cshtml" />
     <Content Include="Views\CodeAtWork\Interests.cshtml" />
     <Content Include="Views\Shared\CodeAtWorkLayout.cshtml" />

@@ -42,32 +42,67 @@
 }
 
 .HomePathsDiv {
-    margin-left: 5%;
-    height: 75%;
+    float: left;
     width: 50%;
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
-    padding-top: 3.5%;
-    grid-column-gap: 6%;
-    grid-row-gap: 9%;
+    height: 100%;
 }
 
-    .HomePathsDiv > div {
+.cardGrid {
+    margin-top: 7%;
+    margin-left: 10%;
+    width: 100%;
+    height: 75%;
+    display: grid;
+    grid-template-columns: 40% 40%;
+    grid-template-rows: 40% 40%;
+    padding-top: 3.5%;
+    grid-column-gap: 7%;
+    grid-row-gap: 10%;
+}
+
+    .cardGrid > div {
         background-color: #181818;
     }
 
-.animateDivOverImage {
+.cardText {
     background-color: #181818;
     position: relative;
-    width: 80%;
+    width: 45%;
     height: 100%;
     z-index: 1;
-    float:left;
-    transition: width .35s ease-in-out;
-    transform-style: preserve-3d;
+    float: left;
 }
 
-    .animateDivOverImage:hover {
-        width: 50%;
+
+.cardText > div {
+    margin-top: 10%;
+    margin-left: 10%;
+}
+
+.lineStrikeCard {
+    transform: rotate(270deg);
+    position: absolute;
+    margin-left: -11%;
+    margin-top: 29vh;
+    width: 26%;
+}
+
+.PopularTechText {
+    margin-top: 10%;
+    margin-left: 10%;
+    width: 80%;
+    height: 75%;
+    text-align: justify;
+}
+
+.checkoutOur{
+    color:deeppink;
+    cursor:pointer;
+}
+
+    .checkoutOur > .fas {
+        transition: margin-left ease-in-out 0.3s;
+    }  
+    .checkoutOur:hover > .fas {
+        margin-left: 2%;
     }
