@@ -3,6 +3,64 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
 }
+<link href="~/Content/CodeAtWorkApp/Home.css" rel="stylesheet" />
 
-<h2>Index</h2>
+<div id="HomeMain">
+
+    <div id="HomeProgress">
+        <div>
+            <span class="dot homeDot">F</span>
+            <a id="HelloHome"> Hello, Faraz <i style="font-size:medium" class="far fa-caret-square-down"></i> </a>
+        </div>
+    </div>
+
+    <div id="HomeVids">
+        <div class="vidScreenshotWrapper">
+            <p>Recommended Watch</p>
+            <div class="HomeScreenshots">
+                <div class="vidGrid"> <!--Will keep the img-->
+                    <div class="innerScreenshot">
+                        <i class="far fa-play-circle"></i>
+                    </div>
+                </div>
+                <div class="vidGrid"> <!--Will keep the img-->
+                    <div class="innerScreenshot">
+                        <i class="far fa-play-circle"></i>
+                    </div>
+                </div>
+                <div class="vidGrid"> <!--Will keep the img-->
+                    <div class="innerScreenshot">
+                        <i class="far fa-play-circle"></i>
+                    </div>
+                </div>
+                <div class="vidGrid"> <!--Will keep the img-->
+                    <div class="innerScreenshot">
+                        <i class="far fa-play-circle"></i>
+                    </div>
+                </div>
+                <div class="vidGrid"> <!--Will keep the img-->
+                    <div class="innerScreenshot">
+                        <i class="far fa-play-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".learnCode").hover(function () {
+    $(".learnCode").css("color", "grey");
+}, function () {
+    $(".learnCode").css("color", "white");
+});
+
+$(".learnData").hover(function () {
+    $(".learnData").css("color", "grey");
+}, function () {
+    $(".learnData").css("color", "white");
+});
+
+</script>
+
 

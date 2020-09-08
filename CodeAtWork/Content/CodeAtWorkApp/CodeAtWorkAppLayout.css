@@ -54,11 +54,44 @@
     font-size: 25px;
     height: 35px;
     width: 35px;
-    background-color: #bbb;
+    background-color: #7048c6;
     border-radius: 50%;
     display: inline-block;
     color: ghostwhite;
     line-height: 39px;
     margin-top: 7px;
     text-align: center;
+}
+
+#NavSearch {
+    width: 90%;
+    margin-left: 20px;
+    margin-top: 4px;
+    font-size: 16px;
+    background-color: #181c20;
+    background-image: url('../../Design/Icons/search-13-64.ico');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 5%;
+    transition: width 0.4s ease-in-out;
+    background-size: 1.2vw;
+    border: none;
+    caret-color: darkgrey;
+    color: darkgrey;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height: 19px;
+}
+
+    #NavSearch:focus {
+        outline: none;
+    }
+
+::placeholder {
+    color: darkgrey;
+    font-size: medium;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.main {
+    margin-top: 4%;
 }
