@@ -6,12 +6,12 @@ using System.Web;
 
 namespace CodeAtWork.DAL
 {
-    public class Common
+    public class CommonDAL
     {
         const string connString = "Data Source=.;Initial Catalog=CodeAtWork;Integrated Security=SSPI;Pooling=False";
         protected SqlConnection conn;
 
-        protected Common()
+        protected CommonDAL()
         {
             conn = new SqlConnection(connString);
             conn.Open();

@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
+}
+<link href="~/Content/CodeAtWorkApp/Home.css" rel="stylesheet" />
+
+<div id="HomeMain">
+
+    <div id="HomeProgress">
+        <div>
+            <span class="dot homeDot">F</span>
+            <a id="HelloHome"> Hello, Faraz <i style="font-size:medium" class="far fa-caret-square-down"></i> </a>
+        </div>
+    </div>
+
+    <div id="HomeVids">
+        <div class="vidScreenshotWrapper">
+            <p class="vidScreenshotHeader">Recommended Watch</p>
+            <div class="HomeScreenshots">
+                @ViewBag.RecommendedWatch
+            </div>
+
+            <p class="vidScreenshotHeader">Recommended Watch</p>
+
+            <div class="HomeScreenshots">
+                <div>
+                    <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+                        <!--Will keep the img-->
+                        <div class="innerScreenshot">
+                            <i class="far fa-play-circle"></i>
+                        </div>
+                    </div>
+                    <p class="vidDesc" onclick="OpenPlayer()"> C# Generics </p>
+                    <p class="vidBy">Tim Corey</p>
+                </div>
+                <div class="vidGrid">
+                    <!--Will keep the img-->
+                    <div class="innerScreenshot">
+                        <i class="far fa-play-circle"></i>
+                    </div>
+                </div>
+                <div class="vidGrid">
+                    <!--Will keep the img-->
+                    <div class="innerScreenshot">
+                        <i class="far fa-play-circle"></i>
+                    </div>
+                </div>
+                <div class="vidGrid">
+                    <!--Will keep the img-->
+                    <div class="innerScreenshot">
+                        <i class="far fa-play-circle"></i>
+                    </div>
+                </div>
+                <div class="vidGrid">
+                    <!--Will keep the img-->
+                    <div class="innerScreenshot">
+                        <i class="far fa-play-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function OpenPlayer(id) {
+        var url = '@Url.Action("AppPlayer", "CodeAtWorkApp", new { playById = "__id" })';
+        var New =  url.replace("__id", id)
+        window.open(New, "_blank");
+    }
+</script>
+
+

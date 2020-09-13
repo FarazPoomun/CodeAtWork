@@ -68,3 +68,17 @@ UserSubscribedTopicId int primary key identity (1,1),
 AppUserId int Foreign Key references AppUser,
 InterestCategoryTopicId int Foreign key references InterestCategoryTopic
 )
+
+drop table VideoRepository
+
+Create table VideoRepository
+(
+VideoId UNIQUEIDENTIFIER primary key default NEWID(),
+VideoURL varchar(max) not null, 
+IsLocal bit not null default (0),
+VideoAuthor varchar (max),
+VideoDescription varchar (max)
+)
+
+Insert into VideoRepository
+Values (default, 'https://www.youtube.com/embed/tgbNymZ7vqY', 0, 'Muppets', 'Muppets Singing Rhapsody')

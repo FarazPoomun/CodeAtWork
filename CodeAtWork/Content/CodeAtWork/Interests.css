@@ -9,7 +9,7 @@
     text-align: center;
 }
 
-input[type=text] {
+.topicSearch {
     width: 30%;
     margin-top: 2%;
     font-size: 16px;
@@ -26,22 +26,22 @@ input[type=text] {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-    input[type=text]:focus {
+    .topicSearch:focus {
         width: 80%;
     }
 
-::placeholder {
-    color: white;
-    font-size: medium;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
+    .topicSearch::placeholder {
+        color: white;
+        font-size: medium;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
 
 textarea:focus, input:focus {
     outline: none;
 }
 
 #topics {
-    margin-top:5%;
+    margin-top: 5%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -52,6 +52,7 @@ td {
     cursor: pointer;
     width: 50%;
 }
+
 .fas {
     font-size: 4vw;
     padding-bottom: 7%;
@@ -67,7 +68,7 @@ td {
     border-width: thin;
     font-size: medium;
     margin-right: 0.5%;
-    cursor:pointer;
+    cursor: pointer;
     display: inline-flex;
 }
 

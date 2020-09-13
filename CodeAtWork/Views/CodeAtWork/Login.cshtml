@@ -1,8 +1,64 @@
 ﻿
 @{
     ViewBag.Title = "Login";
-    Layout = "~/Views/Shared/CodeAtWorkLayout.cshtml";
+    Layout = null;
 }
 
-<h2>Login</h2>
+<!DOCTYPE html>
+<html>
 
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/w3.css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+
+    <link href="~/Content/CodeAtWork/Login.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+</head>
+
+<body onload="showInvalidCred()">
+    <div id="GridView">
+        <div id="LoginFormDiv">
+            <div id="invalidCred"> Invalid Credentials </div>
+            <div id="innerLogin1">
+                <form class="w3-container" action="/CodeAtWork/ValidateLoginInfo" method="post">
+                    <p>
+                        <input class="w3-input" type="text" placeholder="Username or Email" name="LoginId">
+                    </p>
+                    <p>
+                        <input class="w3-input" type="password" placeholder="Password" name="Password">
+                    </p>
+                    <div class="w3-container">
+                        <p><button type="submit" class="w3-button w3-round loginBtn" style="background-color: #0084bd">Sign In</button></p>
+                    </div>
+                </form>
+                
+            </div>
+            <div id="innerLogin2">
+                <img class="divSeperator" src="~/Design/Home/line-long-skills.png" />
+                <div class="w3-container" style="text-align:center">
+                    <p id="signUpLabel">Sign Up</p>  
+                    <img src="~/Design/Home/line-yellow.png" id="signupUnderlined" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <img id="logPic" src="~/Design/Page/Login_Register/LoginPic.png" />
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+
+    function showInvalidCred() {
+        var invalidLogin = '@ViewBag.InvalidLogin';
+
+        if (invalidLogin === 'True') {
+            $("#invalidCred").slideDown();
+            setTimeout(function () { $("#invalidCred").slideUp(); }, 4000);
+        }
+    }
+
+
+</script>

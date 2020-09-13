@@ -7,12 +7,12 @@ using System.Web;
 
 namespace CodeAtWork.BL
 {
-    public class InterestsBL
+    public class CodeAtWorkBL
     {
-        InterestDAL dal;
-        public InterestsBL()
+        CodeAtWorkDAL dal;
+        public CodeAtWorkBL()
         {
-            dal = new InterestDAL();
+            dal = new CodeAtWorkDAL();
         }
 
         #region DB calls
@@ -20,6 +20,12 @@ namespace CodeAtWork.BL
         {
             return ConvertTopicsToHTMLSting(dal.GetTopicsByCategoryName( new List<string>() { CategoryName }));
         }
+
+        public int ValidateLoginDetail(string loginId, string pwd)
+        {
+            return dal.ValidateLoginDetail(loginId, pwd);
+        }
+
 
         public void SaveTopics(List<InterestCategoryTopicToBeSaved> topics)
         {
@@ -56,5 +62,8 @@ namespace CodeAtWork.BL
 
             return new HtmlString(topicsString);
         }
+
+
+
     }
 }

@@ -6,14 +6,14 @@ using System.Linq;
 
 namespace CodeAtWork.DAL
 {
-    public class InterestDAL : Common
+    public class CodeAtWorkDAL : CommonDAL
     {
-        public InterestDAL() : base()
+        public CodeAtWorkDAL() : base()
         {
 
         }
 
-        public Dictionary<string, int> GetCatergoryIdsByName(List<string> CategoryNames)
+        internal Dictionary<string, int> GetCatergoryIdsByName(List<string> CategoryNames)
         {
             Dictionary<string, int> topics = new Dictionary<string, int>();
             SqlCommand command;
@@ -37,6 +37,31 @@ namespace CodeAtWork.DAL
             dataReader.Close();
             command.Dispose();
             return topics;
+        }
+
+        internal int ValidateLoginDetail(string loginId, string pwd)
+        {
+            int validLogin = -1;
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for Email
+            string sql = $@"SELECT AppUserId, Password FROM AppUser where username = '{loginId}'";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                if(dataReader.GetValue(dataReader.GetOrdinal("Password")).ToString() == pwd)
+                {
+                    validLogin =Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("AppUserId")));
+                    break;
+                }
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return validLogin;
         }
 
         public List<InterestCatergoryTopic> GetTopicsByCategoryName(List<string> CategoryNames)
