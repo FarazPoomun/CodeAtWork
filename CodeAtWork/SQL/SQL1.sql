@@ -82,3 +82,11 @@ VideoDescription varchar (max)
 
 Insert into VideoRepository
 Values (default, 'https://www.youtube.com/embed/tgbNymZ7vqY', 0, 'Muppets', 'Muppets Singing Rhapsody')
+
+
+Create Table UserBookMarkedVideo(
+UserBookMarkedVideo int primary key identity(1,1),
+VideoId UNIQUEIDENTIFIER Foreign key references VideoRepository, 
+AppUserId int Foreign key references AppUser,
+CreatedTimeStamp Datetime default (Current_timestamp)
+)

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
 }
 <link href="~/Content/CodeAtWorkApp/Home.css" rel="stylesheet" />
-
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <div id="HomeMain">
 
     <div id="HomeProgress">
@@ -28,6 +28,7 @@
                     <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
                         <!--Will keep the img-->
                         <div class="innerScreenshot">
+                            <svg onclick="BookMarkVid(4)" role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
                             <i class="far fa-play-circle"></i>
                         </div>
                     </div>
@@ -37,18 +38,24 @@
                 <div class="vidGrid">
                     <!--Will keep the img-->
                     <div class="innerScreenshot">
+                        <svg role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
+
                         <i class="far fa-play-circle"></i>
                     </div>
                 </div>
                 <div class="vidGrid">
                     <!--Will keep the img-->
                     <div class="innerScreenshot">
+                        <svg role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
+
                         <i class="far fa-play-circle"></i>
                     </div>
                 </div>
                 <div class="vidGrid">
+
                     <!--Will keep the img-->
                     <div class="innerScreenshot">
+                        <svg role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
                         <i class="far fa-play-circle"></i>
                     </div>
                 </div>
@@ -63,12 +70,133 @@
     </div>
 </div>
 
+<div id="SearchResult">
+    <div class="SearchScreenshots">
+        <div>
+            <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+                <!--Will keep the img-->
+                <div class="innerScreenshot">
+                    <svg onclick="BookMarkVid(4)" role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
+                    <i class="far fa-play-circle"></i>
+                </div>
+            </div>
+            <p class="vidDesc" onclick="OpenPlayer()"> C# Generics </p>
+            <p class="vidBy">Tim Corey</p>
+        </div>
+        <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <svg role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
+
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div>
+        <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <svg role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
+
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div>
+        <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <svg role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div>
+        <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div>   
+        <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
+            <!--Will keep the img-->
+            <div class="innerScreenshot">
+                <i class="far fa-play-circle"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function OpenPlayer(id) {
         var url = '@Url.Action("AppPlayer", "CodeAtWorkApp", new { playById = "__id" })';
         var New =  url.replace("__id", id)
         window.open(New, "_blank");
     }
+
+    function BookMarkVid(elem, vidId) {
+        debugger;
+        $(elem).toggleClass("bookmarkUnselected");
+        $(elem).toggleClass("bookmarkSelected");
+
+
+
+        var ajaxPost = $.post('/CodeAtWorkApp/BookMarkVideo', {
+            videoId: vidId, isSelected: elem.classList.value.includes("bookmarkSelected") });
+        Promise.all([ajaxPost]).then((results) => {
+       
+        });
+    }
+
+    $("#NavSearch").focusin(function () {
+        $("#HomeMain").addClass("HomeMainOverlap");
+        $("#SearchResult").slideDown("fast");
+    })
+
+    $("#NavSearch").focusout(function () {
+        $("#HomeMain").removeClass("HomeMainOverlap");
+        $("#SearchResult").slideUp("fast");
+
+    })
 </script>
 
 

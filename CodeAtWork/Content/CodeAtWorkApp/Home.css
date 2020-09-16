@@ -59,6 +59,20 @@
         overflow: hidden;
     }
 
+.SearchScreenshots {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20%;
+    grid-column-gap: 1%;
+    margin-left: 7%;
+    margin-top: 2%;
+}
+
+        .SearchScreenshots > div {
+            max-height: 20vh;
+            overflow: hidden;
+        }
+
 .vidScreenshotHeader {
     padding-top: 2%;
     font-size: 23px;
@@ -75,7 +89,6 @@
     width: 100%;
     height: 100%;
     height: 13vh;
-    background-image: url('../../Design/Page/Login_Register/LogInSidePic.jpg');
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -108,6 +121,9 @@
     padding-bottom: 4px;
     padding-top: 4px;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
     .vidDesc:hover{
@@ -119,4 +135,52 @@
         padding: 0;
         margin: 0;
         color: darkgrey;
+    }
+
+.bookmarkingSvg {
+    position: absolute;
+    margin-left: 7.5%;
+    width: 30px;
+    margin-top: 3px;
+}
+
+.bookmarkingSvg:hover{
+    cursor:pointer;
+}
+
+.bookmarkUnselected {
+    color: darkgrey;
+}
+
+    .bookmarkUnselected:hover {
+        color: ghostwhite;
+    }
+
+.bookmarkSelected {
+    color: #0084bd;
+}
+
+.HomeMainOverlap{
+    opacity:0.1;
+    pointer-events: none;
+}
+
+#SearchResult {
+    width: 70%;
+    height: 50vh;
+    position: absolute;
+    top: 50px;
+    /* margin: auto; */
+    margin-left: 15%;
+    background-color: #363636;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display:none;
+}
+
+    #SearchResult > .SearchScreenshots {
+        grid-column-gap: 3%;
+        margin-left: 7%;
+        margin-top: 2%;
+        grid-row-gap: 2%;
     }

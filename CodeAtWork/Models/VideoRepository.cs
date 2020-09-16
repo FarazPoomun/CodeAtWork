@@ -9,5 +9,8 @@ namespace CodeAtWork.Models
         public Boolean IsLocal { get; set; }
         public string VideoAuthor { get; set; }
         public string VideoDescription { get; set; }
+        public bool IsBookMarked { get; set; }
+
+
     }
 }
