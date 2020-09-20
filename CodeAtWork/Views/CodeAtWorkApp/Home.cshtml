@@ -5,6 +5,8 @@
 }
 <link href="~/Content/CodeAtWorkApp/Home.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/CodeAtWorkApp/SharedAppJs.js"></script>
+
 <div id="HomeMain">
 
     <div id="HomeProgress">
@@ -55,6 +57,28 @@
 
                     <!--Will keep the img-->
                     <div class="innerScreenshot">
+                        <svg id="opt_33" role="img" viewBox="0 0 24 24" class="optSvg" onclick="toggleOptionMenu(33)"><path fill="currentColor" fill-rule="evenodd" d="M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z"></path></svg>
+                        <div class="optMenu" id="optMenu_33" style="display:block">
+                            <ul class="optMenuList">
+                                <li>Play</li>
+                                <li>Add To Bookmark</li>
+                                <li onclick="showOptChannel(33)" id="optMenuChannelBtn_33">Add To Channel <i class="fas fa-caret-right optMenuListRight"></i></li>
+                            </ul>
+                        </div>
+                        <div class="optMenuChannel" id="optMenuChannel_33">
+                            <div class="optMenuChannelDiv1">
+                                <input type="text" placeholder="Create New Channel" class="ChannelAddBar" id="ChannelAddBar_33" onkeyup="EnableAddChannelBtn(this, 33)">
+                                <button type="submit" class="ChannelAddBtn" id="ChannelAddBtn_33" onclick="AddNewChannel()"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <div style="padding-bottom: 5%;">
+                                <ul class="optMenuList">
+                                    <li>Play<i class="fas fa-check-circle optMenuListRight channelUnselected"></i></li>
+                                    <li>Add To Bookmark <i class="fas fa-check-circle optMenuListRight channelSelected"></i></li>
+                                    <li>Add To Channel </li>
+                                </ul>
+                            </div>
+                        </div>
+
                         <svg role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
                         <i class="far fa-play-circle"></i>
                     </div>
@@ -71,132 +95,107 @@
 </div>
 
 <div id="SearchResult">
-    <div class="SearchScreenshots">
-        <div>
-            <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-                <!--Will keep the img-->
-                <div class="innerScreenshot">
-                    <svg onclick="BookMarkVid(4)" role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
-                    <i class="far fa-play-circle"></i>
-                </div>
-            </div>
-            <p class="vidDesc" onclick="OpenPlayer()"> C# Generics </p>
-            <p class="vidBy">Tim Corey</p>
-        </div>
-        <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <svg role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
+    <div class="SearchScreenshots" id="searchResultsFromNav">
 
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div>
-        <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <svg role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
-
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div>
-        <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <svg role="img" viewBox="0 0 24 24" class="bookmarkingSvg"><path fill="currentColor" fill-rule="evenodd" d="M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z"></path></svg>
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div>
-        <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div>   
-        <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div> <div class="vidGrid" style="background-image: url('../../Uploads/d25a9de9-99f6-406a-803f-53d8e2cd4fb9.jpg');">
-            <!--Will keep the img-->
-            <div class="innerScreenshot">
-                <i class="far fa-play-circle"></i>
-            </div>
-        </div>
     </div>
 </div>
-
 <script>
+    var globalVidId= 0;
     function OpenPlayer(id) {
-        var url = '@Url.Action("AppPlayer", "CodeAtWorkApp", new { playById = "__id" })';
-        var New =  url.replace("__id", id)
-        window.open(New, "_blank");
+    var url = '@Url.Action("AppPlayer", "CodeAtWorkApp", new { playById = "__id" })';
+    var New = url.replace("__id", id)
+    window.open(New, "_blank");
     }
 
-    function BookMarkVid(elem, vidId) {
-        debugger;
-        $(elem).toggleClass("bookmarkUnselected");
-        $(elem).toggleClass("bookmarkSelected");
-
-
-
-        var ajaxPost = $.post('/CodeAtWorkApp/BookMarkVideo', {
-            videoId: vidId, isSelected: elem.classList.value.includes("bookmarkSelected") });
-        Promise.all([ajaxPost]).then((results) => {
-       
-        });
+    function AddNewChannel(vidId) {
+        var elem = document.getElementById("ChannelAddBar_" + vidId);
+        if (!IsNullOrEmpty(elem.value)) {
+            var ajaxPost = $.post('/CodeAtWorkApp/AddAndLinkChannel', { channelName: elem.value, videoId: vidId });
+            Promise.all([ajaxPost]).then((results) => {
+            });
+        }
+        
     }
 
-    $("#NavSearch").focusin(function () {
-        $("#HomeMain").addClass("HomeMainOverlap");
-        $("#SearchResult").slideDown("fast");
-    })
+    function EnableAddChannelBtn(elem, vidId) {
+        var btn = document.getElementById("ChannelAddBtn_" + vidId);
+        var val = elem.value;
+        if (!IsNullOrEmpty(val)) {
+            $(btn).css("pointer-events", "all");
+            $(btn).css("background", "#2196F3");
 
-    $("#NavSearch").focusout(function () {
-        $("#HomeMain").removeClass("HomeMainOverlap");
-        $("#SearchResult").slideUp("fast");
+        }
+        else {
+            $(btn).css("pointer-events", "none");
+            $(btn).css("background", "grey");
+        }
+    }
 
-    })
+    function toggleOptionMenu(vidId) {
+        var x = document.getElementById("optMenu_" + vidId);
+        if (x.style.display === "none" || x.style.display === "") {
+            x.style.display = "block";
+            globalVidId = vidId;
+            document.addEventListener("click", menuHasOpenedEvnt);
+        }
+         else {
+            document.removeEventListener("click", menuHasOpenedEvnt);
+            x.style.display = "none";
+                }
+    }
+
+    function menuHasOpenedEvnt(evt) {
+        const elem = document.getElementById("optMenu_" + globalVidId);
+        const parentElem = document.getElementById("opt_" + globalVidId);
+        const child1 = document.getElementById("optMenuChannel_" + globalVidId);
+        const child2 = document.getElementById("optMenuChannelBtn_" + globalVidId);
+
+            let targetElement = evt.target; // clicked element
+
+        do {
+            if (targetElement == elem || targetElement == parentElem || targetElement == child1 || targetElement == child2) {
+                    // This is a click inside. Do nothing, just return.
+                    return;
+                }
+                // Go up the DOM
+                targetElement = targetElement.parentNode;
+        } while (targetElement);
+
+        // This is a click outside.
+        elem.style.display = "none";
+        document.removeEventListener("click", menuHasOpenedEvnt);
+    }
+
+    function showOptChannel(vidId) {
+        var x = document.getElementById("optMenuChannel_" + vidId);
+        if (x.style.display === "none" || x.style.display === "") {
+            x.style.display = "block";
+            globalVidId = vidId;
+            document.addEventListener("click", ChannelMenuHasOpenedEvnt);
+        }
+        else {
+            document.removeEventListener("click", ChannelMenuHasOpenedEvnt);
+            x.style.display = "none";
+        }
+    }
+
+    function ChannelMenuHasOpenedEvnt(evt) {
+        const elem = document.getElementById("optMenuChannel_" + globalVidId);
+        const parentElem = document.getElementById("optMenuChannelBtn_" + globalVidId);
+        let targetElement = evt.target; // clicked element
+
+        do {
+            if (targetElement == elem || targetElement == parentElem) {
+                // This is a click inside. Do nothing, just return.
+                return;
+            }
+            // Go up the DOM
+            targetElement = targetElement.parentNode;
+        } while (targetElement);
+
+        // This is a click outside.
+        elem.style.display = "none";
+        document.removeEventListener("click", ChannelMenuHasOpenedEvnt);
+    }
+
 </script>
-
-

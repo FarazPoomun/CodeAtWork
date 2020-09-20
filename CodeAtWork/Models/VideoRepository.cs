@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CodeAtWork.Models
 {
@@ -10,7 +11,8 @@ namespace CodeAtWork.Models
         public string VideoAuthor { get; set; }
         public string VideoDescription { get; set; }
         public bool IsBookMarked { get; set; }
-
-
     }
+
+
+
 }

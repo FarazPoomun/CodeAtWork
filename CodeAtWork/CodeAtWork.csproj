@@ -137,6 +137,7 @@
     <Compile Include="Models\InterestCatergoryTopic.cs" />
     <Compile Include="Models\Session\UserInfo.cs" />
     <Compile Include="Models\UI\CreateVid.cs" />
+    <Compile Include="Models\UserChannel.cs" />
     <Compile Include="Models\VideoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -146,6 +147,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap_4_5_2.min.css" />
+    <Content Include="Content\CodeAtWorkApp\Bookmarks.css" />
     <Content Include="Content\CodeAtWorkApp\CodeAtWorkAppLayout.css" />
     <Content Include="Content\CodeAtWorkApp\Home.css" />
     <Content Include="Content\CodeAtWork\AppPlayer.css" />
@@ -172,6 +174,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrap_4_5_2.min.js" />
+    <Content Include="Scripts\CodeAtWorkApp\SharedAppJs.js" />
     <Content Include="Scripts\CodeAtWork\Interests.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -204,6 +207,7 @@
     <Content Include="Views\Shared\CodeAtWorkAppLayout.cshtml" />
     <Content Include="Views\CodeAtWorkApp\AppPlayer.cshtml" />
     <Content Include="Views\CodeAtWorkAdmin\AddNewVideo.cshtml" />
+    <Content Include="Views\CodeAtWorkApp\Bookmarks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,7 +4,10 @@
     color:ghostwhite;
 }
 
-
+a{
+    text-decoration:none;
+    color:inherit;
+}
 .navbar {
     overflow: hidden;
     background-color: black;

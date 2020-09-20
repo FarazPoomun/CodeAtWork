@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
+}
+
+<link href="~/Content/CodeAtWorkApp/Bookmarks.css" rel="stylesheet" />
+<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/CodeAtWorkApp/SharedAppJs.js"></script>
+
+<div id="BookmarksOuterDiv">
+    <table id="BookmarkTable">
+        <tr>
+            <th class="selectedBookMarkSection">
+                Videos
+            </th>
+            <th>
+                Paths
+            </th>
+        </tr>
+    </table>
+
+    <div class="vidScreenshotWrapper">
+        <p class="vidScreenshotHeader">Bookmarked Videos</p>
+
+        <div class="HomeScreenshots">
+            @ViewBag.BookkMarkedVids
+        </div>
+    </div>
+
+</div>
+<div id="SearchResult">
+    <div class="SearchScreenshots" id="searchResultsFromNav">
+
+    </div>
+</div>
+<script>
+    function OpenPlayer(id) {
+    var url = '@Url.Action("AppPlayer", "CodeAtWorkApp", new { playById = "__id" })';
+    var New = url.replace("__id", id)
+    window.open(New, "_blank");
+}
+</script>

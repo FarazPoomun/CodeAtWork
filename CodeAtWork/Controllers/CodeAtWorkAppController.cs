@@ -1,6 +1,7 @@
 ﻿using CodeAtWork.BL;
 using CodeAtWork.Models.Session;
 using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace CodeAtWork.Controllers
@@ -13,6 +14,7 @@ namespace CodeAtWork.Controllers
         {
 
         }
+
         // GET: CodeAtWorkApp
         public ActionResult Home()
         {
@@ -29,6 +31,14 @@ namespace CodeAtWork.Controllers
 
             return View();
         }
+        public ActionResult Bookmarks()
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+
+            ViewBag.BookkMarkedVids = codeAtWorkAppBL.GetBookMarkedVideos(userInfo.UserId);
+
+            return View();
+        }
 
         [HttpGet]
         public ActionResult AppPlayer(Guid playById)
@@ -42,6 +52,19 @@ namespace CodeAtWork.Controllers
             var userInfo = Session["UserInfo"] as UserInfo;
             //TO-DO Get appid from session and pass through
             codeAtWorkAppBL.BookMarkVideo(new Guid(videoId), userInfo.UserId, isSelected);
+        }
+
+        public void AddAndLinkChannel(string channelName, string videoId)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+            //TO-DO Get appid from session and pass through
+            codeAtWorkAppBL.AddAndLinkChannel(new Guid(videoId), userInfo.UserId, channelName);
+        }
+
+        public HtmlString SearchVideo(string searchedTxt)
+        {
+            return codeAtWorkAppBL.SearchVid(searchedTxt);
+
         }
     }
 }
