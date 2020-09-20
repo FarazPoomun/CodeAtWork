@@ -54,17 +54,32 @@ namespace CodeAtWork.Controllers
             codeAtWorkAppBL.BookMarkVideo(new Guid(videoId), userInfo.UserId, isSelected);
         }
 
-        public void AddAndLinkChannel(string channelName, string videoId)
+        public HtmlString AddAndLinkChannel(string channelName, string videoId)
         {
             var userInfo = Session["UserInfo"] as UserInfo;
             //TO-DO Get appid from session and pass through
             codeAtWorkAppBL.AddAndLinkChannel(new Guid(videoId), userInfo.UserId, channelName);
+            return codeAtWorkAppBL.GetVideoChannels(new Guid(videoId), userInfo.UserId);
+        }
+
+        public HtmlString GetVideoChannels(string vidId)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+            return codeAtWorkAppBL.GetVideoChannels(new Guid(vidId), userInfo.UserId);
+        }
+
+        public HtmlString AddOrRemoveChannelFromVid(string videoId, int channelId, bool isSelected)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+            codeAtWorkAppBL.AddOrRemoveChannelFromVid(new Guid(videoId), channelId, isSelected, userInfo.UserId);
+
+            return codeAtWorkAppBL.GetVideoChannels(new Guid(videoId), userInfo.UserId);
+
         }
 
         public HtmlString SearchVideo(string searchedTxt)
         {
             return codeAtWorkAppBL.SearchVid(searchedTxt);
-
         }
     }
 }

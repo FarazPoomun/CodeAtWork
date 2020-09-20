@@ -10,5 +10,13 @@ namespace CodeAtWork.Models
         public int UserChannelId { get; set; }
         public string ChannelName { get; set; }
         public int AppUserId { get; set; }
+        public bool IsSelectedForVid { get; set; }
+    }
+
+    public class ChannelVideo
+    {
+        public int ChannelVideoId { get; set; }
+        public Guid VideoId { get; set; }
+        public int UserChannelId { get; set; }
     }
 }

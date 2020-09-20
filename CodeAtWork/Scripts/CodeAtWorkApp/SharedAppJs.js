@@ -1,6 +1,4 @@
-﻿
-
-function BookMarkVid(elem, vidId) {
+﻿function BookMarkVid(elem, vidId) {
     $(elem).toggleClass("bookmarkUnselected");
     $(elem).toggleClass("bookmarkSelected");
 

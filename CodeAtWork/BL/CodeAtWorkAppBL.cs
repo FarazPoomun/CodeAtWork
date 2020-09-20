@@ -45,9 +45,19 @@ namespace CodeAtWork.BL
             return new HtmlString(vidsStr);
         }
 
+        internal HtmlString GetVideoChannels(Guid vidId, int userId)
+        {
+           return new HtmlString(ConvertToChannelLists(dal.GetVideoChannels(vidId, userId), vidId));
+        }
+
         internal void AddAndLinkChannel(Guid videoId, int userId, string channelName)
         {
             dal.AddAndLinkChannel(videoId, userId, channelName);
+        }
+
+        internal void AddOrRemoveChannelFromVid(Guid videoId, int channelId, bool isSelected, int userId)
+        {
+            dal.AddOrRemoveChannelFromVid(videoId, channelId, isSelected, userId);
         }
 
         public string ConvertVidGridHTMLSting(List<VideoRepository> vids, bool withSVG = true)
@@ -64,21 +74,18 @@ namespace CodeAtWork.BL
                     $"fill-rule=\"evenodd\" d=\"M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z\"></path></svg>" +
                     $"<div class=\"optMenu\" id = \"optMenu_{v.VideoId}\">" +
                     $"  <ul class=\"optMenuList\">" +
-                                "<li>Play</li>" +
+                                $"<li onclick=\"OpenPlayer('{v.VideoId}')\">Play</li>" +
                                "<li>Add To Bookmark</li>" +
                                $"<li onclick=\"showOptChannel('{v.VideoId}')\" id=\"optMenuChannelBtn_{v.VideoId}\">Add To Channel <i class=\"fas fa-caret-right optMenuListRight\"></i></li>" +
                             "</ul></div>" +
                             $"<div class=\"optMenuChannel\" id=\"optMenuChannel_{v.VideoId}\">" +
                             $"<div class=\"optMenuChannelDiv1\">" +
-                                $"<input type=\"text\" placeholder=\"Create New Channel\" class=\"ChannelAddBar\" id=\"ChannelAddBar_{v.VideoId}\" onkeyup=\"EnableAddChannelBtn(this, '{v.VideoId}')\">" +
+                                $"<input type=\"text\" placeholder=\"Add New Channel\" class=\"ChannelAddBar\" id=\"ChannelAddBar_{v.VideoId}\" onkeyup=\"EnableAddChannelBtn(this, '{v.VideoId}')\">" +
                                $" <button type=\"submit\" class=\"ChannelAddBtn\" id=\"ChannelAddBtn_{v.VideoId}\" onclick=\"AddNewChannel('{v.VideoId}')\"><i class=\"fas fa-plus\"></i></button>" +
                            " </div> " +
                             "<div style=\"padding-bottom: 5%;\">" +
-                                "<ul class=\"optMenuList\">" +
-                                "    <li>Play<i class=\"fas fa-check-circle optMenuListRight channelUnselected\"></i></li>" +
-                                "    <li>Add To Bookmark <i class=\"fas fa-check-circle optMenuListRight channelSelected\"></i></li>" +
-                                "    <li>Add To Channel </li>" +
-                              "  </ul>" +
+                                $"<ul class=\"optMenuList ChannelList\" id =\"ChannelList_{v.VideoId}\">" +
+                              "</ul>" +
                             "</div>" +
                             $"</div>" +
                     $"<svg onclick=\"BookMarkVid(this,'{v.VideoId}')\" role=\"img\" viewBox=\"0 0 24 24\"";
@@ -103,5 +110,18 @@ namespace CodeAtWork.BL
         }
 
 
+
+        public string ConvertToChannelLists(List<UserChannel> Channels, Guid videoId)
+        {
+            string result = "";
+
+            Channels.ForEach(z =>
+            {
+                var selectedClass = z.IsSelectedForVid ? "channelSelected" : "channelUnselected";
+                result += $"<li>{z.ChannelName} <i onclick=\"AddOrRemoveChannelFromVid(this, {z.UserChannelId}, '{videoId}')\" class=\"fas fa-check-circle optMenuListRight {selectedClass}\"></i></li>";
+            });
+
+            return result;
+        }
     }
 }

@@ -12,7 +12,4 @@ namespace CodeAtWork.Models
         public string VideoDescription { get; set; }
         public bool IsBookMarked { get; set; }
     }
-
-
-
 }

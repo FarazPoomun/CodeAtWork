@@ -43,6 +43,68 @@ namespace CodeAtWork.DAL
             return vidDetails;
         }
 
+        internal List<UserChannel> GetVideoChannels(Guid vidId, int userId)
+        {
+            List<UserChannel> vidChannelDetails = new List<UserChannel>();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for UserId And Interests
+            string sql = $@"   select UC.*, CV.UserChannelId as IsSelected
+                                from  UserChannel UC
+                                left join channelVideo CV  on CV.UserChannelId = UC.UserChannelId AND VideoId = '{vidId}'
+                                where AppUserId  = {userId}
+            ";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                UserChannel UC = new UserChannel()
+                {
+                    UserChannelId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("UserChannelId")).ToString()),
+                    ChannelName = dataReader.GetValue(dataReader.GetOrdinal("ChannelName")).ToString(),
+                    AppUserId = userId
+                };
+
+                if (dataReader.GetValue(dataReader.GetOrdinal("IsSelected")) != DBNull.Value)
+                {
+                    UC.IsSelectedForVid = true;
+                }
+                vidChannelDetails.Add(UC);
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return vidChannelDetails;
+
+        }
+
+        internal void AddOrRemoveChannelFromVid(Guid videoId, int channelId, bool isSelected, int userId)
+        {
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            if (isSelected)
+            {
+                string sql = $@"Insert into ChannelVideo Values ({channelId}, '{videoId}')";
+
+                adapter.InsertCommand = new SqlCommand(sql, conn);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            else
+            {
+                SqlCommand command;
+                string sql = $"DELETE FROM ChannelVideo WHERE VideoId = '{videoId}' and UserChannelId = {channelId}";
+
+                command = new SqlCommand(sql, conn);
+
+                adapter.DeleteCommand = new SqlCommand(sql, conn);
+                adapter.DeleteCommand.ExecuteNonQuery();
+                command.Dispose();
+            }
+
+            adapter.Dispose();
+        }
+
         internal List<VideoRepository> SearchVid(string searchedTxt)
         {
             List<VideoRepository> vidDetails = new List<VideoRepository>();

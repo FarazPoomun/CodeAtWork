@@ -6,7 +6,7 @@ AppUserId int foreign key references Appuser,
 
 
 Create table ChannelVideo(
-UserChannelVideoId int primary key identity(1,1),
+ChannelVideoId int primary key identity(1,1),
 UserChannelId int foreign key references UserChannel not null,
 VideoId uniqueIdentifier foreign key references VideoRepository not null,
 )

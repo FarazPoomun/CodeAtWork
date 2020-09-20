@@ -234,6 +234,8 @@
 .optMenuListRight {
     float: right;
     font-size: larger;
+    color:black;
+    margin:0;
 }
 
 
@@ -294,8 +296,14 @@ input:focus {
 
 .channelUnselected {
     color: grey;
+    cursor:pointer;
 }
 
 .channelSelected {
     color: limegreen;
+    cursor: pointer;
+}
+
+.ChannelList > li {
+    cursor: auto;
 }

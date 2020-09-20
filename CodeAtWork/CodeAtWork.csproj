@@ -137,7 +137,7 @@
     <Compile Include="Models\InterestCatergoryTopic.cs" />
     <Compile Include="Models\Session\UserInfo.cs" />
     <Compile Include="Models\UI\CreateVid.cs" />
-    <Compile Include="Models\UserChannel.cs" />
+    <Compile Include="Models\Channels.cs" />
     <Compile Include="Models\VideoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
