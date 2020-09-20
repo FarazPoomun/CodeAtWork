@@ -73,7 +73,7 @@
                             </div>
                             <div style="padding-bottom: 5%;">
                                 <ul class="optMenuList">
-                                    <li>Play<i class="fas fa-check-circle optMenuListRight channelUnselected"></i></li>
+                                    <li>Play<i class="fas fa-check-circle optMenuListRight"></i></li>
                                     <li>Add To Bookmark <i onclick="AddOrRemoveChannelFromVid(this, 33)" class="fas fa-check-circle optMenuListRight channelSelected"></i></li>
                                     <li>Add To Channel </li>
                                 </ul>
@@ -113,7 +113,11 @@
         if (!IsNullOrEmpty(elem.value)) {
             var ajaxPost = $.post('/CodeAtWorkApp/AddAndLinkChannel', { channelName: elem.value, videoId: vidId });
             Promise.all([ajaxPost]).then((results) => {
+                document.getElementById("ChannelAddBar_" + vidId).value = "";
                 document.getElementById("ChannelList_" + vidId).innerHTML = results;
+                var btn = document.getElementById("ChannelAddBtn_" + vidId);
+                $(btn).css("pointer-events", "none");
+                $(btn).css("background", "grey");
             });
         }
     }

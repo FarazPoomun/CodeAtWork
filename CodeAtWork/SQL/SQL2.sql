@@ -1,7 +1,9 @@
-﻿Create table UserChannel(
+﻿
+Create table UserChannel(
 UserChannelId int primary key identity(1,1),
 ChannelName varchar(max) not null,
 AppUserId int foreign key references Appuser,
+IsShared bit default(0)
 )
 
 
@@ -10,3 +12,4 @@ ChannelVideoId int primary key identity(1,1),
 UserChannelId int foreign key references UserChannel not null,
 VideoId uniqueIdentifier foreign key references VideoRepository not null,
 )
+

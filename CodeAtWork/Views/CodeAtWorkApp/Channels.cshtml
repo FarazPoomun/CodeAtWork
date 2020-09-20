@@ -1,0 +1,72 @@
+﻿
+@{
+    Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
+}
+<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+<link href="~/Content/CodeAtWorkApp/Channels.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/CodeAtWorkApp/SharedAppJs.js"></script>
+<div id="ChannelsOuterDiv">
+
+    <h2 style="float:left; margin-top:2vh">Channels</h2>
+
+    <div class="btn-container">
+        <p><button class="blueBtn" onclick="UpdateTopics()">Create Channel</button></p>
+    </div>
+    <div id="ChannelTable">
+        <div class="selectedChannelSection" onclick="toggleSelectedDiv(this)">
+            My Channels
+        </div>
+        <div onclick="toggleSelectedDiv(this)">
+            Shared Channels
+        </div>
+        <div>
+        </div>
+    </div>
+    <div>
+        <div>
+            <p><button class="blueBtn disabledBtn" id="deleteChannelBtn" onclick="deleteChannels()">Delete</button></p>
+        </div>
+        <table id="channelListTable">
+@ViewBag.ChannelsTabData
+        </table>
+    </div>
+
+</div>
+<div id="SearchResult">
+    <div class="SearchScreenshots" id="searchResultsFromNav">
+
+    </div>
+</div>
+<script>
+
+    function softDeleteRow(elem, channelId) {
+        var row = document.getElementById("channelRow_" + channelId);
+        $(row).toggleClass("softDeleteRow");
+
+        var softdeletedRows = document.getElementsByClassName("softDeleteRow");
+        if (softdeletedRows.length > 0) {
+            $("#deleteChannelBtn").css("pointer-events", "all");
+            $("#deleteChannelBtn").css("background-color", "#0084bd");
+        }
+        else {
+            $("#deleteChannelBtn").css("pointer-events", "none");
+            $("#deleteChannelBtn").css("background-color", "grey");
+        }
+    }
+
+    function OpenPlayer(id) {
+    var url = '@Url.Action("AppPlayer", "CodeAtWorkApp", new { playById = "__id" })';
+    var New = url.replace("__id", id)
+    window.open(New, "_blank");
+    }
+
+    function toggleSelectedDiv(elem) {
+        var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
+        $(existingElem).removeClass("selectedChannelSection");
+        $(elem).addClass("selectedChannelSection");
+
+    }
+
+</script>

@@ -35,7 +35,15 @@ namespace CodeAtWork.Controllers
         {
             var userInfo = Session["UserInfo"] as UserInfo;
 
-            ViewBag.BookkMarkedVids = codeAtWorkAppBL.GetBookMarkedVideos(userInfo.UserId);
+            ViewBag.BookMarkedVids = codeAtWorkAppBL.GetBookMarkedVideos(userInfo.UserId);
+
+            return View();
+        }
+          public ActionResult Channels()
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+
+            ViewBag.ChannelsTabData = codeAtWorkAppBL.GetChannelList(userInfo.UserId);
 
             return View();
         }

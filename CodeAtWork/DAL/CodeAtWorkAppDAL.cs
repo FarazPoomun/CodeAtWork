@@ -64,6 +64,7 @@ namespace CodeAtWork.DAL
                 {
                     UserChannelId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("UserChannelId")).ToString()),
                     ChannelName = dataReader.GetValue(dataReader.GetOrdinal("ChannelName")).ToString(),
+                    IsShared = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsShared")).ToString()),
                     AppUserId = userId
                 };
 
@@ -171,7 +172,7 @@ namespace CodeAtWork.DAL
                 DECLARE @INSERTED table ([UserChannelId] int);
                 Insert into UserChannel 
                 OUTPUT INSERTED.[UserChannelId] Into @inserted
-                Values ('{channelName}', {userId}); select * from @inserted;";
+                Values ('{channelName}', {userId}, default); select * from @inserted;";
 
             adapter.InsertCommand = new SqlCommand(sql, conn);
             var newId = (int)adapter.InsertCommand.ExecuteScalar();
@@ -256,6 +257,42 @@ namespace CodeAtWork.DAL
             dataReader.Close();
             command.Dispose();
             return vidDetails;
+        }
+
+
+        public List<UserChannelWithCounts> GetChannelLists(int userId)
+        {
+            List<UserChannelWithCounts> channelDetails = new List<UserChannelWithCounts>();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for UserId And Interests
+            string sql = $@"   select UC.*, 
+                                (select count(*)from ChannelVideo
+                                where ChannelVideo.UserChannelId = UC.UserChannelId ) as VideoCount
+                                from  UserChannel UC
+                                left join channelVideo CV  on CV.UserChannelId = UC.UserChannelId
+                                where AppUserId  = {userId} And IsShared  = 0
+            ";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                UserChannelWithCounts UC = new UserChannelWithCounts()
+                {
+                    UserChannelId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("UserChannelId")).ToString()),
+                    ChannelName = dataReader.GetValue(dataReader.GetOrdinal("ChannelName")).ToString(),
+                    IsShared = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsShared")).ToString()),
+                    VideoCount = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("VideoCount")).ToString()),
+                    AppUserId = userId
+                };
+                channelDetails.Add(UC);
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return channelDetails;
         }
 
     }

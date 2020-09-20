@@ -115,6 +115,18 @@
         color: ghostwhite;
     }
 
+.fa-bookmark {
+    cursor: pointer;
+}
+
+.fa-bookmark:hover {
+    color: ghostwhite;
+}
+
+.fa-caret-right:hover {
+    color: ghostwhite;
+}
+
 .vidDesc {
     font-size: 20px;
     padding: 0px;
@@ -181,7 +193,6 @@
     height: 50vh;
     position: absolute;
     top: 50px;
-    /* margin: auto; */
     margin-left: 15%;
     background-color: #363636;
     overflow-y: scroll;
@@ -234,8 +245,9 @@
 .optMenuListRight {
     float: right;
     font-size: larger;
-    color:black;
-    margin:0;
+    color: black;
+    margin: 0;
+    margin-right: 3%;
 }
 
 

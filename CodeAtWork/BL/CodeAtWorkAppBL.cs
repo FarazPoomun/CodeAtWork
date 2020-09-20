@@ -33,6 +33,29 @@ namespace CodeAtWork.BL
             dal.SaveNewBookMark(videoId, userId, isSelected);
         }
 
+        internal HtmlString GetChannelList(int userId)
+        {
+            var result = ConvertToTableHtml(dal.GetChannelLists(userId));
+            return new HtmlString(result);
+        }
+
+        public string ConvertToTableHtml(List<UserChannelWithCounts> UC)
+        {
+            string result = "";
+            UC.ForEach(u =>
+            {
+                result += $"<tr id=\"channelRow_{u.UserChannelId}\">" +
+                $"<td><input type=\"checkbox\" onchange=\"softDeleteRow(this, {u.UserChannelId})\" /></td>" +
+                $"<td>{u.ChannelName}</td> " +
+               $"<td>({u.VideoCount}) Videos</td> " +
+              $"<td>(0) Paths</td> " +
+                $"<td>By Admin</td> " +
+                "</tr> ";
+            });
+
+            return result;
+        }
+
         internal HtmlString SearchVid(string searchedTxt)
         {
             return new HtmlString(ConvertVidGridHTMLSting(dal.SearchVid(searchedTxt), false));
@@ -47,7 +70,7 @@ namespace CodeAtWork.BL
 
         internal HtmlString GetVideoChannels(Guid vidId, int userId)
         {
-           return new HtmlString(ConvertToChannelLists(dal.GetVideoChannels(vidId, userId), vidId));
+            return new HtmlString(ConvertToChannelLists(dal.GetVideoChannels(vidId, userId), vidId));
         }
 
         internal void AddAndLinkChannel(Guid videoId, int userId, string channelName)
@@ -74,8 +97,8 @@ namespace CodeAtWork.BL
                     $"fill-rule=\"evenodd\" d=\"M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z\"></path></svg>" +
                     $"<div class=\"optMenu\" id = \"optMenu_{v.VideoId}\">" +
                     $"  <ul class=\"optMenuList\">" +
-                                $"<li onclick=\"OpenPlayer('{v.VideoId}')\">Play</li>" +
-                               "<li>Add To Bookmark</li>" +
+                                $"<li onclick=\"OpenPlayer('{v.VideoId}')\">Play <i class=\"far fa-play-circle optMenuListRight\"></i></li>" +
+                               "<li>Add To Bookmark <i class=\"fas fa-bookmark optMenuListRight\"></i></li>" +
                                $"<li onclick=\"showOptChannel('{v.VideoId}')\" id=\"optMenuChannelBtn_{v.VideoId}\">Add To Channel <i class=\"fas fa-caret-right optMenuListRight\"></i></li>" +
                             "</ul></div>" +
                             $"<div class=\"optMenuChannel\" id=\"optMenuChannel_{v.VideoId}\">" +
