@@ -1,6 +1,7 @@
 ﻿using CodeAtWork.Common;
 using CodeAtWork.DAL;
 using CodeAtWork.Models;
+using CodeAtWork.Models.Misc;
 using System;
 using System.Collections.Generic;
 using System.Web;
@@ -39,12 +40,18 @@ namespace CodeAtWork.BL
             return new HtmlString(result);
         }
 
+        internal ChannelHeaderInfo GetChannelInfo(int channelId)
+        {
+            return dal.GetChannelInfo(channelId);
+        }
+
+
         public string ConvertToTableHtml(List<UserChannelWithCounts> UC)
         {
             string result = "";
             UC.ForEach(u =>
             {
-                result += $"<tr id=\"channelRow_{u.UserChannelId}\">" +
+                result += $"<tr id=\"channelRow_{u.UserChannelId}\" onclick=\"OpenChannelDetails({u.UserChannelId})\">" +
                 $"<td><input type=\"checkbox\" onchange=\"softDeleteRow(this, {u.UserChannelId})\" /></td>" +
                 $"<td>{u.ChannelName}</td> " +
                $"<td>({u.VideoCount}) Videos</td> " +
@@ -55,6 +62,7 @@ namespace CodeAtWork.BL
 
             return result;
         }
+
 
         internal HtmlString SearchVid(string searchedTxt)
         {
@@ -73,7 +81,7 @@ namespace CodeAtWork.BL
             return new HtmlString(ConvertToChannelLists(dal.GetVideoChannels(vidId, userId), vidId));
         }
 
-        internal void AddAndLinkChannel(Guid videoId, int userId, string channelName)
+        internal void AddAndLinkChannel(Guid? videoId, int userId, string channelName)
         {
             dal.AddAndLinkChannel(videoId, userId, channelName);
         }
@@ -82,6 +90,12 @@ namespace CodeAtWork.BL
         {
             dal.AddOrRemoveChannelFromVid(videoId, channelId, isSelected, userId);
         }
+
+        internal void DeleteChannels(List<int> channelIdsToDelete)
+        {
+            dal.DeleteChannels(channelIdsToDelete);
+        }
+
 
         public string ConvertVidGridHTMLSting(List<VideoRepository> vids, bool withSVG = true)
         {
@@ -131,7 +145,6 @@ namespace CodeAtWork.BL
 
             return resultStr;
         }
-
 
 
         public string ConvertToChannelLists(List<UserChannel> Channels, Guid videoId)

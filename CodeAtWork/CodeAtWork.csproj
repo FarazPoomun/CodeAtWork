@@ -123,6 +123,7 @@
     <Compile Include="BL\Admin\AdminBL.cs" />
     <Compile Include="BL\CodeAtWorkAppBL.cs" />
     <Compile Include="BL\CodeAtWorkBL.cs" />
+    <Compile Include="BL\EncryptionHelper.cs" />
     <Compile Include="Common\CodeAtWorkExtensions.cs" />
     <Compile Include="Controllers\CodeAtWorkAdminController.cs" />
     <Compile Include="Controllers\CodeAtWorkAppController.cs" />
@@ -135,9 +136,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\InterestCatergoryTopic.cs" />
+    <Compile Include="Models\Misc\ChannelHeaderInfo.cs" />
+    <Compile Include="Models\Misc\RegistrationValidations.cs" />
     <Compile Include="Models\Session\UserInfo.cs" />
     <Compile Include="Models\UI\CreateVid.cs" />
     <Compile Include="Models\Channels.cs" />
+    <Compile Include="Models\UserDetails.cs" />
     <Compile Include="Models\VideoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -148,6 +152,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap_4_5_2.min.css" />
     <Content Include="Content\CodeAtWorkApp\Bookmarks.css" />
+    <Content Include="Content\CodeAtWorkApp\ChannelDetail.css" />
     <Content Include="Content\CodeAtWorkApp\Channels.css" />
     <Content Include="Content\CodeAtWorkApp\CodeAtWorkAppLayout.css" />
     <Content Include="Content\CodeAtWorkApp\Home.css" />
@@ -156,8 +161,10 @@
     <Content Include="Content\CodeAtWork\Home.css" />
     <Content Include="Content\CodeAtWork\Interests.css" />
     <Content Include="Content\CodeAtWork\Login.css" />
+    <Content Include="Content\CodeAtWork\Register.css" />
     <Content Include="Content\CodeAtWork\tachyons.min.css" />
     <Content Include="Content\w3.css" />
+    <Content Include="Design\Home\circle-green.png" />
     <Content Include="Design\Home\image-res.img.8880e86d-10e5-4b1f-b6fb-232df114d17f.png" />
     <Content Include="Design\Home\line-long-skills.png" />
     <Content Include="Design\Home\line-yellow.png" />
@@ -190,6 +197,7 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="SQL\SQL1.sql" />
     <Content Include="SQL\SQL2.sql" />
+    <Content Include="SQL\SQL3.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -211,6 +219,8 @@
     <Content Include="Views\CodeAtWorkAdmin\AddNewVideo.cshtml" />
     <Content Include="Views\CodeAtWorkApp\Bookmarks.cshtml" />
     <Content Include="Views\CodeAtWorkApp\Channels.cshtml" />
+    <Content Include="Views\CodeAtWork\Register.cshtml" />
+    <Content Include="Views\CodeAtWorkApp\ChannelDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

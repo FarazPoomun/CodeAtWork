@@ -8,5 +8,6 @@ namespace CodeAtWork.Models.Session
     public class UserInfo
     {
         public int UserId { get; set; }
+        public string FirstName { get; set; }
     }
 }

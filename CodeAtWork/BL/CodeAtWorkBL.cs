@@ -1,5 +1,6 @@
 ﻿using CodeAtWork.DAL;
 using CodeAtWork.Models;
+using CodeAtWork.Models.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,11 @@ namespace CodeAtWork.BL
             return dal.ValidateLoginDetail(loginId, pwd);
         }
 
+        public bool ValidateUsername(string username)
+        {
+            return dal.ValidateUsername(username);
+        }
+
 
         public void SaveTopics(List<InterestCategoryTopicToBeSaved> topics)
         {
@@ -48,6 +54,11 @@ namespace CodeAtWork.BL
             {
                 dal.SaveTopics(newTopicsToUpdate);
             }
+        }
+
+        internal int SaveRegistration(UserDetails user)
+        {
+            return dal.SaveRegistration(user);
         }
 
         #endregion

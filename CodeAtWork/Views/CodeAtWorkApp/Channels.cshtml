@@ -11,8 +11,9 @@
 
     <h2 style="float:left; margin-top:2vh">Channels</h2>
 
-    <div class="btn-container">
-        <p><button class="blueBtn" onclick="UpdateTopics()">Create Channel</button></p>
+    <div class="optMenuChannelDiv1">
+        <input type="text" placeholder="Create New Channel" class="ChannelAddBar" id="ChannelAddBar">
+        <button type="submit" class="ChannelAddBtn" id="ChannelAddBtn" onclick="AddNewChannel()"><i class="fas fa-plus"></i></button>
     </div>
     <div id="ChannelTable">
         <div class="selectedChannelSection" onclick="toggleSelectedDiv(this)">
@@ -29,7 +30,7 @@
             <p><button class="blueBtn disabledBtn" id="deleteChannelBtn" onclick="deleteChannels()">Delete</button></p>
         </div>
         <table id="channelListTable">
-@ViewBag.ChannelsTabData
+            @ViewBag.ChannelsTabData
         </table>
     </div>
 
@@ -39,7 +40,24 @@
 
     </div>
 </div>
+
 <script>
+
+    function OpenChannelDetails(channelId) {
+            var url = '@Url.Action("ChannelDetail", "CodeAtWorkApp", new { channelId = "__id" })';
+        var New = url.replace("__id", channelId)
+    window.open(New, "_self");
+    }
+
+    function AddNewChannel() {
+        var elem = document.getElementById("ChannelAddBar");
+        if (!IsNullOrEmpty(elem.value)) {
+            var ajaxPost = $.post('/CodeAtWorkApp/AddAndLinkChannel', { channelName: elem.value});
+            Promise.all([ajaxPost]).then((results) => {
+                location.reload();
+            });
+        }
+    }
 
     function softDeleteRow(elem, channelId) {
         var row = document.getElementById("channelRow_" + channelId);
@@ -56,6 +74,22 @@
         }
     }
 
+
+    function deleteChannels() {
+        var elems = document.getElementsByClassName("softDeleteRow");
+        var channelIdsToDelete = [];
+        for (var i = 0; i< elems.length; i++) {
+            var channelId = parseInt(elems[i].id.split('_')[1]);
+            channelIdsToDelete.push(channelId);
+        }
+
+
+        var ajaxPost = $.post('/CodeAtWorkApp/DeleteChannels', { channelIdsToDelete: channelIdsToDelete });
+        Promise.all([ajaxPost]).then(() => {
+            location.reload();
+        });
+    }
+
     function OpenPlayer(id) {
     var url = '@Url.Action("AppPlayer", "CodeAtWorkApp", new { playById = "__id" })';
     var New = url.replace("__id", id)
@@ -66,7 +100,6 @@
         var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
         $(existingElem).removeClass("selectedChannelSection");
         $(elem).addClass("selectedChannelSection");
-
     }
 
 </script>

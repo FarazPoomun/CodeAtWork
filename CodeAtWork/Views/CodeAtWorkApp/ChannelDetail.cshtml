@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "ChannelDetail";
+    Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
+}
+<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+<link href="~/Content/CodeAtWorkApp/ChannelDetail.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<div id="ChannelDetailWrapper">
+
+    <div id="ChannelDetailHeaderPane">
+        <div id="HeaderPaneWrittings">
+            <h1 style="font-family:comfortaa" id="ChannelName">@ViewBag.ChannelName</h1>
+            <p id="ChannelDesc">@ViewBag.CreatedBy</p>
+        </div>
+        <div id="ChannelPaneBtns">
+            <div>
+                <div style="float:left;  margin-left: 4%;">
+                    <button class="blueBtn"> <i style="font-size:1rem" class="fas fa-plus"></i> Add Contents</button>
+                    <svg role="img" viewBox="0 0 24 24" class="optSvg" onclick="OpenChannelMenu()" id="OptMenuBtn"><path fill="currentColor" fill-rule="evenodd" d="M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z"></path></svg>
+                    <div id="optChannelMenu">
+                        <ul class="optMenuList">
+
+                            <li onclick="deleteChannels()">Delete</li>
+                            <li>Share <input type="checkbox" class="optMenuListRight" id="IsShared"  onchange="IsSharedChanged(this)"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="float:right;margin-right: 1%;">
+                    <button class="blueBtn"> <i style="font-size:1rem" class="fas fa-users"></i> Share Channel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div id="ChannelDetailTable">
+            <div class="selectedChannelSection" onclick="toggleSelectedDiv(this)">
+                Videos
+            </div>
+            <div onclick="toggleSelectedDiv(this)">
+                Path
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    if ('@ViewBag.IsShared' === 'true')
+        document.getElementById("IsShared").checked = true;
+
+    document.addEventListener('click', function (event) {
+        var clickedElem = event.target;
+        if (!(clickedElem == $("#OptMenuBtn")[0] || event.path.includes($("#optChannelMenu")[0])) && $('#optChannelMenu').is(':visible')) {
+            $("#optChannelMenu").slideUp("fast");
+        }
+    }, false);
+
+    function OpenChannelMenu() {
+
+        if ($('#optChannelMenu').is(':visible'))
+        {
+            $("#optChannelMenu").slideUp("fast");
+        }
+        else {
+            $("#optChannelMenu").slideDown("fast");
+        }
+    }
+
+    function IsSharedChanged(elem) {
+        debugger;
+    }
+
+    function deleteChannels() {
+        var channelIdsToDelete = [];
+
+            channelIdsToDelete.push('@ViewBag.UserChannelId');
+
+
+        var ajaxPost = $.post('/CodeAtWorkApp/DeleteChannels', { channelIdsToDelete: channelIdsToDelete });
+        Promise.all([ajaxPost]).then(() => {
+    var url = '@Url.Action("Channels", "CodeAtWorkApp")';
+            window.open(url, "_self");
+        });
+    }
+
+
+    function toggleSelectedDiv(elem) {
+        var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
+        $(existingElem).removeClass("selectedChannelSection");
+        $(elem).addClass("selectedChannelSection");
+    }
+</script>

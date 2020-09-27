@@ -1,4 +1,5 @@
 ﻿using CodeAtWork.Models;
+using CodeAtWork.Models.Misc;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -43,6 +44,37 @@ namespace CodeAtWork.DAL
             return vidDetails;
         }
 
+        internal ChannelHeaderInfo GetChannelInfo(int channelId)
+        {
+            ChannelHeaderInfo channelHeaderInfo = new ChannelHeaderInfo();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for UserId And Interests
+            string sql = $@"  select * from userchannel UC 
+                            Inner join UserDetail AU on AU.AppUserId = UC.AppUserId
+                            where uc.UserChannelId = {channelId}
+            ";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                channelHeaderInfo.UserChannelId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("UserChannelId")));
+                channelHeaderInfo.CreatedBy = $"{dataReader.GetValue(dataReader.GetOrdinal("FirstName")).ToString()} {dataReader.GetValue(dataReader.GetOrdinal("LastName")).ToString()}";
+                channelHeaderInfo.ChannelName = dataReader.GetValue(dataReader.GetOrdinal("ChannelName")).ToString();
+
+                if (dataReader.GetValue(dataReader.GetOrdinal("IsShared")) != DBNull.Value)
+                {
+                    channelHeaderInfo.IsShared = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsShared")));
+                }
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return channelHeaderInfo;
+        }
+
         internal List<UserChannel> GetVideoChannels(Guid vidId, int userId)
         {
             List<UserChannel> vidChannelDetails = new List<UserChannel>();
@@ -79,6 +111,22 @@ namespace CodeAtWork.DAL
             command.Dispose();
             return vidChannelDetails;
 
+        }
+
+        internal void DeleteChannels(List<int> channelIdsToDelete)
+        {
+            SqlDataAdapter adapter = new SqlDataAdapter();
+
+            SqlCommand command;
+            string sql = $"DELETE FROM UserChannel WHERE UserChannelId in ({string.Join(",", channelIdsToDelete)})";
+
+            command = new SqlCommand(sql, conn);
+
+            adapter.DeleteCommand = new SqlCommand(sql, conn);
+            adapter.DeleteCommand.ExecuteNonQuery();
+            command.Dispose();
+
+            adapter.Dispose();
         }
 
         internal void AddOrRemoveChannelFromVid(Guid videoId, int channelId, bool isSelected, int userId)
@@ -164,7 +212,7 @@ namespace CodeAtWork.DAL
         }
 
 
-        internal void AddAndLinkChannel(Guid videoId, int userId, string channelName)
+        internal void AddAndLinkChannel(Guid? videoId, int userId, string channelName)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
 
@@ -175,12 +223,19 @@ namespace CodeAtWork.DAL
                 Values ('{channelName}', {userId}, default); select * from @inserted;";
 
             adapter.InsertCommand = new SqlCommand(sql, conn);
-            var newId = (int)adapter.InsertCommand.ExecuteScalar();
 
-            sql = $"Insert into ChannelVideo Values ({newId}, '{videoId}')";
-            adapter.InsertCommand = new SqlCommand(sql, conn);
-            adapter.InsertCommand.ExecuteNonQuery();
+            if(videoId is null)
+            {
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            else
+            {
+                var newId = (int)adapter.InsertCommand.ExecuteScalar();
 
+                sql = $"Insert into ChannelVideo Values ({newId}, '{videoId}')";
+                adapter.InsertCommand = new SqlCommand(sql, conn);
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
             adapter.Dispose();
         }
 

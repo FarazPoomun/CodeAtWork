@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="~/Content/CodeAtWork/Register.css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+    <link href="~/Content/w3.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+</head>
+<body onload="showRegisterInvalidCred()">
+    <div id="invalidRegisterCreds" class="showInvalidRegisterCreds">
+        <p id="invalidReason"></p>
+    </div>
+    <div class="TitleHeader">
+        <h1 style="font-family: Comfortaa;">
+            UPGRADE YOUR <a style="padding-left: 1rem;color:deeppink"> SKILLS</a>
+            <img class="circleHeader" src="~/Design/Home/circle-green.png" />
+        </h1>
+    </div>
+
+    <div id="RegisterPane" style="font-family: Comfortaa;">
+        <h2 style="    padding-left: 1%;    font-family: comfortaa;
+    padding-top: 2%;
+        padding-bottom: 3%;">
+            Registration
+            <img src="~/Design/Home/line-yellow.png" style="position: absolute;
+    width: 14rem;
+    margin-left: -12.5rem;
+    margin-top: 2.5rem;" />
+        </h2>
+        <div id="RegisterForm">
+            <div>
+                <form class="w3-container">
+                    <input class="w3-input" type="text" placeholder="First Name" id="FirstName">
+                </form>
+            </div>
+            <div>
+                <form class="w3-container">
+                    <input class="w3-input" type="text" placeholder="Last Name" id="LastName">
+                </form>
+            </div>
+            <div>
+                <form class="w3-container">
+                    <input class="w3-input" type="text" placeholder="Email" id="Email">
+                </form>
+            </div>
+            <div>
+                <form class="w3-container">
+                    <input class="w3-input" type="text" placeholder="Username" id="Username">
+                </form>
+            </div>
+            <div>
+                <form class="w3-container">
+                    <input class="w3-input" type="password" placeholder="Password" id="Password">
+                </form>
+            </div>
+            <div>
+                <form class="w3-container">
+                    <input class="w3-input" type="password" placeholder="Confirm Password" id="ConfirmPassword">
+                </form>
+            </div>
+            <div>
+            </div>
+            <div>
+                <div class="w3-container" style="float: right;">
+                    <p><button type="submit" class="w3-button w3-round loginBtn" style="background-color: #0084bd" onclick="ValidateEntries()">Submit Registration</button></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+
+    function ValidateEntries() {
+        $("#invalidRegisterCreds").slideUp("fast");
+        var firstName = document.getElementById("FirstName").value;
+        var lastName = document.getElementById("LastName").value;
+        var email = document.getElementById("Email").value;
+        var username = document.getElementById("Username").value;
+        var password = document.getElementById("Password").value;
+        var confirmPassword = document.getElementById("ConfirmPassword").value;
+
+
+        if (IsNullOrEmpty(firstName) || IsNullOrEmpty(lastName) || IsNullOrEmpty(email) || IsNullOrEmpty(username) || IsNullOrEmpty(password) || IsNullOrEmpty(confirmPassword)) {
+            showInvalidBanner("Please Fill Out All The Fields.");
+        }
+
+        else if (password != confirmPassword) {
+            showInvalidBanner("Passwords Don't Match.");
+        }
+
+        else {
+
+            var objToSend = { FirstName: firstName, LastName: lastName, Email: email, Password: password, ConfirmPassword: confirmPassword, UserName: username };
+
+            var ajaxPost = $.post('/CodeAtWork/SaveRegistration', { user: objToSend });
+            Promise.all([ajaxPost]).then((result) => {
+                if (result && result[0] && result[0].HasValidationFailed) {
+                    showInvalidBanner(result[0].ValidationMsg)
+                }
+                else if (result && result[0] && !result[0].HasValidationFailed) {
+                    var url = '@Url.Action("Interests", "CodeAtWork")';
+                    window.open(url, "_self");
+                }
+            });
+        }
+    }
+
+
+    function showRegisterInvalidCred() {
+        //var invalidLogin = 'True';
+
+        //if (invalidLogin === 'True') {
+        //    showInvalidBanner("");
+        //}
+    }
+
+    function showInvalidBanner(msg) {
+        document.getElementById("invalidReason").innerHTML = msg;
+
+        $("#invalidRegisterCreds").slideDown(400);
+    }
+
+
+    function IsNullOrEmpty(value) {
+        return !value || value.length == 0;
+    }
+
+
+</script>

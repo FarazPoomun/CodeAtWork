@@ -22,7 +22,7 @@ th {
     #ChannelTable > div {
         text-align: center;
         padding-bottom: 2.5%;
-        cursor:pointer;
+        cursor: pointer;
     }
 
 .selectedChannelSection {
@@ -184,9 +184,9 @@ th {
     outline: none;
 }
 
-.disabledBtn{
-    background-color:grey;
-    pointer-events:none;
+.disabledBtn {
+    background-color: grey;
+    pointer-events: none;
 }
 
 #channelListTable {
@@ -199,8 +199,8 @@ th {
         width: 5%;
     }
 
-    #channelListTable tr{
-        border-bottom:1px solid grey;
+    #channelListTable tr {
+        border-bottom: 1px solid grey;
     }
 
 th, td {
@@ -208,7 +208,46 @@ th, td {
     padding: 8px;
 }
 
-.softDeleteRow{
-    text-decoration:line-through;
-    text-decoration-color:darkred;
+.softDeleteRow {
+    text-decoration: line-through;
+    text-decoration-color: darkred;
 }
+
+.ChannelAddBar {
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+    margin-left: 2%;
+    margin-top: 5%;
+}
+
+.optMenuChannelDiv1 {
+    height: 4vw;
+    border-bottom: 1px solid black;
+    float: right;
+}
+
+.ChannelAddBtn {
+    float: left;
+    width: 17%;
+    padding: 10px;
+    background: #0084bd;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+    margin-top: 5%;
+}
+
+tr {
+    cursor: pointer;
+}
+
+    tr:hover {
+        background-color: grey;
+    }

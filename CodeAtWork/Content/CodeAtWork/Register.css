@@ -1,0 +1,50 @@
+﻿body {
+    background-color: #181818;
+    font-family: Comfortaa;
+    color:white;
+    overflow:hidden;
+}
+
+.TitleHeader {
+    margin-top: 3%;
+    margin-left: 4%;
+}
+
+
+.circleHeader {
+    position: absolute;
+    width: 11rem;
+    margin-left: -9.8rem;
+    margin-top: -0.7rem;
+}
+
+#RegisterForm {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 7rem 7rem 4rem;
+}
+
+#RegisterPane {
+    box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
+    background: #222;
+    width: 50%;
+    height: 31rem;
+    margin-left: 24%;
+    margin-top: 5rem;
+}
+
+h1, h2 {
+    font-family: Comfortaa;
+}
+
+#invalidRegisterCreds{
+    text-align:center;
+    position:absolute;
+    display:none;
+}
+
+.showInvalidRegisterCreds {
+    background-color: red;
+    height: 3rem;
+    width: 100%;
+}

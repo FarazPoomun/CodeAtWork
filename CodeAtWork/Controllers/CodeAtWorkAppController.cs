@@ -1,6 +1,7 @@
 ﻿using CodeAtWork.BL;
 using CodeAtWork.Models.Session;
 using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,35 +13,60 @@ namespace CodeAtWork.Controllers
 
         public CodeAtWorkAppController()
         {
-
+         
         }
 
         // GET: CodeAtWorkApp
         public ActionResult Home()
         {
-            UserInfo mockinfo = new UserInfo()
+            if (Session["UserInfo"] == null)
             {
-                UserId = 1
-
-            };
-            Session["UserInfo"] = mockinfo;
-
+                return RedirectToAction("Login", "CodeAtWork");
+            }
             //GetRecommended
             var userInfo = Session["UserInfo"] as UserInfo;
             ViewBag.RecommendedWatch = codeAtWorkAppBL.GetRecommendedVids(userInfo.UserId);
 
             return View();
         }
+
+        public ActionResult ChannelDetail(int channelId)
+        {
+            if (Session["UserInfo"] == null)
+            {
+                return RedirectToAction("Login", "CodeAtWork");
+            }
+            //GetRecommended
+            var userInfo = Session["UserInfo"] as UserInfo;
+
+            var channelInfo = codeAtWorkAppBL.GetChannelInfo(channelId);
+
+            ViewBag.ChannelName = channelInfo.ChannelName;
+            ViewBag.CreatedBy = channelInfo.CreatedBy;
+            ViewBag.UserChannelId = channelInfo.UserChannelId;
+            ViewBag.IsShared = channelInfo.IsShared;
+
+            return View();
+        }
+
         public ActionResult Bookmarks()
         {
+            if (Session["UserInfo"] == null)
+            {
+                return RedirectToAction("Login", "CodeAtWork");
+            }
             var userInfo = Session["UserInfo"] as UserInfo;
 
             ViewBag.BookMarkedVids = codeAtWorkAppBL.GetBookMarkedVideos(userInfo.UserId);
 
             return View();
         }
-          public ActionResult Channels()
+        public ActionResult Channels()
         {
+            if (Session["UserInfo"] == null)
+            {
+                return RedirectToAction("Login", "CodeAtWork");
+            }
             var userInfo = Session["UserInfo"] as UserInfo;
 
             ViewBag.ChannelsTabData = codeAtWorkAppBL.GetChannelList(userInfo.UserId);
@@ -62,12 +88,23 @@ namespace CodeAtWork.Controllers
             codeAtWorkAppBL.BookMarkVideo(new Guid(videoId), userInfo.UserId, isSelected);
         }
 
-        public HtmlString AddAndLinkChannel(string channelName, string videoId)
+        public HtmlString AddAndLinkChannel(string channelName, string videoId = null)
         {
             var userInfo = Session["UserInfo"] as UserInfo;
             //TO-DO Get appid from session and pass through
-            codeAtWorkAppBL.AddAndLinkChannel(new Guid(videoId), userInfo.UserId, channelName);
-            return codeAtWorkAppBL.GetVideoChannels(new Guid(videoId), userInfo.UserId);
+            Guid? vidId;
+
+            if (videoId is null)
+            {
+                vidId = null;
+            }
+            else
+            {
+                vidId = new Guid(videoId);
+            }
+            
+            codeAtWorkAppBL.AddAndLinkChannel(vidId, userInfo.UserId, channelName);
+            return  vidId is null? null : codeAtWorkAppBL.GetVideoChannels(new Guid(videoId), userInfo.UserId);
         }
 
         public HtmlString GetVideoChannels(string vidId)
@@ -84,6 +121,14 @@ namespace CodeAtWork.Controllers
             return codeAtWorkAppBL.GetVideoChannels(new Guid(videoId), userInfo.UserId);
 
         }
+
+        public void DeleteChannels(List<int> channelIdsToDelete)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+            codeAtWorkAppBL.DeleteChannels(channelIdsToDelete);
+        }
+
+
 
         public HtmlString SearchVideo(string searchedTxt)
         {

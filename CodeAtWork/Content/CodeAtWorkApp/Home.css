@@ -247,7 +247,6 @@
     font-size: larger;
     color: black;
     margin: 0;
-    margin-right: 3%;
 }
 
 
@@ -266,12 +265,8 @@
     z-index:1;
 }
 
-
 .ChannelAddBar {
     box-sizing: border-box;
-}
-
-.ChannelAddBar {
     padding: 10px;
     font-size: 17px;
     border: 1px solid grey;
