@@ -29,6 +29,13 @@ namespace CodeAtWork.BL
             return new HtmlString(vidsStr);
         }
 
+        public HtmlString GetChannelVideos(int channelId)
+        {
+            //TO-DO based on selection made on interests, find proper recommendations
+            var vidsStr = ConvertVidGridHTMLSting(dal.GetChannelVideos(channelId));
+            return new HtmlString(vidsStr);
+        }
+
         internal void BookMarkVideo(Guid videoId, int userId, bool isSelected)
         {
             dal.SaveNewBookMark(videoId, userId, isSelected);
@@ -45,6 +52,11 @@ namespace CodeAtWork.BL
             return dal.GetChannelInfo(channelId);
         }
 
+        internal void UpdateIsShared(int userChannelId, bool isShared)
+        {
+            dal.UpdateIsShared(userChannelId, isShared);
+        }
+
 
         public string ConvertToTableHtml(List<UserChannelWithCounts> UC)
         {
@@ -56,7 +68,7 @@ namespace CodeAtWork.BL
                 $"<td>{u.ChannelName}</td> " +
                $"<td>({u.VideoCount}) Videos</td> " +
               $"<td>(0) Paths</td> " +
-                $"<td>By Admin</td> " +
+                $"<td>By {u.CreatedBy}</td> " +
                 "</tr> ";
             });
 
@@ -145,6 +157,7 @@ namespace CodeAtWork.BL
 
             return resultStr;
         }
+
 
 
         public string ConvertToChannelLists(List<UserChannel> Channels, Guid videoId)

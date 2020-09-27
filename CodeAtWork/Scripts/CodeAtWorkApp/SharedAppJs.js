@@ -23,19 +23,18 @@ $("#NavSearch").focusout(function () {
 
 })
 
-function UpdateSearchCriteria(elem) {
-    if (!IsNullOrEmpty(elem.value)) {
-        var ajaxPost = $.post('/CodeAtWorkApp/SearchVideo', { searchedTxt: elem.value });
-        Promise.all([ajaxPost]).then((results) => {
-            document.getElementById("searchResultsFromNav").innerHTML = results;
-        });
-    }
-    else {
-        document.getElementById("searchResultsFromNav").innerHTML = "";
+//function UpdateSearchCriteria(elem) {
+//    if (!IsNullOrEmpty(elem.value)) {
+//        var ajaxPost = $.post('/CodeAtWorkApp/SearchVideo', { searchedTxt: elem.value });
+//        Promise.all([ajaxPost]).then((results) => {
+//            document.getElementById("searchResultsFromNav").innerHTML = results;
+//        });
+//    }
+//    else {
+//        document.getElementById("searchResultsFromNav").innerHTML = "";
 
-    }
-
-}
+//    }
+//}
 
 function IsNullOrEmpty(value) {
     return !value || value.length == 0;

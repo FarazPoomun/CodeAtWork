@@ -44,6 +44,58 @@ namespace CodeAtWork.DAL
             return vidDetails;
         }
 
+        internal List<VideoRepository> GetChannelVideos(int channelId)
+        {
+            List<VideoRepository> vidDetails = new List<VideoRepository>();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for UserId And Interests
+            string sql = $@"   SELECT vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
+                                left join Userbookmarkedvideo UBV on vr.VideoId =  UBV.VideoId
+                                inner join ChannelVideo CV on CV.VideoId =  vr.VideoId AND CV.UserChannelId = {channelId}
+            ";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                VideoRepository vid = new VideoRepository()
+                {
+                    VideoId = Guid.Parse(dataReader.GetValue(dataReader.GetOrdinal("VideoId")).ToString()),
+                    VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
+                    VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
+                    VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
+                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString())
+                };
+
+                if (dataReader.GetValue(dataReader.GetOrdinal("UserBookMarkedVideo")) != DBNull.Value)
+                {
+                    vid.IsBookMarked = true;
+                }
+
+                vidDetails.Add(vid);
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return vidDetails;
+        }
+
+        internal void UpdateIsShared(int userChannelId, bool IsShared)
+        {
+            SqlCommand command;
+
+            int isShared = IsShared ? 1 : 0;
+
+            //TO-DO Accomodate for UserId And Interests
+            string sql = $@"  Update UserChannel Set IsShared = {isShared} where UserChannelId = {userChannelId} 
+            ";
+
+            command = new SqlCommand(sql, conn);
+            command.ExecuteScalar();
+        }
+
         internal ChannelHeaderInfo GetChannelInfo(int channelId)
         {
             ChannelHeaderInfo channelHeaderInfo = new ChannelHeaderInfo();
@@ -324,10 +376,12 @@ namespace CodeAtWork.DAL
             //TO-DO Accomodate for UserId And Interests
             string sql = $@"   select UC.*, 
                                 (select count(*)from ChannelVideo
-                                where ChannelVideo.UserChannelId = UC.UserChannelId ) as VideoCount
+                                where ChannelVideo.UserChannelId = UC.UserChannelId ) as VideoCount,
+								CONCAT(UD.FirstName, ' ', UD.Lastname) as CreatedBy
                                 from  UserChannel UC
+								inner join UserDetail UD on UD.AppUserId = {userId}
                                 left join channelVideo CV  on CV.UserChannelId = UC.UserChannelId
-                                where AppUserId  = {userId} And IsShared  = 0
+                                where UC.AppUserId  = {userId} And IsShared  = 0
             ";
 
             command = new SqlCommand(sql, conn);
@@ -340,6 +394,7 @@ namespace CodeAtWork.DAL
                     ChannelName = dataReader.GetValue(dataReader.GetOrdinal("ChannelName")).ToString(),
                     IsShared = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsShared")).ToString()),
                     VideoCount = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("VideoCount")).ToString()),
+                    CreatedBy = dataReader.GetValue(dataReader.GetOrdinal("CreatedBy")).ToString(),
                     AppUserId = userId
                 };
                 channelDetails.Add(UC);

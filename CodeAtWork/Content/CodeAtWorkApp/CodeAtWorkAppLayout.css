@@ -98,3 +98,23 @@ a{
 .main {
     margin-top: 4%;
 }
+
+
+#SearchResult {
+    width: 70%;
+    height: 50vh;
+    position: absolute;
+    top: 50px;
+    margin-left: 15%;
+    background-color: #363636;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: none;
+}
+
+    #SearchResult > .SearchScreenshots {
+        grid-column-gap: 3%;
+        margin-left: 7%;
+        margin-top: 2%;
+        grid-row-gap: 2%;
+    }

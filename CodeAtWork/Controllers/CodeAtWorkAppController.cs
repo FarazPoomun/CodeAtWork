@@ -45,8 +45,14 @@ namespace CodeAtWork.Controllers
             ViewBag.CreatedBy = channelInfo.CreatedBy;
             ViewBag.UserChannelId = channelInfo.UserChannelId;
             ViewBag.IsShared = channelInfo.IsShared;
+            ViewBag.ChannelVideos = GetChannelVideos(channelId);
 
             return View();
+        }
+
+        public HtmlString GetChannelVideos(int channelId)
+        {
+            return codeAtWorkAppBL.GetChannelVideos(channelId);
         }
 
         public ActionResult Bookmarks()
@@ -128,7 +134,10 @@ namespace CodeAtWork.Controllers
             codeAtWorkAppBL.DeleteChannels(channelIdsToDelete);
         }
 
-
+        public void UpdateIsShared(int UserChannelId, bool isShared)
+        {
+            codeAtWorkAppBL.UpdateIsShared(UserChannelId, isShared);
+        }
 
         public HtmlString SearchVideo(string searchedTxt)
         {
