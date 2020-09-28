@@ -1,0 +1,95 @@
+﻿
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <html>
+    <head>
+    </head>
+    <body>
+        <div id="ytplayer">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/V-APRrWz_3o" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <script>
+            // Load the IFrame Player API code asynchronously.
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/player_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            // Replace the 'ytplayer' element with an <iframe> and
+            // YouTube player after the API code downloads.
+            var player;
+            function onYouTubePlayerAPIReady() {
+                player = new YT.Player('ytplayer', {
+                    height: '390',
+                    width: '640',
+                    videoId: 'M7lc1UVf-VE',  // Youtube video ID
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange,
+                    }
+
+                });
+
+            }
+
+            function onPlayerStateChange() {
+                debugger;
+
+                createCookie('ply_time', player.getCurrentTime(), 1);  // Stats like buffer, Pause and play store time in Cookes
+
+            }
+
+            function onPlayerReady() {
+                debugger;
+                player.seekTo(readCookie('ply_time'));  // On ready get ccokies  and start vide from that.
+            }
+
+            document.unload = function () {
+                debugger;
+                // On docucment unload set cookie
+                createCookie('ply_time', player.getCurrentTime(), 1);
+            }
+
+            window.onbeforeunload = function () {              // On Window unload set cookie
+                createCookie('ply_time', player.getCurrentTime(), 1);
+            }
+
+
+            /*
+             * Start:-  function to create , read and erase Cookie
+             */
+
+            function createCookie(name, value, days) {
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    var expires = "; expires=" + date.toGMTString();
+                }
+                else
+                    var expires = "";
+                document.cookie = name + "=" + value + expires + "; path=/";
+            }
+
+            function readCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ')
+                        c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) == 0)
+                        return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            function eraseCookie(name) {
+                createCookie(name, "", -1);
+            }
+
+                /*
+                 * End:-  function to create , read and erase Cookie
+                 */
+
+        </script>
+    </body>
+</html>

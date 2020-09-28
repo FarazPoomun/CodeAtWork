@@ -93,6 +93,11 @@ namespace CodeAtWork.BL
             return new HtmlString(vidsStr);
         }
 
+        internal VideoRepository GetVideoInfo(Guid vidId)
+        {
+            return dal.GetVideoInfo(vidId);
+        }
+
         internal HtmlString GetVideoChannels(Guid vidId, int userId)
         {
             return new HtmlString(ConvertToChannelLists(dal.GetVideoChannels(vidId, userId), vidId));
@@ -157,7 +162,7 @@ namespace CodeAtWork.BL
                     }
                 else
                 {
-                    resultStr += $"<i onclick=\"AddToChannel('{v.VideoId}')\" class=\"far fa-plus-circle\"></i>";
+                    resultStr += $"<i onclick=\"AddToChannel('{v.VideoId}')\" class=\"fas fa-plus-circle\"></i>";
                 }
                 resultStr += "</div>" +
                 "</div>" +
@@ -169,7 +174,7 @@ namespace CodeAtWork.BL
             return resultStr;
         }
 
-
+    
 
         public string ConvertToChannelLists(List<UserChannel> Channels, Guid videoId)
         {

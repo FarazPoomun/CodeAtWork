@@ -80,6 +80,10 @@
 
 <script>
 
+    function AddToChannel(vidId) {
+        var ajaxPost = $.post('/CodeAtWorkApp/AddVideoToChannel', { videoId: vidId, channelId: '@ViewBag.UserChannelId'});
+        Promise.all([ajaxPost]);
+    }
 
     function OpenAddContentModal() {
         $("#AddContentsModal").show();

@@ -89,6 +89,12 @@ namespace CodeAtWork.Controllers
         public ActionResult AppPlayer(Guid playById)
         {
             ViewBag.VidFrame = codeAtWorkAppBL.PlayVideoById(playById);
+
+            var GetVideoInfo = codeAtWorkAppBL.GetVideoInfo(playById);
+
+            ViewBag.VideoName = GetVideoInfo.VideoDescription;
+            ViewBag.By = GetVideoInfo.VideoAuthor;
+
             return View();
         }
 
@@ -122,6 +128,12 @@ namespace CodeAtWork.Controllers
         {
             var userInfo = Session["UserInfo"] as UserInfo;
             return codeAtWorkAppBL.GetVideoChannels(new Guid(vidId), userInfo.UserId);
+        }
+
+        public void AddVideoToChannel(string videoId, int channelId)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+            codeAtWorkAppBL.AddOrRemoveChannelFromVid(new Guid(videoId), channelId, true, userInfo.UserId);
         }
 
         public HtmlString AddOrRemoveChannelFromVid(string videoId, int channelId, bool isSelected)

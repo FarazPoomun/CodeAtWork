@@ -146,7 +146,7 @@
 
 
 
-    /*videos*/
+/*videos*/
 
 .HomeMainOverlap {
     opacity: 0.1;
@@ -206,6 +206,16 @@
 }
 
     .fa-play-circle:hover {
+        color: ghostwhite;
+    }
+    
+.fa-plus-circle {
+    color: lightgrey;
+    cursor: pointer;
+    margin-top: 10%;
+}
+
+    .fa-plus-circle:hover {
         color: ghostwhite;
     }
 
@@ -402,12 +412,13 @@ input:focus {
     margin: auto;
     position: absolute;
     margin-left: 25%;
-    margin-top: -10%;
+    margin-top: -16rem;
     border-radius: 1%;
     box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
     background: #222;
     z-index: 1;
-    display:none;
+    display: none;
+    border: thin solid rgb(0, 132, 189);
 }
 
 .CloseModal {
@@ -415,9 +426,8 @@ input:focus {
     font-size: larger;
     margin-top: 1rem;
     margin-right: 1rem;
-    cursor:pointer;
+    cursor: pointer;
 }
-
 
 #ModalSearch {
     width: 81%;

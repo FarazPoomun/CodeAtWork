@@ -82,6 +82,33 @@ namespace CodeAtWork.DAL
             return vidDetails;
         }
 
+        internal VideoRepository GetVideoInfo(Guid vidId)
+        {
+            VideoRepository vidDetails = new VideoRepository();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for UserId And Interests
+            string sql = $@" Select * from VideoRepository where videoId = '{vidId}' ";
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                vidDetails = new VideoRepository()
+                {
+                    VideoId = Guid.Parse(dataReader.GetValue(dataReader.GetOrdinal("VideoId")).ToString()),
+                    VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
+                    VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
+                    VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
+                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString())
+                };
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return vidDetails;
+        }
+
         internal void UpdateIsShared(int userChannelId, bool IsShared)
         {
             SqlCommand command;
@@ -186,7 +213,27 @@ namespace CodeAtWork.DAL
             SqlDataAdapter adapter = new SqlDataAdapter();
             if (isSelected)
             {
-                string sql = $@"Insert into ChannelVideo Values ({channelId}, '{videoId}')";
+                SqlDataReader dataReader;
+                SqlCommand command;
+
+                string sql = $@"select 1 asAlreadySelected from ChannelVideo where  userchannelId = {channelId} and VideoId = '{videoId}'";
+
+                command = new SqlCommand(sql, conn);
+                dataReader = command.ExecuteReader();
+                while (dataReader.Read())
+                {
+
+
+                    if (dataReader.GetValue(dataReader.GetOrdinal("asAlreadySelected")) != DBNull.Value)
+                    {
+                        return;
+                    }
+                }
+
+                dataReader.Close();
+                command.Dispose();
+
+                sql = $@"Insert into ChannelVideo Values ({channelId}, '{videoId}')";
 
                 adapter.InsertCommand = new SqlCommand(sql, conn);
                 adapter.InsertCommand.ExecuteNonQuery();
@@ -276,7 +323,7 @@ namespace CodeAtWork.DAL
 
             adapter.InsertCommand = new SqlCommand(sql, conn);
 
-            if(videoId is null)
+            if (videoId is null)
             {
                 adapter.InsertCommand.ExecuteNonQuery();
             }

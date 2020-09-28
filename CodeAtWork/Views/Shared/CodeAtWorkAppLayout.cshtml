@@ -46,10 +46,18 @@
             </div>
             <div style="cursor:pointer">
                 <div style="float: right; padding-right: 17px;">
-                    <span class="dot">F</span>
+                    <span class="dot" onclick="OpenAccountMenu()">F</span>
                 </div>
+
             </div>
         </div>
+    </div>
+    <div class="AccountDropdown" id="AccountMenu">
+        <ul class="optMenuListNav">
+            <li> Profile</li>
+            <li> Interests</li>
+            <li class="lastLI"> Logout</li>
+            </ul>
     </div>
 
     <div class="main" id="PageBody">
@@ -64,6 +72,10 @@
 </html>
 
 <script>
+    function OpenAccountMenu() {
+        $("#AccountMenu").slideToggle("fast");
+    }
+
     function UpdateSearchCriteria(elem) {
         if (!IsNullOrEmpty(elem.value)) {
             var ajaxPost = $.post('/CodeAtWorkApp/SearchVideo', { searchedTxt: elem.value });
