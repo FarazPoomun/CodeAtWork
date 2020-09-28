@@ -14,3 +14,10 @@ IF @ConstraintName IS NOT NULL EXEC('alter table ChannelVideo drop  CONSTRAINT '
 
 ALTER TABLE ChannelVideo
 ADD FOREIGN KEY (UserChannelId) REFERENCES UserChannel On delete cascade;
+
+Create table UserDetail(
+UserDetailId int primary key identity(1,1),
+AppUserId int foreign key references AppUser,
+FirstName varchar(max),
+LastName varchar(max),
+Email varchar(max))

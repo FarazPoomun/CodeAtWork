@@ -36,7 +36,7 @@
             <div id="innerLogin2">
                 <img class="divSeperator" src="~/Design/Home/line-long-skills.png" />
                 <div class="w3-container" style="text-align:center">
-                    <p id="signUpLabel">Sign Up</p>  
+                    <p id="signUpLabel" onclick="RedirectToRegister()">Sign Up</p>  
                     <img src="~/Design/Home/line-yellow.png" id="signupUnderlined" />
                 </div>
             </div>
@@ -49,6 +49,11 @@
 </html>
 
 <script>
+
+    function RedirectToRegister() {
+    var url = '@Url.Action("Register", "CodeAtWork")';
+        window.open(url, "_self");
+    }
 
     function showInvalidCred() {
         var invalidLogin = '@ViewBag.InvalidLogin';
