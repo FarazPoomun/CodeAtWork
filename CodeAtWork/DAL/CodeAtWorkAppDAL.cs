@@ -380,7 +380,6 @@ namespace CodeAtWork.DAL
 								CONCAT(UD.FirstName, ' ', UD.Lastname) as CreatedBy
                                 from  UserChannel UC
 								inner join UserDetail UD on UD.AppUserId = {userId}
-                                left join channelVideo CV  on CV.UserChannelId = UC.UserChannelId
                                 where UC.AppUserId  = {userId} And IsShared  = 0
             ";
 

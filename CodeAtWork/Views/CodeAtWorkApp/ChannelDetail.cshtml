@@ -17,7 +17,7 @@
         <div id="ChannelPaneBtns">
             <div>
                 <div style="float:left;  margin-left: 4%;">
-                    <button class="blueBtn"> <i style="font-size:1rem" class="fas fa-plus"></i> Add Contents</button>
+                    <button class="blueBtn" onclick="OpenAddContentModal()"> <i style="font-size:1rem" class="fas fa-plus"></i> Add Contents</button>
                     <svg role="img" viewBox="0 0 24 24" class="optSvgHeader" onclick="OpenChannelMenu()" id="OptMenuBtn"><path fill="currentColor" fill-rule="evenodd" d="M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z"></path></svg>
                     <div id="optChannelMenu">
                         <ul class="optMenuList">
@@ -30,6 +30,29 @@
                 <div style="float:right;margin-right: 1%;">
                     <button class="blueBtn"> <i style="font-size:1rem" class="fas fa-users"></i> Share Channel</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="AddContentsModal">
+        <div><i class="fas fa-times CloseModal" onclick="CloseAddContentModal()"></i></div>
+
+        <div id="ChannelDetailTable">
+            <div class="selectedChannelSection" onclick="toggleSelectedDiv(this)">
+                Videos
+            </div>
+            <div onclick="toggleSelectedDiv(this)">
+                Path
+            </div>
+            <div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <input type="text" name="search" id="ModalSearch" placeholder="Start typing to filter videos.." onkeyup="FilterListOfVids(this)">
+            </div>
+            <div class="ModalScreenshots" id="FilteredVidsGrid">
+                @ViewBag.ChannelVideos
             </div>
         </div>
     </div>
@@ -56,6 +79,28 @@
 
 
 <script>
+
+
+    function OpenAddContentModal() {
+        $("#AddContentsModal").show();
+
+    }
+
+    function FilterListOfVids(elem) {
+        var searchTxt = elem.value;
+        if (!IsNullOrEmpty(searchTxt)) {
+            var ajaxPost = $.post('/CodeAtWorkApp/GetFilteredVideos', { userChannelId: '@ViewBag.UserChannelId', filterBy: searchTxt });
+            Promise.all([ajaxPost]).then((result) => {
+                document.getElementById("FilteredVidsGrid").innerHTML = result[0];
+
+            });
+        }
+    }
+
+
+    function CloseAddContentModal() {
+        $("#AddContentsModal").hide();
+    }
 
     if ('@ViewBag.IsShared' === 'True')
         document.getElementById("IsShared").checked = true;

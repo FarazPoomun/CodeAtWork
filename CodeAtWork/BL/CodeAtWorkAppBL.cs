@@ -36,6 +36,11 @@ namespace CodeAtWork.BL
             return new HtmlString(vidsStr);
         }
 
+        internal HtmlString GetFilteredVideos(int userChannelId, int userId)
+        {
+            throw new NotImplementedException();
+        }
+
         internal void BookMarkVideo(Guid videoId, int userId, bool isSelected)
         {
             dal.SaveNewBookMark(videoId, userId, isSelected);
@@ -76,9 +81,9 @@ namespace CodeAtWork.BL
         }
 
 
-        internal HtmlString SearchVid(string searchedTxt)
+        internal HtmlString SearchVid(string searchedTxt, bool play)
         {
-            return new HtmlString(ConvertVidGridHTMLSting(dal.SearchVid(searchedTxt), false));
+            return new HtmlString(ConvertVidGridHTMLSting(dal.SearchVid(searchedTxt), false, play));
         }
 
         internal HtmlString GetBookMarkedVideos(int userId)
@@ -109,7 +114,7 @@ namespace CodeAtWork.BL
         }
 
 
-        public string ConvertVidGridHTMLSting(List<VideoRepository> vids, bool withSVG = true)
+        public string ConvertVidGridHTMLSting(List<VideoRepository> vids, bool withSVG = true, bool play = true)
         {
             string resultStr = "";
             vids.ForEach(v =>
@@ -147,8 +152,14 @@ namespace CodeAtWork.BL
 
                     resultStr += $"<path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z\"></path></svg> ";
                 }
-                resultStr += $"<i onclick=\"OpenPlayer('{v.VideoId}')\" class=\"far fa-play-circle\"></i>" +
-                "</div>" +
+                if (play) {
+                    resultStr += $"<i onclick=\"OpenPlayer('{v.VideoId}')\" class=\"far fa-play-circle\"></i>";
+                    }
+                else
+                {
+                    resultStr += $"<i onclick=\"AddToChannel('{v.VideoId}')\" class=\"far fa-plus-circle\"></i>";
+                }
+                resultStr += "</div>" +
                 "</div>" +
                 $"<p class=\"vidDesc\" onclick=\"OpenPlayer('{v.VideoId}')\"> {v.VideoDescription} </p>" +
                 $"<p class=\"vidBy\">{v.VideoAuthor}</p>" +

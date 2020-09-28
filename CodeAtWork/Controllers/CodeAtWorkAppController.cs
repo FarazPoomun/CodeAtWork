@@ -30,6 +30,11 @@ namespace CodeAtWork.Controllers
             return View();
         }
 
+        public HtmlString GetFilteredVideos(int userChannelId, string filterBy)
+        {
+            return codeAtWorkAppBL.SearchVid(filterBy, false);
+        }
+
         public ActionResult ChannelDetail(int channelId)
         {
             if (Session["UserInfo"] == null)
@@ -141,7 +146,7 @@ namespace CodeAtWork.Controllers
 
         public HtmlString SearchVideo(string searchedTxt)
         {
-            return codeAtWorkAppBL.SearchVid(searchedTxt);
+            return codeAtWorkAppBL.SearchVid(searchedTxt, true);
         }
     }
 }

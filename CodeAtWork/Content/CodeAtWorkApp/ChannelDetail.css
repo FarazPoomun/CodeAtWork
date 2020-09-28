@@ -127,6 +127,25 @@
 }
 
 
+.ModalScreenshots {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-column-gap: 1%;
+    grid-row-gap: 2rem;
+    margin-left: 3rem;
+    margin-top: 3rem;
+    margin-right: 3rem;
+}
+
+    .ModalScreenshots > div {
+        max-height: 20vh;
+        overflow: hidden;
+        width: 100%;
+    }
+
+
+
     /*videos*/
 
 .HomeMainOverlap {
@@ -157,7 +176,7 @@
     width: 100%;
     height: 100%;
     text-align: center;
-    opacity: 1;
+    opacity: 0;
 }
 
 .vidGrid {
@@ -257,11 +276,6 @@
 
 .bookmarkSelected {
     color: #0084bd;
-}
-
-.HomeMainOverlap {
-    opacity: 0.1;
-    pointer-events: none;
 }
 
 .optMenu {
@@ -379,4 +393,56 @@ input:focus {
     width: 90%;
     margin: auto;
     margin-top: 3rem;
+}
+
+
+#AddContentsModal {
+    height: 40rem;
+    width: 50%;
+    margin: auto;
+    position: absolute;
+    margin-left: 25%;
+    margin-top: -10%;
+    border-radius: 1%;
+    box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
+    background: #222;
+    z-index: 1;
+    display:none;
+}
+
+.CloseModal {
+    float: right;
+    font-size: larger;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    cursor:pointer;
+}
+
+
+#ModalSearch {
+    width: 81%;
+    margin-left: 2rem;
+    margin-top: 1rem;
+    font-size: 16px;
+    background-color: #181c20;
+    background-image: url(../../Design/Icons/search-13-64.ico);
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 7%;
+    transition: width 0.4s ease-in-out;
+    background-size: 1.2vw;
+    border: none;
+    caret-color: darkgrey;
+    color: darkgrey;
+    font-family: Comfortaa;
+}
+
+    #ModalSearch:focus {
+        outline: none;
+    }
+
+::placeholder {
+    color: darkgrey;
+    font-size: medium;
+    font-family: Comfortaa;
 }
