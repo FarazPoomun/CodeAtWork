@@ -1,4 +1,5 @@
 ﻿using CodeAtWork.BL;
+using CodeAtWork.Models;
 using CodeAtWork.Models.Session;
 using System;
 using System.Collections.Generic;
@@ -159,6 +160,31 @@ namespace CodeAtWork.Controllers
         public HtmlString SearchVideo(string searchedTxt)
         {
             return codeAtWorkAppBL.SearchVid(searchedTxt, true);
+        }
+
+        public ActionResult Interests()
+        {
+            if (Session["UserInfo"] == null)
+            {
+                return RedirectToAction("Login", "CodeAtWork");
+            }
+            var userInfo = Session["UserInfo"] as UserInfo;
+            ViewBag.TopicPills = codeAtWorkAppBL.GetTopicsByCategoryName(userInfo.UserId);
+            return View();
+        }
+
+        public HtmlString GetTopicsByCategoryName(string CatergoryName)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+
+            return codeAtWorkAppBL.GetTopicsByCategoryName(userInfo.UserId, CatergoryName);
+        }
+
+        public void UpdateInterestTopics(List<InterestCategoryTopicToBeSaved> InterestTopics)
+        {
+
+            var userInfo = Session["UserInfo"] as UserInfo;
+            codeAtWorkAppBL.SaveTopics(InterestTopics, userInfo.UserId);
         }
     }
 }

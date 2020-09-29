@@ -34,7 +34,7 @@ function toggleCategory(item) {
                     return z;
             }).filter(item => item)[0].Pills = document.getElementById("TopicPills").innerHTML;
 
-            var ajaxPost = $.post('/CodeAtWork/GetTopicsByCategoryName', { CatergoryName: elem.innerHTML.trim(" ") });
+            var ajaxPost = $.post('/CodeAtWorkApp/GetTopicsByCategoryName', { CatergoryName: elem.innerHTML.trim(" ") });
             Promise.all([ajaxPost]).then((results) => {
                 document.getElementById("TopicPills").innerHTML = results[0];
                 storedPillsPerCategory.push({ CategoryName: elem.innerHTML.trim(" "), Pills: results[0] });
@@ -77,7 +77,7 @@ function UpdateTopics() {
         }
     });
 
-    var ajaxPost = $.post('/CodeAtWork/UpdateInterestTopics', { InterestTopics: UpdatePills });
+    var ajaxPost = $.post('/CodeAtWorkApp/UpdateInterestTopics', { InterestTopics: UpdatePills });
     Promise.all([ajaxPost]).then((results) => { });
 }
 

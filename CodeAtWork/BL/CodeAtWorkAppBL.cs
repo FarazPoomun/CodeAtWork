@@ -4,6 +4,7 @@ using CodeAtWork.Models;
 using CodeAtWork.Models.Misc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 
 namespace CodeAtWork.BL
@@ -118,6 +119,47 @@ namespace CodeAtWork.BL
             dal.DeleteChannels(channelIdsToDelete);
         }
 
+        public HtmlString GetTopicsByCategoryName(int userId, string CategoryName = "Software Development")
+        {
+            return ConvertTopicsToHTMLSting(dal.GetTopicsByCategoryName(new List<string>() { CategoryName }, userId));
+        }
+
+        public void SaveTopics(List<InterestCategoryTopicToBeSaved> topics, int userId)
+        {
+            Dictionary<int, bool> newTopicsToUpdate = new Dictionary<int, bool>();
+
+            var existingTopics = dal.GetTopicsByCategoryName(topics.Select(z => z.InterestCategoryName).Distinct().ToList(), userId);
+
+            topics.ForEach(
+                t => {
+                    var existingSelection = existingTopics
+                    .FirstOrDefault(z => z.InterestCategoryTopicId == t.InterestCategoryTopicId && z.IsSelected != t.IsSelected);
+
+                    if (existingSelection != null)
+                    {
+                        newTopicsToUpdate.Add(t.InterestCategoryTopicId, t.IsSelected);
+                    }
+                });
+
+            if (newTopicsToUpdate.Any())
+            {
+                dal.SaveTopics(newTopicsToUpdate, userId);
+            }
+        }
+
+
+
+        private HtmlString ConvertTopicsToHTMLSting(List<InterestCatergoryTopic> topics)
+        {
+
+            var topicsString = "";
+            topics.ForEach(t => {
+                var isSubscribed = t.IsSelected ? "isSubscribed" : "isNotSubscribed";
+                topicsString += $"<a id=\"Pill_{t.InterestCategoryTopicId}\" class=\"f6 br-pill ba ph3 pv2 mb2 dib {isSubscribed}\" onclick=\"subscribeTopic(this)\">{t.Name}</a>";
+            });
+
+            return new HtmlString(topicsString);
+        }
 
         public string ConvertVidGridHTMLSting(List<VideoRepository> vids, bool withSVG = true, bool play = true)
         {

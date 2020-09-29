@@ -82,7 +82,7 @@ a{
     caret-color: darkgrey;
     color: darkgrey;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    height: 19px;
+    height: 2.7rem;
 }
 
     #NavSearch:focus {
@@ -163,4 +163,17 @@ a{
 
 #AccountMenu{
     display:none;
+}
+
+.blueBtn {
+    border: none;
+    border-radius: 2px;
+    padding: 12px 18px;
+    /* font-size: 16px; */
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+    background-color: #0084bd;
+    /* box-shadow: 0 0 4px #999; */
+    outline: none;
 }

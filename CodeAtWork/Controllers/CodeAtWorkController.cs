@@ -86,20 +86,6 @@ namespace CodeAtWork.Controllers
             }
         }
 
-        public ActionResult Interests()
-        {
-            ViewBag.TopicPills = bl.GetTopicsByCategoryName();
-            return View();
-        }
 
-        public HtmlString GetTopicsByCategoryName(string CatergoryName)
-        {
-            return bl.GetTopicsByCategoryName(CatergoryName);
-        }
-
-        public void UpdateInterestTopics(List<InterestCategoryTopicToBeSaved> InterestTopics)
-        {
-            bl.SaveTopics(InterestTopics);
-        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/CodeAtWorkLayout.cshtml";
+    Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
 }
 
 
@@ -9,8 +9,6 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Interests</title>
-    <link href="~/Content/CodeAtWork/tachyons.min.css" rel="stylesheet" />
-    <link href="~/Content/w3.css" rel="stylesheet" />
     <link href='https://fonts.googleapis.com/css?family=Antic Didone' rel='stylesheet'>
     <link href="~/Content/CodeAtWork/Interests.css" rel="stylesheet" />
 
@@ -47,14 +45,13 @@
         <div class="ph3 mt4" id="TopicPills">
             <!-- Will be generated from db-->
         </div>
-        <div class="w3-container">
-            <p><button class="w3-button w3-round" style="background-color: #0084bd" onclick="UpdateTopics()">Done</button></p>
-
+        <div style="padding-top: 1rem;">
+            <button class="blueBtn" onclick="UpdateTopics()">Done</button>
         </div>
     </div>
 </body>
 </html>
-<script src="~/Scripts/CodeAtWork/Interests.js"></script>
+<script src="~/Scripts/CodeAtWorkApp/Interests.js"></script>
 <script>
    function initializePage() {
     document.getElementById("TopicPills").innerHTML = '@ViewBag.TopicPills';
