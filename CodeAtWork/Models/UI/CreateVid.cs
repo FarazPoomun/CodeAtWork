@@ -9,6 +9,7 @@ namespace CodeAtWork.Models.UI
         public Boolean IsLocal { get; set; }
         public string VideoAuthor { get; set; }
         public string VideoDescription { get; set; }
+        public string RelatedTopicIds { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
 
     }

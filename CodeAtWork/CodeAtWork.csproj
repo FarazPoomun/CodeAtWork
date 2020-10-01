@@ -120,7 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="BL\Admin\AdminBL.cs" />
+    <Compile Include="BL\CodeAtWorkAdminBL.cs" />
     <Compile Include="BL\CodeAtWorkAppBL.cs" />
     <Compile Include="BL\CodeAtWorkBL.cs" />
     <Compile Include="BL\EncryptionHelper.cs" />
@@ -128,7 +128,7 @@
     <Compile Include="Controllers\CodeAtWorkAdminController.cs" />
     <Compile Include="Controllers\CodeAtWorkAppController.cs" />
     <Compile Include="Controllers\CodeAtWorkController.cs" />
-    <Compile Include="DAL\Admin\AdminDAL.cs" />
+    <Compile Include="DAL\CodeAtWorkAdminDAL.cs" />
     <Compile Include="DAL\CodeAtWorkAppDAL.cs" />
     <Compile Include="DAL\CommonDAL.cs" />
     <Compile Include="DAL\CodeAtWorkDAL.cs" />
@@ -163,6 +163,7 @@
     <Content Include="Content\CodeAtWork\Login.css" />
     <Content Include="Content\CodeAtWork\Register.css" />
     <Content Include="Content\CodeAtWork\tachyons.min.css" />
+    <Content Include="Content\MultiDropdownStyle.css" />
     <Content Include="Content\w3.css" />
     <Content Include="Design\Home\circle-green.png" />
     <Content Include="Design\Home\image-res.img.8880e86d-10e5-4b1f-b6fb-232df114d17f.png" />
@@ -194,6 +195,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\MultiDropdownScript.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="SQL\SQL1.sql" />
     <Content Include="SQL\SQL2.sql" />

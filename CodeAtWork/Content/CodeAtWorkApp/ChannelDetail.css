@@ -130,12 +130,13 @@
 .ModalScreenshots {
     width: 100%;
     display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    grid-column-gap: 1%;
+    grid-template-columns: 25% 25% 25%;
+    grid-column-gap: 2%;
     grid-row-gap: 2rem;
     margin-left: 3rem;
     margin-top: 3rem;
     margin-right: 3rem;
+    overflow: hidden;
 }
 
     .ModalScreenshots > div {
@@ -188,6 +189,7 @@
     justify-content: center;
     align-items: center;
     font-size: 7vh;
+    background-size: 100% 100%;
 }
 
     .vidGrid:hover > .innerScreenshot {
@@ -419,6 +421,7 @@ input:focus {
     z-index: 1;
     display: none;
     border: thin solid rgb(0, 132, 189);
+    overflow: hidden;
 }
 
 .CloseModal {

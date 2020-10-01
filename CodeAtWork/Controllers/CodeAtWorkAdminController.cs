@@ -1,4 +1,4 @@
-﻿using CodeAtWork.BL.Admin;
+﻿using CodeAtWork.BL;
 using CodeAtWork.Models.UI;
 using System;
 using System.IO;
@@ -8,15 +8,19 @@ namespace CodeAtWork.Controllers
 {
     public class CodeAtWorkAdminController : Controller
     {
-        AdminBL bl => new AdminBL();
+        CodeAtWorkAdminBL bl => new CodeAtWorkAdminBL();
         // GET: CodeAtWorkAdmin
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult AddNewVideo() => View();
-        public ActionResult LinkNewVideo() => View();
+        public ActionResult AddNewVideo()
+        {
+            ViewBag.TopicsOptions = bl.GetTopics();
+
+            return View();
+        }
 
 
         [HttpPost]
@@ -28,7 +32,8 @@ namespace CodeAtWork.Controllers
                 VideoURL = Request["VideoURL"],
                 IsLocal = Convert.ToBoolean(Request["isLocal"]),
                 VideoAuthor = Request["VideoAuthor"],
-                VideoDescription = Request["VideoDescription"]
+                VideoDescription = Request["VideoDescription"],
+                RelatedTopicIds = Request["RelatedTopics"]
             };
 
             CaptureNewVidSnapShot(newVid, bl.SaveNewVid(newVid));
