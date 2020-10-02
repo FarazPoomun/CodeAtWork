@@ -434,16 +434,26 @@ namespace CodeAtWork.DAL
         }
 
 
-        public List<VideoRepository> GetRecommendedVids(int userId)
+        public List<VideoRepository> GetRecommendedVids(int userId, int? top = 5)
         {
             List<VideoRepository> vidDetails = new List<VideoRepository>();
             SqlCommand command;
             SqlDataReader dataReader;
-
-            //TO-DO Accomodate for UserId And Interests
-            string sql = $@"   SELECT vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
+            string sql = "";
+            if (top is null)
+            {
+                //TO-DO Accomodate for UserId And Interests
+                sql = $@" SELECT  vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
                         left join Userbookmarkedvideo UBV on vr.VideoId =  UBV.VideoId AND UBV.AppUserId = {userId}
             ";
+            }
+            else
+            {
+                //TO-DO Accomodate for UserId And Interests
+                sql = $@" SELECT top {top} vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
+                        left join Userbookmarkedvideo UBV on vr.VideoId =  UBV.VideoId AND UBV.AppUserId = {userId}
+            ";
+            }
 
             command = new SqlCommand(sql, conn);
             dataReader = command.ExecuteReader();
@@ -455,7 +465,8 @@ namespace CodeAtWork.DAL
                     VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
                     VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
                     VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
-                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString())
+                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString()),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString())
                 };
 
                 if (dataReader.GetValue(dataReader.GetOrdinal("UserBookMarkedVideo")) != DBNull.Value)

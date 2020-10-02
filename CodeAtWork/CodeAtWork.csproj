@@ -137,6 +137,7 @@
     </Compile>
     <Compile Include="Models\InterestCatergoryTopic.cs" />
     <Compile Include="Models\Misc\ChannelHeaderInfo.cs" />
+    <Compile Include="Models\Misc\Levels.cs" />
     <Compile Include="Models\Misc\RegistrationValidations.cs" />
     <Compile Include="Models\Session\UserInfo.cs" />
     <Compile Include="Models\UI\CreateVid.cs" />
@@ -200,6 +201,7 @@
     <Content Include="SQL\SQL1.sql" />
     <Content Include="SQL\SQL2.sql" />
     <Content Include="SQL\SQL3.sql" />
+    <Content Include="SQL\SQL4.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

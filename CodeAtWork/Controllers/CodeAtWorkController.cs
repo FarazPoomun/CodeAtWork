@@ -1,17 +1,13 @@
 ﻿using CodeAtWork.BL;
-using CodeAtWork.Models;
 using CodeAtWork.Models.Misc;
 using CodeAtWork.Models.Session;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CodeAtWork.Controllers
 {
     public class CodeAtWorkController : Controller
     {
-
         CodeAtWorkBL bl => new CodeAtWorkBL();
         // GET: CodeAtWork
         public ActionResult Home()
@@ -67,25 +63,19 @@ namespace CodeAtWork.Controllers
         public ActionResult ValidateLoginInfo()
         {
             var loginId = Request["LoginId"];
-            var password =Request["Password"];
+            var password = Request["Password"];
             var validLogin = bl.ValidateLoginDetail(loginId, password);
 
             if (validLogin > 0)
             {
-                Session["UserInfo"] = new UserInfo()
-                {
-                    UserId = validLogin
-                };
+                Session["UserInfo"] = bl.GetUserInfo(validLogin);
 
                 return RedirectToAction("Home", "CodeAtWorkApp");
             }
             else
             {
-
                 return RedirectToAction("Login", new { invalidLogin = true });
             }
         }
-
-
     }
 }

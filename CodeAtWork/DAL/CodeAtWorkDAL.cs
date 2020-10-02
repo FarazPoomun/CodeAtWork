@@ -40,6 +40,29 @@ namespace CodeAtWork.DAL
             return usernameIsInUse;
         }
 
+        internal UserInfo GetUserInfo(int userId)
+        {
+            UserInfo result = new UserInfo();
+
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for Email
+            string sql = $"select FirstName from UserDetail where AppUserId = {userId}";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                result.UserId = userId;
+                result.FirstName = dataReader.GetValue(dataReader.GetOrdinal("FirstName")).ToString();
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return result;
+        }
+
         internal int SaveRegistration(UserDetails user)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();

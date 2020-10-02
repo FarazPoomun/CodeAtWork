@@ -26,6 +26,8 @@ namespace CodeAtWork.Controllers
             }
             //GetRecommended
             var userInfo = Session["UserInfo"] as UserInfo;
+            ViewBag.FirstName = userInfo.FirstName;
+            ViewBag.Initial = userInfo.FirstName.ToCharArray()[0];
             ViewBag.RecommendedWatch = codeAtWorkAppBL.GetRecommendedVids(userInfo.UserId);
 
             return View();

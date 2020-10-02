@@ -316,3 +316,8 @@ input:focus {
 .ChannelList > li {
     cursor: auto;
 }
+
+.dotSeperator {
+    vertical-align: middle;
+    font-size:1%;
+}

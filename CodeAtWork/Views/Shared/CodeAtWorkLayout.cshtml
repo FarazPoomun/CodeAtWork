@@ -13,22 +13,53 @@
     <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 </head>
-<body>
+<body onload="populateDropDownText()">
     <div class="navbar">
         <div id="navbarButtons">
             <img src="~/Design/AppLogo.png" id="appLogo" class="vertical-center" />
             <div id="navbarLinks" style="font-family: Comfortaa;">
-                <a  href="/CodeAtWork/Home" class="center">Home</a>
+                <a href="/CodeAtWork/Home" class="center">Home</a>
                 <div class="dropdown centerDropDown">
                     <button class="dropbtn" onclick="OpenDropMenu('CoursesList')">
                         Courses
                         <i class="fa fa-caret-down"></i>
                     </button>
                     <div class="dropdown-content" id="CoursesList">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
+                        <div class="leftDropdownPane">
+                            <a style="margin-top: 2rem;" class="activeDropDown" onclick="ChangeDropDownText(this, 0)">C#</a>
+                            <a onclick="ChangeDropDownText(this, 1)">JavaScript</a>
+                            <a onclick="ChangeDropDownText(this, 2)">SQL</a>
+                            <a onclick="ChangeDropDownText(this, 3)">Python</a>
+                            <a onclick="ChangeDropDownText(this, 4)">TypeScript</a>
+                            <a onclick="ChangeDropDownText(this, 5)">GitHub</a>
+                        </div>
+                        <div class="rightDropdownPane" id="dropDownText">
+                            <h1>C#<img class='CSharpUnderLine' src='/Design/Home/line-long-skills.png' /></h1>
+
+                            <p>Checkout Our Courses On C# </p>
+                            <div id="CoursesListPerTopic">
+                                <div>
+                                    <ul class="AllCoursesListInDropdown">
+                                        <li>Working With Generics</li>
+                                        <li>Datatypes Conversion</li>
+                                        <li>Collections in C#</li>
+                                        <li>Events</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <ul class="AllCoursesListInDropdown">
+                                        <li>LINQ With C#</li>
+                                        <li>Reflection</li>
+                                        <li>Delegates</li>
+                                        <li>Predicates And Func</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style="float:right">
+                            <p id="SeeMoreTxt">See More .. </p></div>
+                        </div>
                     </div>
                 </div>
                 <div class="dropdown centerDropDown">
@@ -53,6 +84,28 @@
 </body>
 </html>
 <script>
+    var dropDownText = [];
+
+    //function populateDropDownText() {
+    //    dropDownText.push("<h1>C#<img class='CSharpUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
+    //    dropDownText.push("<h1>JavaScript<img class='JSUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
+    //    dropDownText.push("<h1>SQL<img class='SQLUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
+    //    dropDownText.push("<h1>Python<img class='PythonUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
+    //    dropDownText.push("<h1>TypeScript<img class='JSUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
+    //    dropDownText.push("<h1>GitHub<img class='GitHubUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
+
+    //    document.getElementById("dropDownText").innerHTML = dropDownText[0];
+    //}
+
+    function ChangeDropDownText(elem, index) {
+
+        var activeElems = document.getElementsByClassName("activeDropDown")[0];
+        $(activeElems).removeClass("activeDropDown");
+
+        $(elem).addClass("activeDropDown");
+        document.getElementById("dropDownText").innerHTML = dropDownText[index];
+    }
+
     /* When the user clicks on the button,
     toggle between hiding and showing the dropdown content */
     function OpenDropMenu(elemId) {
@@ -63,10 +116,11 @@
     window.onclick = function (e) {
         if (!e.target.matches('.dropbtn')) {
             var myDropdown = document.getElementById("CoursesList");
-            if (myDropdown.classList.contains('show')) {
-                myDropdown.classList.remove('show');
+            if (!e.path.includes(myDropdown)) {
+                if (myDropdown.classList.contains('show')) {
+                    myDropdown.classList.remove('show');
+                }
             }
-
             var myDropdown = document.getElementById("PathsList");
             if (myDropdown.classList.contains('show')) {
                 myDropdown.classList.remove('show');

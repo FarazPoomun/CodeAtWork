@@ -1,6 +1,8 @@
-﻿
+﻿@using CodeAtWork.Models.Session;
 @{
     Layout = null;
+    var userInfo = Session["UserInfo"] as UserInfo;
+    ViewBag.Initial = userInfo.FirstName.ToCharArray()[0];
 }
 
 <!DOCTYPE html>
@@ -47,7 +49,7 @@
             </div>
             <div style="cursor:pointer">
                 <div style="float: right; padding-right: 17px;">
-                    <span class="dot" onclick="OpenAccountMenu()">F</span>
+                    <span class="dot" onclick="OpenAccountMenu()">@ViewBag.Initial</span>
                 </div>
 
             </div>
@@ -58,7 +60,7 @@
             <li> Profile</li>
             <li> Interests</li>
             <li class="lastLI"> Logout</li>
-            </ul>
+        </ul>
     </div>
 
     <div class="main" id="PageBody">
@@ -93,6 +95,6 @@
     function IsNullOrEmpty(value) {
         return !value || value.length == 0;
     }
-  
+
 
 </script>

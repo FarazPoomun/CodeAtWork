@@ -1,10 +1,5 @@
 ﻿using CodeAtWork.DAL;
-using CodeAtWork.Models;
 using CodeAtWork.Models.Session;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace CodeAtWork.BL
 {
@@ -32,9 +27,14 @@ namespace CodeAtWork.BL
             return dal.SaveRegistration(user);
         }
 
+        internal UserInfo GetUserInfo(int userId)
+        {
+            return dal.GetUserInfo(userId);
+        }
+
         #endregion
 
-     
+
 
 
 

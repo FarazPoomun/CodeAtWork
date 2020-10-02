@@ -209,7 +209,7 @@ namespace CodeAtWork.BL
                 resultStr += "</div>" +
                 "</div>" +
                 $"<p class=\"vidDesc\" onclick=\"OpenPlayer('{v.VideoId}')\"> {v.VideoDescription} </p>" +
-                $"<p class=\"vidBy\">{v.VideoAuthor}</p>" +
+                $"<p class=\"vidBy\">{v.VideoAuthor} <i class=\"fas fa-circle dotSeperator\"></i> {v.Level.ToString()}</p>" +
                 "</div>";
             });
 
