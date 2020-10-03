@@ -157,6 +157,7 @@
     <Content Include="Content\CodeAtWorkApp\Channels.css" />
     <Content Include="Content\CodeAtWorkApp\CodeAtWorkAppLayout.css" />
     <Content Include="Content\CodeAtWorkApp\Home.css" />
+    <Content Include="Content\CodeAtWorkApp\Paths.css" />
     <Content Include="Content\CodeAtWork\AppPlayer.css" />
     <Content Include="Content\CodeAtWork\CodeAtWorkLayout.css" />
     <Content Include="Content\CodeAtWork\Home.css" />
@@ -174,6 +175,7 @@
     <Content Include="Design\Icons\searchicon.png" />
     <Content Include="Design\AppLogo.png" />
     <Content Include="Design\Page\Login_Register\LoginPic.png" />
+    <Content Include="Design\Topics\CSharp.png" />
     <Content Include="Design\Topics\pngwave.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -202,6 +204,7 @@
     <Content Include="SQL\SQL2.sql" />
     <Content Include="SQL\SQL3.sql" />
     <Content Include="SQL\SQL4.sql" />
+    <Content Include="SQL\SQL5.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -226,6 +229,7 @@
     <Content Include="Views\CodeAtWork\Register.cshtml" />
     <Content Include="Views\CodeAtWorkApp\ChannelDetail.cshtml" />
     <Content Include="Views\CodeAtWorkApp\CaptureVidExample.cshtml" />
+    <Content Include="Views\CodeAtWorkApp\Paths.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

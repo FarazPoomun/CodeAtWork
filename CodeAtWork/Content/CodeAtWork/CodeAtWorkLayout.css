@@ -127,14 +127,14 @@
     margin-top: 4%;
 }
 
-#CoursesListPerTopic {
+.CoursesListPerTopic {
     width: 100%;
     display: grid;
     grid-template-columns: 18rem 18rem;
     grid-column-gap: 1rem;
 }
 
-    #CoursesListPerTopic div {
+    .CoursesListPerTopic div {
         overflow: hidden;
         border-right: 1px solid #363636;
     }
@@ -149,7 +149,7 @@
         }
 
 
-#SeeMoreTxt {
+.SeeMoreTxt {
     float: right;
     margin-right: 2rem;
     color: deeppink;

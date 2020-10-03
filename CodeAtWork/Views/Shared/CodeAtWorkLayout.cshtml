@@ -28,37 +28,176 @@
                     </button>
                     <div class="dropdown-content" id="CoursesList">
                         <div class="leftDropdownPane">
-                            <a style="margin-top: 2rem;" class="activeDropDown" onclick="ChangeDropDownText(this, 0)">C#</a>
-                            <a onclick="ChangeDropDownText(this, 1)">JavaScript</a>
-                            <a onclick="ChangeDropDownText(this, 2)">SQL</a>
-                            <a onclick="ChangeDropDownText(this, 3)">Python</a>
-                            <a onclick="ChangeDropDownText(this, 4)">TypeScript</a>
-                            <a onclick="ChangeDropDownText(this, 5)">GitHub</a>
+                            <a style="margin-top: 2rem;" class="activeDropDown" onclick="ChangeDropDownText(this, 'CSharpText')">C#</a>
+                            <a onclick="ChangeDropDownText(this, 'JSText')">JavaScript</a>
+                            <a onclick="ChangeDropDownText(this, 'SQLText')">SQL</a>
+                            <a onclick="ChangeDropDownText(this, 'PythonText')">Python</a>
+                            <a onclick="ChangeDropDownText(this, 'TSText')">TypeScript</a>
+                            <a onclick="ChangeDropDownText(this, 'GitHubText')">GitHub</a>
                         </div>
                         <div class="rightDropdownPane" id="dropDownText">
-                            <h1>C#<img class='CSharpUnderLine' src='/Design/Home/line-long-skills.png' /></h1>
+                            <div id="CSharpText">
+                                <h1>C#<img class='CSharpUnderLine' src='/Design/Home/line-long-skills.png' /></h1>
+                                <p>Checkout Our Courses On C# </p>
 
-                            <p>Checkout Our Courses On C# </p>
-                            <div id="CoursesListPerTopic">
-                                <div>
-                                    <ul class="AllCoursesListInDropdown">
-                                        <li>Working With Generics</li>
-                                        <li>Datatypes Conversion</li>
-                                        <li>Collections in C#</li>
-                                        <li>Events</li>
-                                    </ul>
+                                <div class="CoursesListPerTopic">
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>Working With Generics</li>
+                                            <li>Datatypes Conversion</li>
+                                            <li>Collections in C#</li>
+                                            <li>Events</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>LINQ With C#</li>
+                                            <li>Reflection</li>
+                                            <li>Delegates</li>
+                                            <li>Predicates And Func</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div>
-                                    <ul class="AllCoursesListInDropdown">
-                                        <li>LINQ With C#</li>
-                                        <li>Reflection</li>
-                                        <li>Delegates</li>
-                                        <li>Predicates And Func</li>
-                                    </ul>
+                                <div style="float:right">
+                                    <p class="SeeMoreTxt">See More .. </p>
                                 </div>
                             </div>
-                            <div style="float:right">
-                            <p id="SeeMoreTxt">See More .. </p></div>
+
+                            <div id="JSText" style="display:none">
+                                <h1>JavaScript<img class='JSUnderLine' src='/Design/Home/line-long-skills.png' /></h1>
+                                <p>Checkout Our Courses On JavaScript </p>
+
+                                <div class="CoursesListPerTopic">
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>JavaScript Language Basic</li>
+                                            <li>Dom Manipulations</li>
+                                            <li>Promises</li>
+                                            <li>Events</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>AJAX</li>
+                                            <li>Object And Functions</li>
+                                            <li>Design Patterns</li>
+                                            <li>Collections</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div style="float:right">
+                                    <p class="SeeMoreTxt">See More .. </p>
+                                </div>
+                            </div>
+
+                            <div id="SQLText" style="display:none">
+                                <h1>SQL<img class='SQLUnderLine' src='/Design/Home/line-long-skills.png' /></h1>
+                                <p>Checkout Our Courses On SQL </p>
+
+                                <div class="CoursesListPerTopic">
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>Joins</li>
+                                            <li>Indexing</li>
+                                            <li>Stored Procedures</li>
+                                            <li>Case</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>Unions Clause</li>
+                                            <li>Constraints</li>
+                                            <li>Data Manipulations</li>
+                                            <li>Injection</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div style="float:right">
+                                    <p class="SeeMoreTxt">See More .. </p>
+                                </div>
+                            </div>
+
+                            <div id="PythonText" style="display:none">
+                                <h1>Python<img class='PythonUnderLine' src='/Design/Home/line-long-skills.png' /></h1>
+                                <p>Checkout Our Courses On SQL </p>
+
+                                <div class="CoursesListPerTopic">
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>Classes And Objects</li>
+                                            <li>Database Access</li>
+                                            <li>Networking</li>
+                                            <li>Functions</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>MultiThreading</li>
+                                            <li>Collections</li>
+                                            <li>Data Manipulations</li>
+                                            <li>Files I/O</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div style="float:right">
+                                    <p class="SeeMoreTxt">See More .. </p>
+                                </div>
+                            </div>
+                            <div id="TSText" style="display:none">
+                                <h1>TypeScript<img class='JSUnderLine' src='/Design/Home/line-long-skills.png' /></h1>
+                                <p>Checkout Our Courses On SQL </p>
+
+                                <div class="CoursesListPerTopic">
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>JavaScript Language Basic</li>
+                                            <li>Dom Manipulations</li>
+                                            <li>Promises</li>
+                                            <li>Events</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>AJAX</li>
+                                            <li>Object And Functions</li>
+                                            <li>Design Patterns</li>
+                                            <li>Collections</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div style="float:right">
+                                    <p class="SeeMoreTxt">See More .. </p>
+                                </div>
+                            </div>
+                            <div id="GitHubText" style="display:none">
+                                <h1>GitHub<img class='GitHubUnderLine' src='/Design/Home/line-long-skills.png' /></h1>
+                                <p>Checkout Our Courses On SQL </p>
+
+                                <div class="CoursesListPerTopic">
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>Introduction</li>
+                                            <li>Branches</li>
+                                            <li>Commit</li>
+                                            <li>Pull Requests</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul class="AllCoursesListInDropdown">
+                                            <li>Forking</li>
+                                            <li>GitHub With VS</li>
+                                            <li>Push</li>
+                                            <li>Pull And Fetch</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div style="float:right">
+                                    <p class="SeeMoreTxt">See More .. </p>
+                                </div>
+                            </div>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -84,26 +223,20 @@
 </body>
 </html>
 <script>
-    var dropDownText = [];
-
-    //function populateDropDownText() {
-    //    dropDownText.push("<h1>C#<img class='CSharpUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
-    //    dropDownText.push("<h1>JavaScript<img class='JSUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
-    //    dropDownText.push("<h1>SQL<img class='SQLUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
-    //    dropDownText.push("<h1>Python<img class='PythonUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
-    //    dropDownText.push("<h1>TypeScript<img class='JSUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
-    //    dropDownText.push("<h1>GitHub<img class='GitHubUnderLine' src='/Design/Home/line-long-skills.png' /></h1>");
-
-    //    document.getElementById("dropDownText").innerHTML = dropDownText[0];
-    //}
-
-    function ChangeDropDownText(elem, index) {
+    var visibleTopicTextId = 'CSharpText';
+ 
+    function ChangeDropDownText(elem, currentId) {
 
         var activeElems = document.getElementsByClassName("activeDropDown")[0];
         $(activeElems).removeClass("activeDropDown");
 
         $(elem).addClass("activeDropDown");
-        document.getElementById("dropDownText").innerHTML = dropDownText[index];
+        var ExistingTextElem = document.getElementById(visibleTopicTextId);
+        var textElem = document.getElementById(currentId);
+
+        $(ExistingTextElem).hide();
+        $(textElem).show();
+        visibleTopicTextId = currentId;
     }
 
     /* When the user clicks on the button,

@@ -1,0 +1,352 @@
+﻿
+body {
+    overflow: hidden;
+}
+
+#ChannelsOuterDiv {
+    margin-right: 5%;
+    margin-left: 5%;
+    font-family: Comfortaa;
+}
+
+
+th {
+    border-bottom: 2px solid ghostwhite;
+    text-align: center;
+    width: 20vh;
+}
+
+#ChannelTable {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 11% 11% auto;
+    grid-column-gap: 1%;
+    border-bottom: 1px solid grey;
+}
+
+    #ChannelTable > div {
+        text-align: center;
+        padding-bottom: 2.5%;
+        cursor: pointer;
+    }
+
+.selectedChannelSection {
+    border-bottom: thick solid #0084bd;
+}
+
+.vidScreenshotWrapper {
+    width: 80%;
+    margin-left: 8%;
+}
+
+.HomeScreenshots {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-column-gap: 1%;
+}
+
+    .HomeScreenshots > div {
+        max-height: 20vh;
+        overflow: hidden;
+    }
+
+.SearchScreenshots {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20%;
+    grid-column-gap: 1%;
+    margin-left: 7%;
+    margin-top: 2%;
+}
+
+    .SearchScreenshots > div {
+        max-height: 20vh;
+        overflow: hidden;
+    }
+
+.vidScreenshotHeader {
+    padding-top: 2%;
+    font-size: 23px;
+}
+
+.innerScreenshot {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    opacity: 0;
+}
+
+.vidGrid {
+    width: 100%;
+    height: 100%;
+    height: 13vh;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 7vh;
+    background-size: 100% 100%;
+}
+
+    .vidGrid:hover > .innerScreenshot {
+        transition: background-color .3s ease-in-out, opacity .1s ease-in-out;
+    }
+
+    .vidGrid:hover > .innerScreenshot {
+        background-color: rgba(192,192,192,0.3);
+        opacity: 1;
+    }
+
+.fa-play-circle {
+    color: lightgrey;
+    cursor: pointer;
+    margin-top: 10%;
+}
+
+    .fa-play-circle:hover {
+        color: ghostwhite;
+    }
+
+.vidDesc {
+    font-size: 20px;
+    padding: 0px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    .vidDesc:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+.vidBy {
+    padding: 0;
+    margin: 0;
+    color: darkgrey;
+}
+
+.bookmarkingSvg {
+    position: absolute;
+    margin-left: 7vw;
+    width: 2%;
+}
+
+    .bookmarkingSvg:hover {
+        cursor: pointer;
+    }
+
+.bookmarkUnselected {
+    color: darkgrey;
+}
+
+    .bookmarkUnselected:hover {
+        color: ghostwhite;
+    }
+
+.bookmarkSelected {
+    color: #0084bd;
+}
+
+#SearchResult {
+    width: 70%;
+    height: 50vh;
+    position: absolute;
+    top: 50px;
+    margin-left: 15%;
+    background-color: #363636;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: none;
+}
+
+    #SearchResult > .SearchScreenshots {
+        grid-column-gap: 3%;
+        margin-left: 7%;
+        margin-top: 2%;
+        grid-row-gap: 2%;
+    }
+
+
+.btn-container {
+    float: right;
+    margin-top: 4vh;
+}
+
+.blueBtn {
+    border: none;
+    border-radius: 2px;
+    padding: 12px 18px;
+    /* font-size: 16px; */
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+    background-color: #0084bd;
+    /* box-shadow: 0 0 4px #999; */
+    outline: none;
+}
+
+.disabledBtn {
+    background-color: grey;
+    pointer-events: none;
+}
+
+#channelListTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    #channelListTable td:first-child {
+        text-align: center;
+        width: 5%;
+    }
+
+    #channelListTable tr {
+        border-bottom: 1px solid grey;
+    }
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+.softDeleteRow {
+    text-decoration: line-through;
+    text-decoration-color: darkred;
+}
+
+.ChannelAddBar {
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+    margin-left: 2%;
+    margin-top: 5%;
+}
+
+.optMenuChannelDiv1 {
+    height: 4vw;
+    border-bottom: 1px solid black;
+    float: right;
+}
+
+.ChannelAddBtn {
+    float: left;
+    width: 17%;
+    padding: 10px;
+    background: #0084bd;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+    margin-top: 5%;
+}
+
+tr {
+    cursor: pointer;
+}
+
+    tr:hover {
+        background-color: grey;
+    }
+
+.sidenav {
+    width: 12rem;
+    position: fixed;
+    z-index: 1;
+    overflow-x: hidden;
+    padding: 8px 0;
+    height: 100%;
+    box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
+}
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 1rem;
+        color: grey;
+        display: block;
+        cursor: pointer;
+    }
+
+        .sidenav a:hover {
+            color: white;
+        }
+
+.selectedTopic {
+    border-left: 1px solid #0084bd;
+    color: white !important;
+}
+
+.mainNextToSideBar {
+    margin-left: 12rem;
+    padding: 0px 10px;
+    height: 60rem;
+    overflow-y: scroll;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+}
+
+.childTopics {
+    padding-left: 2rem !important;
+}
+
+.pathCard {
+    height: 8rem;
+    width: 97%;
+    margin: auto;
+    margin-top: 2rem;
+    background: #222;
+    box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
+    display: grid;
+    grid-template-columns: 10% 85% auto;
+    grid-column-gap: 1%;
+}
+
+    .pathCard:hover {
+        background: #181c20;
+        cursor: pointer;
+    }
+
+.pathCardImg {
+    width: 6rem;
+    margin-top: 1rem;
+    margin-left: 2rem;
+}
+
+.outerImgDiv {
+    float: left;
+    width: 8rem;
+}
+
+.outerTextDiv {
+    padding-top: 1rem;
+}
+
+    .outerTextDiv h2 {
+        font-weight: 100 !important;
+    }
+
+.PathVidCount {
+    color: darkgrey;
+}
+
+.pathOpt {
+    width: 2rem;
+}

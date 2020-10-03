@@ -63,6 +63,19 @@ namespace CodeAtWork.Controllers
             return codeAtWorkAppBL.GetChannelVideos(channelId);
         }
 
+        public ActionResult Paths()
+        {
+            //if (Session["UserInfo"] == null)
+            //{
+            //    return RedirectToAction("Login", "CodeAtWork");
+            //}
+            //var userInfo = Session["UserInfo"] as UserInfo;
+
+            //ViewBag.BookMarkedVids = codeAtWorkAppBL.GetBookMarkedVideos(userInfo.UserId);
+
+            return View();
+        }
+
         public ActionResult Bookmarks()
         {
             if (Session["UserInfo"] == null)

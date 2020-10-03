@@ -3,13 +3,13 @@
     Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
 }
 <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
-<link href="~/Content/CodeAtWorkApp/Channels.css" rel="stylesheet" />
+<link href="~/Content/CodeAtWorkApp/Paths.css" rel="stylesheet" />
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script src="~/Scripts/CodeAtWorkApp/SharedAppJs.js"></script>
 <div id="ChannelsOuterDiv">
 
-    <h2 style="float:left; margin-top:2vh">Channels</h2>
+    <h2 style="float:left; margin-top:2vh">Paths</h2>
 
     <div class="optMenuChannelDiv1" style="border-bottom:none">
         <input type="text" placeholder="Create New Channel" class="ChannelAddBar" id="ChannelAddBar">
@@ -17,21 +17,41 @@
     </div>
     <div id="ChannelTable">
         <div class="selectedChannelSection" onclick="toggleSelectedDiv(this)">
-            My Channels
+            All
         </div>
         <div onclick="toggleSelectedDiv(this)">
-            Shared Channels
+            Following
         </div>
         <div>
         </div>
     </div>
-    <div>
-        <div>
-            <p><button class="blueBtn disabledBtn" id="deleteChannelBtn" onclick="deleteChannels()">Delete</button></p>
+    <div style="margin-top: 2rem;">
+        <div class="sidenav">
+            <a class="selectedTopic">All</a>
+            <a class="childTopics">Software Development</a>
+            <a class="childTopics">Data</a>
         </div>
-        <table id="channelListTable">
-            @ViewBag.ChannelsTabData
-        </table>
+
+        <div class="mainNextToSideBar">
+            <div class="pathCard">
+                <div class="outerImgDiv">
+                    <img class="pathCardImg" src="~/Design/Topics/CSharp.png" />
+                </div>
+                <div class="outerTextDiv">
+                    <h2> C# Fundamentals</h2>
+                    <p> <a class="PathVidCount">14</a> Courses </p>
+                </div>
+                <div>
+                    <svg class="pathOpt" role="img" viewBox="0 0 24 24">
+                        <path fill="currentColor" fill-rule="evenodd" d="M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="pathCard">
+            </div>
+            <div class="pathCard">
+            </div>
+        </div>
     </div>
 
 </div>
