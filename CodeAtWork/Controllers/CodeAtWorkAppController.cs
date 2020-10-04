@@ -1,5 +1,6 @@
 ﻿using CodeAtWork.BL;
 using CodeAtWork.Models;
+using CodeAtWork.Models.Misc;
 using CodeAtWork.Models.Session;
 using System;
 using System.Collections.Generic;
@@ -65,15 +66,21 @@ namespace CodeAtWork.Controllers
 
         public ActionResult Paths()
         {
-            //if (Session["UserInfo"] == null)
-            //{
-            //    return RedirectToAction("Login", "CodeAtWork");
-            //}
-            //var userInfo = Session["UserInfo"] as UserInfo;
+            if (Session["UserInfo"] == null)
+            {
+                return RedirectToAction("Login", "CodeAtWork");
+            }
 
-            //ViewBag.BookMarkedVids = codeAtWorkAppBL.GetBookMarkedVideos(userInfo.UserId);
+            ViewBag.Paths = GetPathsPane(null);
 
             return View();
+        }
+
+        public HtmlString GetPathsPane(CategoryEnum? category, int tabId = 1)
+        {
+            //tabId = 1 == All /  = 2 == Following
+            var userInfo = Session["UserInfo"] as UserInfo;
+            return codeAtWorkAppBL.GetAllPaths(userInfo.UserId, category, tabId);
         }
 
         public ActionResult Bookmarks()
@@ -140,6 +147,21 @@ namespace CodeAtWork.Controllers
             return  vidId is null? null : codeAtWorkAppBL.GetVideoChannels(new Guid(videoId), userInfo.UserId);
         }
 
+        public HtmlString AddAndLinkChannelToPath(string channelName, int pathId)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+            //TO-DO Get appid from session and pass through
+    
+            codeAtWorkAppBL.AddAndLinkChannelToPath(pathId, userInfo.UserId, channelName);
+            return GetPathChannels(pathId);
+        }
+
+        public HtmlString GetPathChannels(int pathId)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+            return codeAtWorkAppBL.GetPathChannels(pathId, userInfo.UserId);
+        }
+
         public HtmlString GetVideoChannels(string vidId)
         {
             var userInfo = Session["UserInfo"] as UserInfo;
@@ -158,7 +180,14 @@ namespace CodeAtWork.Controllers
             codeAtWorkAppBL.AddOrRemoveChannelFromVid(new Guid(videoId), channelId, isSelected, userInfo.UserId);
 
             return codeAtWorkAppBL.GetVideoChannels(new Guid(videoId), userInfo.UserId);
+        }
 
+        public HtmlString AddOrRemoveChannelFromPath(int pathId, int channelId, bool isSelected)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+            codeAtWorkAppBL.AddOrRemovePathChannelFromVid(pathId, channelId, isSelected, userInfo.UserId);
+
+            return codeAtWorkAppBL.GetPathChannels(pathId, userInfo.UserId);
         }
 
         public void DeleteChannels(List<int> channelIdsToDelete)

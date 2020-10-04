@@ -53,6 +53,45 @@ namespace CodeAtWork.BL
             return new HtmlString(result);
         }
 
+        internal HtmlString GetAllPaths(int userId, CategoryEnum? category, int tabId)
+        {
+            return ConvertToPathBlockHtml(dal.GetAllPaths(userId, category, tabId));
+        }
+
+        private HtmlString ConvertToPathBlockHtml(List<Paths> list)
+        {
+            string result = "";
+            list.ForEach(p =>
+            {
+
+                result += "  <div class=\"pathCard\">" +
+                    "<div class=\"outerImgDiv\">" +
+                        "<img class=\"pathCardImg\" src=\"/Design/Topics/CSharp.png\" />" +
+                    "</div>" +
+                    "<div class=\"outerTextDiv\">" +
+                        $"<h2> {p.Name}</h2>" +
+                        $"<p> <a class=\"PathVidCount\">14</a> Courses  <i class=\"fas fa-circle dotSeperator\"></i> {p.Level.ToString()} </p>" +
+                    "</div>" +
+                    "<div>" +
+                        $"<svg class=\"pathOpt\" onclick=\"openPathOptMenu({p.PathId})\" role=\"img\" viewBox=\"0 0 24 24\">" +
+                            "<path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z\"></path>" +
+                        "</svg>" +
+                        $"<div class=\"optMenuPath\" id=\"OptMenuPath_{p.PathId}\">" +
+                            $"<p onclick=\"OpenAddPathToChannel({p.PathId})\" class =\"AddToChannelTxt\">Add to Channel</p>" +
+                        "</div>" +
+                        $"<div class=\"optMenuChannel\" id=\"OptMenuPathChannel_{p.PathId}\">" +
+                            "<div class=\"optMenuChannelDiv1\">" +
+                                $"<input type=\"text\" placeholder=\"Create New Channel\" class=\"ChannelAddBar\" id=\"ChannelAddBar_{p.PathId}\" onkeyup=\"EnableAddChannelBtn(this, {p.PathId})\">" +
+                                $"<button type=\"submit\" class=\"ChannelAddBtn\" id=\"PathChannelAddBtn_{p.PathId}\" onclick=\"AddNewChannel({p.PathId})\"><i class=\"fas fa-plus\"></i></button>" +
+                            "</div>" +
+                            "<div style=\"padding-bottom: 5%;\">" +
+                                $"<ul class=\"optMenuList ChannelList\" id=\"PathChannelList_{p.PathId}\"></ul>" +
+                            "</div></div></div></div>";
+            });
+
+            return new HtmlString(result);
+        }
+
         internal ChannelHeaderInfo GetChannelInfo(int channelId)
         {
             return dal.GetChannelInfo(channelId);
@@ -63,24 +102,22 @@ namespace CodeAtWork.BL
             dal.UpdateIsShared(userChannelId, isShared);
         }
 
-
         public string ConvertToTableHtml(List<UserChannelWithCounts> UC)
         {
             string result = "";
             UC.ForEach(u =>
             {
-                result += $"<tr id=\"channelRow_{u.UserChannelId}\" onclick=\"OpenChannelDetails({u.UserChannelId})\">" +
+                result += $"<tr id=\"channelRow_{u.UserChannelId}\">" +
                 $"<td><input type=\"checkbox\" onchange=\"softDeleteRow(this, {u.UserChannelId})\" /></td>" +
-                $"<td>{u.ChannelName}</td> " +
-               $"<td>({u.VideoCount}) Videos</td> " +
-              $"<td>(0) Paths</td> " +
-                $"<td>By {u.CreatedBy}</td> " +
+                $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">{u.ChannelName}</td> " +
+               $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">({u.VideoCount}) Videos</td> " +
+              $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">(0) Paths</td> " +
+                $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">By {u.CreatedBy}</td> " +
                 "</tr> ";
             });
 
             return result;
         }
-
 
         internal HtmlString SearchVid(string searchedTxt, bool play)
         {
@@ -104,6 +141,11 @@ namespace CodeAtWork.BL
             return new HtmlString(ConvertToChannelLists(dal.GetVideoChannels(vidId, userId), vidId));
         }
 
+        internal HtmlString GetPathChannels(int pathId, int userId)
+        {
+            return new HtmlString(ConvertToPathChannelLists(dal.GetPathChannels(pathId, userId), pathId));
+        }
+
         internal void AddAndLinkChannel(Guid? videoId, int userId, string channelName)
         {
             dal.AddAndLinkChannel(videoId, userId, channelName);
@@ -112,6 +154,11 @@ namespace CodeAtWork.BL
         internal void AddOrRemoveChannelFromVid(Guid videoId, int channelId, bool isSelected, int userId)
         {
             dal.AddOrRemoveChannelFromVid(videoId, channelId, isSelected, userId);
+        }
+
+        internal void AddOrRemovePathChannelFromVid(int pathId, int channelId, bool isSelected, int userId)
+        {
+            dal.AddOrRemovePathChannelFromVid(pathId, channelId, isSelected, userId);
         }
 
         internal void DeleteChannels(List<int> channelIdsToDelete)
@@ -131,7 +178,8 @@ namespace CodeAtWork.BL
             var existingTopics = dal.GetTopicsByCategoryName(topics.Select(z => z.InterestCategoryName).Distinct().ToList(), userId);
 
             topics.ForEach(
-                t => {
+                t =>
+                {
                     var existingSelection = existingTopics
                     .FirstOrDefault(z => z.InterestCategoryTopicId == t.InterestCategoryTopicId && z.IsSelected != t.IsSelected);
 
@@ -147,13 +195,17 @@ namespace CodeAtWork.BL
             }
         }
 
-
+        internal void AddAndLinkChannelToPath(int pathId, int userId, string channelName)
+        {
+            dal.AddAndLinkChannelToPath(pathId, userId, channelName);
+        }
 
         private HtmlString ConvertTopicsToHTMLSting(List<InterestCatergoryTopic> topics)
         {
 
             var topicsString = "";
-            topics.ForEach(t => {
+            topics.ForEach(t =>
+            {
                 var isSubscribed = t.IsSelected ? "isSubscribed" : "isNotSubscribed";
                 topicsString += $"<a id=\"Pill_{t.InterestCategoryTopicId}\" class=\"f6 br-pill ba ph3 pv2 mb2 dib {isSubscribed}\" onclick=\"subscribeTopic(this)\">{t.Name}</a>";
             });
@@ -199,9 +251,10 @@ namespace CodeAtWork.BL
 
                     resultStr += $"<path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M17.501 2H9C6.794 2 5 3.795 5 6v17l5.5-6 5.5 6V10h4a1 1 0 001-1V6c0-2.205-1.292-4-3.499-4zM14 6v12l-3.5-4L7 18V6c0-1.104.897-2 2-2h5.536A3.99 3.99 0 0014 6zm5 2h-3V6c0-1.104.398-2 1.501-2C18.603 4 19 4.896 19 6v2z\"></path></svg> ";
                 }
-                if (play) {
+                if (play)
+                {
                     resultStr += $"<i onclick=\"OpenPlayer('{v.VideoId}')\" class=\"far fa-play-circle\"></i>";
-                    }
+                }
                 else
                 {
                     resultStr += $"<i onclick=\"AddToChannel('{v.VideoId}')\" class=\"fas fa-plus-circle\"></i>";
@@ -216,8 +269,6 @@ namespace CodeAtWork.BL
             return resultStr;
         }
 
-    
-
         public string ConvertToChannelLists(List<UserChannel> Channels, Guid videoId)
         {
             string result = "";
@@ -226,6 +277,19 @@ namespace CodeAtWork.BL
             {
                 var selectedClass = z.IsSelectedForVid ? "channelSelected" : "channelUnselected";
                 result += $"<li>{z.ChannelName} <i onclick=\"AddOrRemoveChannelFromVid(this, {z.UserChannelId}, '{videoId}')\" class=\"fas fa-check-circle optMenuListRight {selectedClass}\"></i></li>";
+            });
+
+            return result;
+        }
+
+        public string ConvertToPathChannelLists(List<UserChannel> Channels, int pathId)
+        {
+            string result = "";
+
+            Channels.ForEach(z =>
+            {
+                var selectedClass = z.IsSelectedForVid ? "channelSelected" : "channelUnselected";
+                result += $"<li>{z.ChannelName} <i onclick=\"AddOrRemoveChannelFromPath(this, {z.UserChannelId}, '{pathId}')\" class=\"fas fa-check-circle optMenuListRight {selectedClass}\"></i></li>";
             });
 
             return result;

@@ -1,4 +1,4 @@
-﻿
+﻿@using CodeAtWork.Models.Misc;
 @{
     Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
 }
@@ -11,15 +11,11 @@
 
     <h2 style="float:left; margin-top:2vh">Paths</h2>
 
-    <div class="optMenuChannelDiv1" style="border-bottom:none">
-        <input type="text" placeholder="Create New Channel" class="ChannelAddBar" id="ChannelAddBar">
-        <button type="submit" class="ChannelAddBtn" id="ChannelAddBtn" onclick="AddNewChannel()"><i class="fas fa-plus"></i></button>
-    </div>
     <div id="ChannelTable">
-        <div class="selectedChannelSection" onclick="toggleSelectedDiv(this)">
+        <div id="TabId_1" class="selectedChannelSection" onclick="toggleSelectedDiv(this, 1)">
             All
         </div>
-        <div onclick="toggleSelectedDiv(this)">
+        <div id="TabId_2" onclick="toggleSelectedDiv(this, 2)">
             Following
         </div>
         <div>
@@ -27,93 +23,108 @@
     </div>
     <div style="margin-top: 2rem;">
         <div class="sidenav">
-            <a class="selectedTopic">All</a>
-            <a class="childTopics">Software Development</a>
-            <a class="childTopics">Data</a>
+            <a class="selectedTopic" id="PathCategory_All" onclick="FilterPaths(this,null)">All</a>
+            <a class="childTopics" id="PathCategory_@((int)CategoryEnum.SoftwareDevelopment)" onclick="FilterPaths(this,@((int)CategoryEnum.SoftwareDevelopment))">Software Development</a>
+            <a class="childTopics" id="PathCategory_@((int)CategoryEnum.Data)" onclick="FilterPaths(this,@((int)CategoryEnum.Data))">Data</a>
         </div>
 
-        <div class="mainNextToSideBar">
-            <div class="pathCard">
-                <div class="outerImgDiv">
-                    <img class="pathCardImg" src="~/Design/Topics/CSharp.png" />
-                </div>
-                <div class="outerTextDiv">
-                    <h2> C# Fundamentals</h2>
-                    <p> <a class="PathVidCount">14</a> Courses </p>
-                </div>
-                <div>
-                    <svg class="pathOpt" role="img" viewBox="0 0 24 24">
-                        <path fill="currentColor" fill-rule="evenodd" d="M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z"></path>
-                    </svg>
-                </div>
-            </div>
-            <div class="pathCard">
-            </div>
-            <div class="pathCard">
-            </div>
+        <div class="mainNextToSideBar" id="PathPanes">
+            @ViewBag.Paths
         </div>
     </div>
 
 </div>
 <script>
 
-    function OpenChannelDetails(channelId) {
-            var url = '@Url.Action("ChannelDetail", "CodeAtWorkApp", new { channelId = "__id" })';
-        var New = url.replace("__id", channelId)
-    window.open(New, "_self");
-    }
-
-    function AddNewChannel() {
-        var elem = document.getElementById("ChannelAddBar");
-        if (!IsNullOrEmpty(elem.value)) {
-            var ajaxPost = $.post('/CodeAtWorkApp/AddAndLinkChannel', { channelName: elem.value});
+    function OpenAddPathToChannel(pathId) {
+        var optAddChannelelem = document.getElementById("OptMenuPathChannel_" + pathId);
+        if ($(optAddChannelelem).is(':visible')) {
+            $(optAddChannelelem).css("display", "none");
+        }
+        else {
+            var ajaxPost = $.post('/CodeAtWorkApp/GetPathChannels', { pathId: pathId });
             Promise.all([ajaxPost]).then((results) => {
-                location.reload();
+                document.getElementById("PathChannelList_" + pathId).innerHTML = results[0];
+                $(optAddChannelelem).css("display", "block");
             });
         }
     }
 
-    function softDeleteRow(elem, channelId) {
-        var row = document.getElementById("channelRow_" + channelId);
-        $(row).toggleClass("softDeleteRow");
+    function FilterPaths(elem, filterById) {
+        var activeElem = document.getElementsByClassName("selectedTopic")[0];
+        var selectedPathTabId = document.getElementsByClassName("selectedChannelSection")[0].id.split("_")[1];
 
-        var softdeletedRows = document.getElementsByClassName("softDeleteRow");
-        if (softdeletedRows.length > 0) {
-            $("#deleteChannelBtn").css("pointer-events", "all");
-            $("#deleteChannelBtn").css("background-color", "#0084bd");
-        }
-        else {
-            $("#deleteChannelBtn").css("pointer-events", "none");
-            $("#deleteChannelBtn").css("background-color", "grey");
-        }
-    }
-
-
-    function deleteChannels() {
-        var elems = document.getElementsByClassName("softDeleteRow");
-        var channelIdsToDelete = [];
-        for (var i = 0; i< elems.length; i++) {
-            var channelId = parseInt(elems[i].id.split('_')[1]);
-            channelIdsToDelete.push(channelId);
-        }
-
-
-        var ajaxPost = $.post('/CodeAtWorkApp/DeleteChannels', { channelIdsToDelete: channelIdsToDelete });
-        Promise.all([ajaxPost]).then(() => {
-            location.reload();
+        var ajaxPost = $.post('/CodeAtWorkApp/GetPathsPane', { category: filterById, tabId: selectedPathTabId });
+        Promise.all([ajaxPost]).then((results) => {
+            $(activeElem).removeClass("selectedTopic");
+            $(elem).addClass("selectedTopic");
+            document.getElementById("PathPanes").innerHTML = results[0];
         });
     }
 
-    function OpenPlayer(id) {
-    var url = '@Url.Action("AppPlayer", "CodeAtWorkApp", new { playById = "__id" })';
-    var New = url.replace("__id", id)
-    window.open(New, "_blank");
+    function openPathOptMenu(pathId) {
+        var OptMenu = document.getElementById("OptMenuPath_" + pathId);
+        if ($(OptMenu).is(':visible')) {
+            $(OptMenu).css("display", "none");
+            var optAddChannelelem = document.getElementById("OptMenuPathChannel_" + pathId);
+            if ($(optAddChannelelem).is(':visible')) {
+                $(optAddChannelelem).css("display", "none");
+            }
+        }
+        else {
+            $(OptMenu).css("display", "block");
+        }
     }
 
-    function toggleSelectedDiv(elem) {
-        var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
-        $(existingElem).removeClass("selectedChannelSection");
-        $(elem).addClass("selectedChannelSection");
+    function EnableAddChannelBtn(elem, pathId) {
+        var btn = document.getElementById("PathChannelAddBtn_" + pathId);
+        var val = elem.value;
+        if (!IsNullOrEmpty(val)) {
+            $(btn).css("pointer-events", "all");
+            $(btn).css("background", "#0084bd");
+
+        }
+        else {
+            $(btn).css("pointer-events", "none");
+            $(btn).css("background", "grey");
+        }
+    }
+
+    function AddOrRemoveChannelFromPath(elem, channelId, pathId) {
+        var ajaxPost = $.post('/CodeAtWorkApp/AddOrRemoveChannelFromPath', { pathId: pathId, channelId: channelId, IsSelected: !elem.classList.contains("channelSelected") });
+        Promise.all([ajaxPost]).then((results) => {
+            document.getElementById("PathChannelList_" + pathId).innerHTML = results[0];
+        });
+    }
+
+    function AddNewChannel(pathId) {
+        var elem = document.getElementById("ChannelAddBar_" + pathId);
+        if (!IsNullOrEmpty(elem.value)) {
+            var ajaxPost = $.post('/CodeAtWorkApp/AddAndLinkChannelToPath', { channelName: elem.value, pathId: pathId });
+            Promise.all([ajaxPost]).then((results) => {
+                document.getElementById("ChannelAddBar_" + pathId).value = "";
+                document.getElementById("PathChannelList_" + pathId).innerHTML = results[0];
+                var btn = document.getElementById("PathChannelAddBtn_" + pathId);
+                $(btn).css("pointer-events", "none");
+                $(btn).css("background", "grey");
+            });
+        }
+    }
+
+
+    function toggleSelectedDiv(elem, tabId) {
+        var activeElem = document.getElementsByClassName("selectedTopic")[0].id;
+        var filterById = activeElem.split('_')[1];
+        if (filterById == 'All') {
+            filterById = null;
+        }
+        var ajaxPost = $.post('/CodeAtWorkApp/GetPathsPane', { category: filterById, tabId: tabId });
+        Promise.all([ajaxPost]).then((results) => {
+            var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
+            $(existingElem).removeClass("selectedChannelSection");
+            $(elem).addClass("selectedChannelSection");
+            document.getElementById("PathPanes").innerHTML = results[0];
+        });
     }
 
 </script>
