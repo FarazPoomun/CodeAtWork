@@ -38,6 +38,10 @@ namespace CodeAtWork.Controllers
         {
             return codeAtWorkAppBL.SearchVid(filterBy, false);
         }
+        public HtmlString GetFilteredPaths(int userChannelId, string filterBy)
+        {
+            return codeAtWorkAppBL.SearchPaths(filterBy, false);
+        }
 
         public ActionResult ChannelDetail(int channelId)
         {
@@ -81,6 +85,18 @@ namespace CodeAtWork.Controllers
             //tabId = 1 == All /  = 2 == Following
             var userInfo = Session["UserInfo"] as UserInfo;
             return codeAtWorkAppBL.GetAllPaths(userInfo.UserId, category, tabId);
+        }
+
+        public HtmlString GetPathsPanePerChannelId(int channelId)
+        {
+            //tabId = 1 == All /  = 2 == Following
+            var userInfo = Session["UserInfo"] as UserInfo;
+            return codeAtWorkAppBL.GetPathsPanePerChannelId(userInfo.UserId, channelId);
+        }
+
+        public void AddPathToChannel(int channelId, int pathId)
+        {
+            codeAtWorkAppBL.AddPathToChannel(channelId, pathId);
         }
 
         public ActionResult Bookmarks()

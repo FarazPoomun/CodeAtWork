@@ -34,9 +34,5 @@ namespace CodeAtWork.BL
 
         #endregion
 
-
-
-
-
     }
 }

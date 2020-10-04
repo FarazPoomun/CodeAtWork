@@ -126,6 +126,10 @@
     border-bottom: thick solid #0084bd;
 }
 
+.selectedModelChannelSection {
+    border-bottom: thick solid #0084bd;
+}
+
 
 .ModalScreenshots {
     width: 100%;
@@ -210,15 +214,25 @@
     .fa-play-circle:hover {
         color: ghostwhite;
     }
-    
-.fa-plus-circle {
+
+.vidPlus {
     color: lightgrey;
     cursor: pointer;
     margin-top: 10%;
 }
 
-    .fa-plus-circle:hover {
+    .vidPlus:hover {
         color: ghostwhite;
+    }
+
+
+.pathPlus {
+    font-size: 3vh;
+    float: right;
+}
+
+    .pathPlus:hover {
+        color: limegreen;
     }
 
 .fa-bookmark {
@@ -433,7 +447,7 @@ input:focus {
 }
 
 #ModalSearch {
-    width: 81%;
+    width: 90%;
     margin-left: 2rem;
     margin-top: 1rem;
     font-size: 16px;
@@ -458,4 +472,65 @@ input:focus {
     color: darkgrey;
     font-size: medium;
     font-family: Comfortaa;
+}
+
+#FilteredPathPanes {
+    width: 90%;
+    margin: auto;
+    height: 32rem;
+    padding-bottom: 10rem;
+    overflow-y: auto;
+    display:none;
+}
+
+#PathPanes {
+    display: none;
+}
+
+.pathCard {
+    height: 8rem;
+    width: 97%;
+    margin: auto;
+    margin-top: 2rem;
+    background: #222;
+    box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
+    display: grid;
+    grid-template-columns: 20% 70% auto;
+    grid-column-gap: 1%;
+}
+
+    .pathCard:hover {
+        background: #181c20;
+        cursor: pointer;
+    }
+
+.pathCardImg {
+    width: 6rem;
+    margin-top: 1rem;
+    margin-left: 2rem;
+}
+
+.outerImgDiv {
+    float: left;
+    width: 8rem;
+}
+
+.outerTextDiv {
+    padding-top: 1rem;
+}
+
+    .outerTextDiv h2 {
+        font-weight: 100 !important;
+    }
+
+.PathVidCount {
+    color: darkgrey;
+}
+
+.dotSeperator {
+    vertical-align: middle;
+    font-size: 1%;
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+    color: darkgrey;
 }

@@ -254,20 +254,21 @@ tr {
     margin-left: 12rem;
     padding: 0px 10px;
     height: 60rem;
-    overflow-y: scroll;
+    overflow-y: auto;
+    padding-bottom: 30rem;
 }
 
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
+    @media screen and (max-height: 450px) {
+        .sidenav {
+            padding-top: 15px;
+        }
+
+            .sidenav a {
+                font-size: 18px;
+            }
     }
 
-        .sidenav a {
-            font-size: 18px;
-        }
-}
-
-.childTopics {
+    .childTopics {
     padding-left: 2rem !important;
 }
 

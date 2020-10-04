@@ -199,6 +199,21 @@ namespace CodeAtWork.DAL
             adapter.InsertCommand.ExecuteNonQuery();
             adapter.Dispose();
         }
+        
+        internal void AddPathToChannel(int channelId, int pathId)
+        {
+            SqlDataAdapter adapter = new SqlDataAdapter();
+
+            string sql = $@"
+              	if(not exists(select 1 from channelpath where UserChannelId = {channelId} and pathid = {pathId}))
+								Begin
+								insert into channelpath values ({channelId}, {pathId})
+								End";
+
+            adapter.InsertCommand = new SqlCommand(sql, conn);
+            adapter.InsertCommand.ExecuteNonQuery();
+            adapter.Dispose();
+        }
 
         public void SaveTopics(Dictionary<int, bool> updatedVal, int userId)
         {
@@ -626,6 +641,8 @@ namespace CodeAtWork.DAL
             string sql = $@"   select UC.*, 
                                 (select count(*)from ChannelVideo
                                 where ChannelVideo.UserChannelId = UC.UserChannelId ) as VideoCount,
+                                (select count(*)from ChannelPath
+                                where ChannelPath.UserChannelId = UC.UserChannelId ) as PathCount,
 								CONCAT(UD.FirstName, ' ', UD.Lastname) as CreatedBy
                                 from  UserChannel UC
 								inner join UserDetail UD on UD.AppUserId = {userId}
@@ -642,6 +659,7 @@ namespace CodeAtWork.DAL
                     ChannelName = dataReader.GetValue(dataReader.GetOrdinal("ChannelName")).ToString(),
                     IsShared = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsShared")).ToString()),
                     VideoCount = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("VideoCount")).ToString()),
+                    PathCount = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("PathCount")).ToString()),
                     CreatedBy = dataReader.GetValue(dataReader.GetOrdinal("CreatedBy")).ToString(),
                     AppUserId = userId
                 };
@@ -662,7 +680,7 @@ namespace CodeAtWork.DAL
             //TO-DO Accomodate for UserId And Interests
             string sql = $@" select * from path ";
 
-            if(tabId == 2) //2 == Following
+            if (tabId == 2) //2 == Following
             {
                 sql += "inner join channelPath cp on path.pathId = cp.pathId";
             }
@@ -680,7 +698,60 @@ namespace CodeAtWork.DAL
                 {
                     PathId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("PathId")).ToString()),
                     Name = dataReader.GetValue(dataReader.GetOrdinal("Name")).ToString(),
-                    Level = (LevelsEnum) Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString()),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString()),
+                };
+                paths.Add(path);
+            }
+            dataReader.Close();
+            command.Dispose();
+            return paths;
+        }
+        
+        internal List<Paths> GetAllPathsFiltered(string filterBy)
+        {
+            List<Paths> paths = new List<Paths>();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for UserId And Interests
+            string sql = $@" select * from path where Name like '%{filterBy}%'";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                Paths path = new Paths()
+                {
+                    PathId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("PathId")).ToString()),
+                    Name = dataReader.GetValue(dataReader.GetOrdinal("Name")).ToString(),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString()),
+                };
+                paths.Add(path);
+            }
+            dataReader.Close();
+            command.Dispose();
+            return paths;
+        }
+
+        internal List<Paths> GetPathsPanePerChannelId(int channelId)
+        {
+            List<Paths> paths = new List<Paths>();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for UserId And Interests
+            string sql = $@" select * from path 
+                            inner join channelPath cp on path.pathId = cp.pathId AND cp.UserChannelId = {channelId}";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                Paths path = new Paths()
+                {
+                    PathId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("PathId")).ToString()),
+                    Name = dataReader.GetValue(dataReader.GetOrdinal("Name")).ToString(),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString()),
                 };
                 paths.Add(path);
             }

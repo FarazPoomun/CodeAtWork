@@ -53,12 +53,22 @@ namespace CodeAtWork.BL
             return new HtmlString(result);
         }
 
+        internal void AddPathToChannel(int channelId, int pathId)
+        {
+            dal.AddPathToChannel(channelId, pathId);
+        }
+
         internal HtmlString GetAllPaths(int userId, CategoryEnum? category, int tabId)
         {
             return ConvertToPathBlockHtml(dal.GetAllPaths(userId, category, tabId));
         }
 
-        private HtmlString ConvertToPathBlockHtml(List<Paths> list)
+        internal HtmlString GetPathsPanePerChannelId(int userId, int channelId)
+        {
+            return ConvertToPathBlockHtml(dal.GetPathsPanePerChannelId(channelId), false);
+        }
+
+        private HtmlString ConvertToPathBlockHtml(List<Paths> list, bool withOpt = true, bool withAdd = false)
         {
             string result = "";
             list.ForEach(p =>
@@ -71,8 +81,10 @@ namespace CodeAtWork.BL
                     "<div class=\"outerTextDiv\">" +
                         $"<h2> {p.Name}</h2>" +
                         $"<p> <a class=\"PathVidCount\">14</a> Courses  <i class=\"fas fa-circle dotSeperator\"></i> {p.Level.ToString()} </p>" +
-                    "</div>" +
-                    "<div>" +
+                    "</div>";
+
+                if (withOpt) {
+                    result += "<div>" +
                         $"<svg class=\"pathOpt\" onclick=\"openPathOptMenu({p.PathId})\" role=\"img\" viewBox=\"0 0 24 24\">" +
                             "<path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z\"></path>" +
                         "</svg>" +
@@ -86,7 +98,12 @@ namespace CodeAtWork.BL
                             "</div>" +
                             "<div style=\"padding-bottom: 5%;\">" +
                                 $"<ul class=\"optMenuList ChannelList\" id=\"PathChannelList_{p.PathId}\"></ul>" +
-                            "</div></div></div></div>";
+                            "</div></div></div>"; }
+                if (withAdd)
+                {
+                    result += $"<div><i onclick=\"AddPathToChannel({p.PathId})\" class=\"fas fa-plus-circle pathPlus\"></i> </div>";
+                }
+               result+="</div>";
             });
 
             return new HtmlString(result);
@@ -111,7 +128,7 @@ namespace CodeAtWork.BL
                 $"<td><input type=\"checkbox\" onchange=\"softDeleteRow(this, {u.UserChannelId})\" /></td>" +
                 $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">{u.ChannelName}</td> " +
                $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">({u.VideoCount}) Videos</td> " +
-              $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">(0) Paths</td> " +
+              $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">({u.PathCount}) Paths</td> " +
                 $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">By {u.CreatedBy}</td> " +
                 "</tr> ";
             });
@@ -124,6 +141,10 @@ namespace CodeAtWork.BL
             return new HtmlString(ConvertVidGridHTMLSting(dal.SearchVid(searchedTxt), false, play));
         }
 
+        internal HtmlString SearchPaths(string filterBy, bool v)
+        {
+            return ConvertToPathBlockHtml(dal.GetAllPathsFiltered(filterBy), withOpt: false, withAdd:true);
+        }
         internal HtmlString GetBookMarkedVideos(int userId)
         {
             //TO-DO based on selection made on interests, find proper recommendations
@@ -257,7 +278,7 @@ namespace CodeAtWork.BL
                 }
                 else
                 {
-                    resultStr += $"<i onclick=\"AddToChannel('{v.VideoId}')\" class=\"fas fa-plus-circle\"></i>";
+                    resultStr += $"<i onclick=\"AddToChannel('{v.VideoId}')\" class=\"fas fa-plus-circle vidPlus\"></i>";
                 }
                 resultStr += "</div>" +
                 "</div>" +

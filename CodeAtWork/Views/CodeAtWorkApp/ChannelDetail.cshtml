@@ -38,10 +38,10 @@
         <div><i class="fas fa-times CloseModal" onclick="CloseAddContentModal()"></i></div>
 
         <div id="ChannelDetailTable">
-            <div class="selectedChannelSection" onclick="toggleSelectedDiv(this)">
+            <div class="selectedModelChannelSection" onclick="toggleModalSelectedDiv(this, 1)">
                 Videos
             </div>
-            <div onclick="toggleSelectedDiv(this)">
+            <div onclick="toggleModalSelectedDiv(this, 2)">
                 Path
             </div>
             <div>
@@ -52,26 +52,32 @@
                 <input type="text" name="search" id="ModalSearch" placeholder="Start typing to filter videos.." onkeyup="FilterListOfVids(this)">
             </div>
             <div class="ModalScreenshots" id="FilteredVidsGrid">
-                @ViewBag.ChannelVideos
+            </div>
+            
+            <div id="FilteredPathPanes">
             </div>
         </div>
     </div>
 
     <div>
         <div id="ChannelDetailTable">
-            <div class="selectedChannelSection" onclick="toggleSelectedDiv(this)">
+            <div class="selectedChannelSection" onclick="toggleSelectedDiv(this, 1)">
                 Videos
             </div>
-            <div onclick="toggleSelectedDiv(this)">
+            <div onclick="toggleSelectedDiv(this, 2)">
                 Path
             </div>
             <div>
             </div>
         </div>
 
+
+
         <div id="ChannelContents">
-            <div class="HomeScreenshots">
-                @ViewBag.ChannelVideos
+            <div class="HomeScreenshots" id="CurrentChanelVideos">
+                    @ViewBag.ChannelVideos
+                </div>
+            <div id="PathPanes">
             </div>
         </div>
     </div>
@@ -79,6 +85,8 @@
 
 
 <script>
+
+    var isPathPulled = false;
 
     function AddToChannel(vidId) {
         var ajaxPost = $.post('/CodeAtWorkApp/AddVideoToChannel', { videoId: vidId, channelId: '@ViewBag.UserChannelId'});
@@ -92,12 +100,19 @@
     function FilterListOfVids(elem) {
         var searchTxt = elem.value;
         if (!IsNullOrEmpty(searchTxt)) {
-            var ajaxPost = $.post('/CodeAtWorkApp/GetFilteredVideos', { userChannelId: '@ViewBag.UserChannelId', filterBy: searchTxt });
-            Promise.all([ajaxPost]).then((result) => {
-                document.getElementById("FilteredVidsGrid").innerHTML = result[0];
+            var VidAjaxPost = $.post('/CodeAtWorkApp/GetFilteredVideos', { userChannelId: '@ViewBag.UserChannelId', filterBy: searchTxt });
 
+            var PathAjaxPost = $.post('/CodeAtWorkApp/GetFilteredPaths', { userChannelId: '@ViewBag.UserChannelId', filterBy: searchTxt });
+            Promise.all([VidAjaxPost, PathAjaxPost]).then((result) => {
+                document.getElementById("FilteredVidsGrid").innerHTML = result[0];
+                document.getElementById("FilteredPathPanes").innerHTML = result[1];
             });
         }
+    }
+
+    function AddPathToChannel(pathId) {
+        var ajaxPost = $.post('/CodeAtWorkApp/AddPathToChannel', { channelId: '@ViewBag.UserChannelId', pathId: pathId });
+        Promise.all([ajaxPost]);
     }
 
     function CloseAddContentModal() {
@@ -134,27 +149,60 @@
 
     function deleteChannels() {
         var channelIdsToDelete = [];
-
-            channelIdsToDelete.push('@ViewBag.UserChannelId');
-
+        channelIdsToDelete.push('@ViewBag.UserChannelId');
 
         var ajaxPost = $.post('/CodeAtWorkApp/DeleteChannels', { channelIdsToDelete: channelIdsToDelete });
         Promise.all([ajaxPost]).then(() => {
-    var url = '@Url.Action("Channels", "CodeAtWorkApp")';
+         var url = '@Url.Action("Channels", "CodeAtWorkApp")';
             window.open(url, "_self");
         });
     }
 
 
-    function toggleSelectedDiv(elem) {
+    function toggleSelectedDiv(elem, tabId) {
         var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
         $(existingElem).removeClass("selectedChannelSection");
         $(elem).addClass("selectedChannelSection");
+        var pathElem = document.getElementById("PathPanes");
+        var videoElem  = document.getElementById("CurrentChanelVideos");
+
+        if (tabId == 2) {
+            if (!isPathPulled) {
+                var ajaxPost = $.post('/CodeAtWorkApp/GetPathsPanePerChannelId', { channelId: '@ViewBag.UserChannelId'});
+                Promise.all([ajaxPost]).then((results) => {
+                    $(videoElem).css("display", "none");
+                    $(pathElem).css("display", "block");
+                    pathElem.innerHTML = results[0];
+                });
+            }
+            else {
+                $(videoElem).css("display", "none");
+                $(pathElem).css("display", "block");
+            }
+        }
+        else {
+            $(videoElem).css("display", "grid");
+            $(pathElem).css("display", "none");
+        }
     }
 
+    function toggleModalSelectedDiv(elem, tabId) {
+        var existingElem = document.getElementsByClassName("selectedModelChannelSection")[0];
+        $(existingElem).removeClass("selectedModelChannelSection");
+        $(elem).addClass("selectedModelChannelSection");
+        var filteredVidDiv = document.getElementById("FilteredVidsGrid");
+        var filteredPathDiv = document.getElementById("FilteredPathPanes");
+        if (tabId == 1) {
+            $(filteredVidDiv).show();
+            $(filteredPathDiv).hide();
+        }
+        else {
+            $(filteredVidDiv).hide();
+            $(filteredPathDiv).show();
+        }
+    }
 
     //Vids
-
     var globalVidId= 0;
     function OpenPlayer(id) {
     var url = '@Url.Action("AppPlayer", "CodeAtWorkApp", new { playById = "__id" })';
