@@ -246,5 +246,18 @@ namespace CodeAtWork.Controllers
             var userInfo = Session["UserInfo"] as UserInfo;
             codeAtWorkAppBL.SaveTopics(InterestTopics, userInfo.UserId);
         }
+
+        #region Path Details
+        public ActionResult PathDetails()
+        {
+            if (Session["UserInfo"] == null)
+            {
+                return RedirectToAction("Login", "CodeAtWork");
+            }
+            var userInfo = Session["UserInfo"] as UserInfo;
+            return View();
+        }
+        #endregion
+
     }
 }

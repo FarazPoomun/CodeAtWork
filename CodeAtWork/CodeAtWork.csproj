@@ -159,6 +159,7 @@
     <Content Include="Content\CodeAtWorkApp\Channels.css" />
     <Content Include="Content\CodeAtWorkApp\CodeAtWorkAppLayout.css" />
     <Content Include="Content\CodeAtWorkApp\Home.css" />
+    <Content Include="Content\CodeAtWorkApp\PathDetails.css" />
     <Content Include="Content\CodeAtWorkApp\Paths.css" />
     <Content Include="Content\CodeAtWork\AppPlayer.css" />
     <Content Include="Content\CodeAtWork\CodeAtWorkLayout.css" />
@@ -232,6 +233,7 @@
     <Content Include="Views\CodeAtWorkApp\ChannelDetail.cshtml" />
     <Content Include="Views\CodeAtWorkApp\CaptureVidExample.cshtml" />
     <Content Include="Views\CodeAtWorkApp\Paths.cshtml" />
+    <Content Include="Views\CodeAtWorkApp\PathDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

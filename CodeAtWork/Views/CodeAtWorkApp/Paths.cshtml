@@ -111,7 +111,6 @@
         }
     }
 
-
     function toggleSelectedDiv(elem, tabId) {
         var activeElem = document.getElementsByClassName("selectedTopic")[0].id;
         var filterById = activeElem.split('_')[1];
@@ -125,6 +124,12 @@
             $(elem).addClass("selectedChannelSection");
             document.getElementById("PathPanes").innerHTML = results[0];
         });
+    }
+
+    function viewPath(pathId) {
+          var url = '@Url.Action("PathDetails", "CodeAtWorkApp", new { pathId = "__id" })';
+        var New = url.replace("__id", pathId)
+        window.open(New, "_self");
     }
 
 </script>

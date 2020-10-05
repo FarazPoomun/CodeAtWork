@@ -75,10 +75,10 @@ namespace CodeAtWork.BL
             {
 
                 result += "  <div class=\"pathCard\">" +
-                    "<div class=\"outerImgDiv\">" +
+                    $"<div class=\"outerImgDiv\" onclick=\"viewPath({p.PathId})\">" +
                         "<img class=\"pathCardImg\" src=\"/Design/Topics/CSharp.png\" />" +
                     "</div>" +
-                    "<div class=\"outerTextDiv\">" +
+                    $"<div class=\"outerTextDiv\" onclick=\"viewPath({p.PathId})\">" +
                         $"<h2> {p.Name}</h2>" +
                         $"<p> <a class=\"PathVidCount\">14</a> Courses  <i class=\"fas fa-circle dotSeperator\"></i> {p.Level.ToString()} </p>" +
                     "</div>";

@@ -199,7 +199,7 @@ namespace CodeAtWork.DAL
             adapter.InsertCommand.ExecuteNonQuery();
             adapter.Dispose();
         }
-        
+
         internal void AddPathToChannel(int channelId, int pathId)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -682,12 +682,20 @@ namespace CodeAtWork.DAL
 
             if (tabId == 2) //2 == Following
             {
-                sql += "inner join channelPath cp on path.pathId = cp.pathId";
+                sql += $@"where pathid in (
+                        select pathid from channelpath
+                        inner join UserChannel on channelPath.UserChannelId = UserChannel.UserChannelId AND UserChannel.AppUserId = {userId}
+                        )";
             }
 
             if (category != null)
             {
-                sql += $" where category = {(int)category}";
+                if (tabId == 2)
+                {
+                    sql += " And category = {(int)category}";
+                }
+                else
+                    sql += $" where category = {(int)category}";
             }
 
             command = new SqlCommand(sql, conn);
@@ -706,7 +714,7 @@ namespace CodeAtWork.DAL
             command.Dispose();
             return paths;
         }
-        
+
         internal List<Paths> GetAllPathsFiltered(string filterBy)
         {
             List<Paths> paths = new List<Paths>();

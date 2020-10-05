@@ -53,7 +53,7 @@
             </div>
             <div class="ModalScreenshots" id="FilteredVidsGrid">
             </div>
-            
+
             <div id="FilteredPathPanes">
             </div>
         </div>
@@ -75,8 +75,8 @@
 
         <div id="ChannelContents">
             <div class="HomeScreenshots" id="CurrentChanelVideos">
-                    @ViewBag.ChannelVideos
-                </div>
+                @ViewBag.ChannelVideos
+            </div>
             <div id="PathPanes">
             </div>
         </div>
@@ -95,6 +95,12 @@
 
     function OpenAddContentModal() {
         $("#AddContentsModal").show();
+    }
+
+    function viewPath(pathId) {
+          var url = '@Url.Action("PathDetails", "CodeAtWorkApp", new { pathId = "__id" })';
+        var New = url.replace("__id", pathId)
+        window.open(New, "_self");
     }
 
     function FilterListOfVids(elem) {

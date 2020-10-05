@@ -38,9 +38,9 @@
 <script>
 
     function OpenChannelDetails(channelId) {
-            var url = '@Url.Action("ChannelDetail", "CodeAtWorkApp", new { channelId = "__id" })';
+        var url = '@Url.Action("ChannelDetail", "CodeAtWorkApp", new { channelId = "__id" })';
         var New = url.replace("__id", channelId)
-    window.open(New, "_self");
+        window.open(New, "_self");
     }
 
     function AddNewChannel() {
