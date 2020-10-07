@@ -148,7 +148,7 @@ namespace CodeAtWork.BL
         internal HtmlString GetBookMarkedVideos(int userId)
         {
             //TO-DO based on selection made on interests, find proper recommendations
-            var vidsStr = ConvertVidGridHTMLSting(dal.GetBookmarkedVideos(userId));
+            var vidsStr = ConvertVidGridHTMLSting(dal.GetBookmarkedVideos(userId), false);
             return new HtmlString(vidsStr);
         }
 

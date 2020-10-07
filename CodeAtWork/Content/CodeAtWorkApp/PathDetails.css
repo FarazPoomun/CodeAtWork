@@ -3,13 +3,17 @@
     box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
     background: #222;
     margin: auto;
-
-    display:grid;
+    display: grid;
     grid-template-rows: auto auto;
 }
 
-h1{
-    font-family:Comfortaa;
+h1 {
+    font-family: Comfortaa;
+}
+
+h2 {
+    font-family: comfortaa;
+    font-weight: 100;
 }
 
 .blueBtn {
@@ -40,4 +44,79 @@ h1{
     padding-left: 0.5%;
     padding-right: 0.5%;
     color: darkgrey;
+}
+
+#PathToggleTable {
+    display: grid;
+    grid-template-columns: 11% 11% auto;
+    grid-column-gap: 1%;
+    border-bottom: 1px solid grey;
+}
+
+    #PathToggleTable > div {
+        text-align: center;
+        padding-bottom: 2.5%;
+        cursor: pointer;
+        font-family: comfortaa;
+        font-size: larger;
+        white-space: nowrap;
+    }
+
+.selectedPathToggle {
+    border-bottom: thick solid #0084bd;
+}
+
+#PathBody {
+    margin: auto;
+    margin-top: 2rem;
+    width: 90%;
+}
+
+.PathListStyl {
+    font-family: Comfortaa;
+    color: grey;
+}
+
+    .PathListStyl li {
+        padding-bottom: 1rem;
+    }
+
+#ActualPathBodyContent {
+    display: none;
+}
+
+.collapsible {
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1.5rem;
+    font-family: comfortaa;
+}
+
+/*.collapsible:after {
+        content: '\002B';
+        color: white;
+        font-weight: bold;
+        float: right;
+        margin-left: 5px;
+    }
+
+.active:after {
+    content: "\2212";
+}*/
+
+.content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.collapseTextIcon {
+    padding-right: 1rem;
 }
