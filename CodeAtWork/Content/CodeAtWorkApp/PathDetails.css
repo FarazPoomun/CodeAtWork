@@ -98,18 +98,6 @@ h2 {
     font-family: comfortaa;
 }
 
-/*.collapsible:after {
-        content: '\002B';
-        color: white;
-        font-weight: bold;
-        float: right;
-        margin-left: 5px;
-    }
-
-.active:after {
-    content: "\2212";
-}*/
-
 .content {
     padding: 0 18px;
     max-height: 0;
@@ -120,3 +108,267 @@ h2 {
 .collapseTextIcon {
     padding-right: 1rem;
 }
+
+
+/*videos*/
+
+.HomeMainOverlap {
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.HomeScreenshots {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-column-gap: 1%;
+    grid-row-gap: 2rem;
+}
+
+    .HomeScreenshots > div {
+        max-height: 20vh;
+        overflow: hidden;
+        width: 80%;
+    }
+
+.vidScreenshotHeader {
+    padding-top: 2%;
+    font-size: 23px;
+}
+
+.innerScreenshot {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    opacity: 0;
+}
+
+.vidGrid {
+    width: 100%;
+    height: 100%;
+    height: 13vh;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 7vh;
+    background-size: 100% 100%;
+}
+
+    .vidGrid:hover > .innerScreenshot {
+        transition: background-color .3s ease-in-out, opacity .1s ease-in-out;
+    }
+
+    .vidGrid:hover > .innerScreenshot {
+        background-color: rgba(192,192,192,0.3);
+        opacity: 1;
+    }
+
+.fa-play-circle {
+    color: lightgrey;
+    cursor: pointer;
+    margin-top: 10%;
+}
+
+    .fa-play-circle:hover {
+        color: ghostwhite;
+    }
+
+.vidPlus {
+    color: lightgrey;
+    cursor: pointer;
+    margin-top: 10%;
+}
+
+    .vidPlus:hover {
+        color: ghostwhite;
+    }
+
+
+.pathPlus {
+    font-size: 3vh;
+    float: right;
+}
+
+    .pathPlus:hover {
+        color: limegreen;
+    }
+
+.fa-bookmark {
+    cursor: pointer;
+}
+
+    .fa-bookmark:hover {
+        color: ghostwhite;
+    }
+
+.fa-caret-right:hover {
+    color: ghostwhite;
+}
+
+.vidDesc {
+    font-size: 20px;
+    padding: 0px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    .vidDesc:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+.vidBy {
+    padding: 0;
+    margin: 0;
+    color: darkgrey;
+}
+
+.optSvg {
+    position: absolute;
+    margin-left: 5.5vw;
+    width: 1.5%;
+    margin-top: 1vh;
+    cursor: pointer;
+    color: darkgrey;
+}
+
+    .optSvg:hover {
+        color: ghostwhite;
+    }
+
+.bookmarkingSvg {
+    position: absolute;
+    margin-left: 7vw;
+    width: 2%;
+}
+
+    .bookmarkingSvg:hover {
+        cursor: pointer;
+    }
+
+.bookmarkUnselected {
+    color: darkgrey;
+}
+
+    .bookmarkUnselected:hover {
+        color: ghostwhite;
+    }
+
+.bookmarkSelected {
+    color: #0084bd;
+}
+
+.optMenu {
+    background-color: whitesmoke;
+    width: 9vw;
+    height: 9vw;
+    position: absolute;
+    margin-left: 3%;
+    margin-top: 1.5%;
+    border-radius: 5%;
+    border: 3px solid black;
+    display: none;
+}
+
+.optMenuList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    color: black;
+    font-size: medium;
+    text-align: left;
+    padding-top: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+    .optMenuList > li {
+        cursor: pointer;
+        border-bottom: 1px solid grey;
+        padding-left: 5%;
+        padding-bottom: 2%;
+        padding-top: 4%;
+    }
+
+        .optMenuList > li:hover {
+            background-color: darkgrey;
+        }
+
+.optMenuListRight {
+    float: right;
+    font-size: larger;
+    color: black;
+    margin: 0;
+}
+
+
+.optMenuChannel {
+    width: 14vw;
+    min-height: 9vw;
+    background-color: white;
+    position: absolute;
+    margin-left: 12%;
+    margin-top: 5.5%;
+    border-radius: 2%;
+    display: none;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    z-index: 1;
+}
+
+.ChannelAddBar {
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 75%;
+    background: #f1f1f1;
+    margin-left: 2%;
+    margin-top: 5%;
+}
+
+.ChannelAddBtn {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    background: grey;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+    margin-top: 5%;
+    pointer-events: none;
+}
+
+
+input:focus {
+    outline: none;
+}
+
+.optMenuChannelDiv1 {
+    height: 4vw;
+    border-bottom: 1px solid black;
+}
+
+.channelUnselected {
+    color: grey;
+    cursor: pointer;
+}
+
+.channelSelected {
+    color: limegreen;
+    cursor: pointer;
+}
+
+.ChannelList > li {
+    cursor: auto;
+}
+/*End*/

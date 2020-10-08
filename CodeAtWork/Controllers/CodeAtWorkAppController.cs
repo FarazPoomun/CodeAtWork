@@ -255,6 +255,8 @@ namespace CodeAtWork.Controllers
                 return RedirectToAction("Login", "CodeAtWork");
             }
             var userInfo = Session["UserInfo"] as UserInfo;
+            ViewBag.ChannelVideos = GetChannelVideos(13);
+
             return View();
         }
         #endregion

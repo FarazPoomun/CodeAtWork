@@ -44,7 +44,7 @@ namespace CodeAtWork.DAL
                 DECLARE @INSERTED table ([VideoId] uniqueIdentifier);
                 Insert into VideoRepository 
                 OUTPUT INSERTED.[VideoId] Into @inserted
-                Values (default, '{vid.VideoURL}', '{vid.IsLocal}','{vid.VideoAuthor}','{vid.VideoDescription}'); select * from @inserted;";
+                Values (default, '{vid.VideoURL}', '{vid.IsLocal}','{vid.VideoAuthor}','{vid.VideoDescription}', default); select * from @inserted;";
 
             adapter.InsertCommand = new SqlCommand(sql, conn);
             var newId = (Guid)adapter.InsertCommand.ExecuteScalar();
