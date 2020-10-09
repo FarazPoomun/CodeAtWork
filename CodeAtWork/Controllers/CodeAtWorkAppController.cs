@@ -256,6 +256,7 @@ namespace CodeAtWork.Controllers
             }
             var userInfo = Session["UserInfo"] as UserInfo;
             ViewBag.ChannelVideos = GetChannelVideos(13);
+            ViewBag.PathId = 3;
 
             return View();
         }

@@ -14,7 +14,20 @@
         <div>
             <h1 style="float:left; padding-left: 1rem;">SQL Fundamentals</h1>
             <div style="float:right; padding-right: 2rem; padding-top: 1rem;">
-                <button class="blueBtn"> Add To Channel</button>
+                <button class="blueBtn" onclick="OpenAddPathToChannel()"> Add To Channel</button>
+                <div class="optMenuChannel" id="AddToChannelDiv" style="display: none;">
+                    <div class="optMenuChannelDiv1">
+                        <input type="text" placeholder="Create New Channel" class="ChannelAddBar" id="ChannelAddBar" onkeyup="EnableAddChannelBtn(this)">
+                        <button type="submit" class="ChannelAddBtn" id="PathChannelAddBtn" onclick="AddNewChannel()"><i class="fas fa-plus" aria-hidden="true"></i></button>
+                    </div>
+                    <div style="padding-bottom: 5%;">
+                        <ul class="optMenuList ChannelList" id="PathChannelList">
+                            @*<li>Blah <i onclick="AddOrRemoveChannelFromPath(this, 12, '2')" class="fas fa-check-circle optMenuListRight channelUnselected" aria-hidden="true"></i></li>
+                            <li>new <i onclick="AddOrRemoveChannelFromPath(this, 13, '2')" class="fas fa-check-circle optMenuListRight channelUnselected" aria-hidden="true"></i></li>
+                            <li>hhh <i onclick="AddOrRemoveChannelFromPath(this, 21, '2')" class="fas fa-check-circle optMenuListRight channelUnselected" aria-hidden="true"></i></li>*@
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="PathDescription">
@@ -55,7 +68,7 @@
                     </ul>
                 </div>
             </div>
-           <!-- https://www.youtube.com/watch?v=MqGM70ljpq8&list=PLyJiOytEPs4eQUuzs3PhM_7yU63jdibtf -->
+            <!-- https://www.youtube.com/watch?v=MqGM70ljpq8&list=PLyJiOytEPs4eQUuzs3PhM_7yU63jdibtf -->
             <div id="AboutPathBodyContent">
                 <div>
                     <button class="collapsible"><i class="fas fa-caret-down collapseTextIcon"></i>Getting Started</button>
@@ -70,6 +83,60 @@
     </div>
 </div>
 <script>
+
+    //when dialog is opened
+    function OpenAddPathToChannel() {
+        var optAddChannelelem = document.getElementById("AddToChannelDiv");
+        if ($(optAddChannelelem).is(':visible')) {
+            $(optAddChannelelem).css("display", "none");
+        }
+        else {
+            var ajaxPost = $.post('/CodeAtWorkApp/GetPathChannels', { pathId: '@ViewBag.PathId' });
+            Promise.all([ajaxPost]).then((results) => {
+                document.getElementById("PathChannelList").innerHTML = results[0];
+                $(optAddChannelelem).css("display", "block");
+            });
+        }
+    }
+
+    function EnableAddChannelBtn(elem) {
+        var btn = document.getElementById("PathChannelAddBtn");
+        var val = elem.value;
+        if (!IsNullOrEmpty(val)) {
+            $(btn).css("pointer-events", "all");
+            $(btn).css("background", "#0084bd");
+
+        }
+        else {
+            $(btn).css("pointer-events", "none");
+            $(btn).css("background", "grey");
+        }
+    }
+
+    //clicks
+    function AddOrRemoveChannelFromPath(elem, channelId, pathId) {
+        var ajaxPost = $.post('/CodeAtWorkApp/AddOrRemoveChannelFromPath', { pathId: pathId, channelId: channelId, IsSelected: !elem.classList.contains("channelSelected") });
+        Promise.all([ajaxPost]).then((results) => {
+            document.getElementById("PathChannelList").innerHTML = results[0];
+        });
+    }
+
+    //create new + link
+    function AddNewChannel() {
+        var elem = document.getElementById("ChannelAddBar");
+        if (!IsNullOrEmpty(elem.value)) {
+            var ajaxPost = $.post('/CodeAtWorkApp/AddAndLinkChannelToPath', { channelName: elem.value, pathId: '@ViewBag.PathId' });
+            Promise.all([ajaxPost]).then((results) => {
+                document.getElementById("ChannelAddBar").value = "";
+                document.getElementById("PathChannelList").innerHTML = results[0];
+                var btn = document.getElementById("PathChannelAddBtn");
+                $(btn).css("pointer-events", "none");
+                $(btn).css("background", "grey");
+            });
+        }
+    }
+
+
     function togglePathTab(elem, tabId) {
         var aboutTab = document.getElementById("AboutPathBodyContent");
         var contentTab = document.getElementById("ActualPathBodyContent");
