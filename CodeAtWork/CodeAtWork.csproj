@@ -161,6 +161,7 @@
     <Content Include="Content\CodeAtWorkApp\Home.css" />
     <Content Include="Content\CodeAtWorkApp\PathDetails.css" />
     <Content Include="Content\CodeAtWorkApp\Paths.css" />
+    <Content Include="Content\CodeAtWorkApp\ProgressStyle.css" />
     <Content Include="Content\CodeAtWork\AppPlayer.css" />
     <Content Include="Content\CodeAtWork\CodeAtWorkLayout.css" />
     <Content Include="Content\CodeAtWork\Home.css" />
@@ -234,6 +235,7 @@
     <Content Include="Views\CodeAtWorkApp\CaptureVidExample.cshtml" />
     <Content Include="Views\CodeAtWorkApp\Paths.cshtml" />
     <Content Include="Views\CodeAtWorkApp\PathDetails.cshtml" />
+    <Content Include="Views\CodeAtWorkApp\TestHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

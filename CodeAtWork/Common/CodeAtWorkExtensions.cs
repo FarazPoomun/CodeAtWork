@@ -13,7 +13,7 @@ namespace CodeAtWork.Common
             string resultStr = "";
             vids.ForEach(v =>
             {
-                resultStr += $@"<iframe  class='vidFrame'
+                resultStr += $@"<iframe id='player_iframe' class='vidFrame'
                 src = '{vids.First().VideoURL}' ></iframe>";
             });
 

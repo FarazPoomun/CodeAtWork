@@ -15,7 +15,12 @@ namespace CodeAtWork.Controllers
 
         public CodeAtWorkAppController()
         {
-         
+
+        }
+
+        public ActionResult TestHtml()
+        {
+            return View();
         }
 
         // GET: CodeAtWorkApp
@@ -129,12 +134,29 @@ namespace CodeAtWork.Controllers
         {
             ViewBag.VidFrame = codeAtWorkAppBL.PlayVideoById(playById);
 
-            var GetVideoInfo = codeAtWorkAppBL.GetVideoInfo(playById);
+            var videoInfo = codeAtWorkAppBL.GetVideoInfo(playById);
 
-            ViewBag.VideoName = GetVideoInfo.VideoDescription;
-            ViewBag.By = GetVideoInfo.VideoAuthor;
+            ViewBag.VideoName = videoInfo.VideoDescription;
+            ViewBag.By = videoInfo.VideoAuthor;
+            ViewBag.VideoId = playById;
+            ViewBag.SeekTo = videoInfo.SeekTo;
 
             return View();
+        }
+
+
+        public void CaptureVideoTime(Guid videoId, float time)
+        {
+            try
+            {
+                var userInfo = Session["UserInfo"] as UserInfo;
+
+                codeAtWorkAppBL.CaptureTime(videoId, time, userInfo.UserId);
+            }
+            catch
+            {
+
+            }
         }
 
         public void BookMarkVideo(string videoId, bool isSelected)
@@ -158,16 +180,16 @@ namespace CodeAtWork.Controllers
             {
                 vidId = new Guid(videoId);
             }
-            
+
             codeAtWorkAppBL.AddAndLinkChannel(vidId, userInfo.UserId, channelName);
-            return  vidId is null? null : codeAtWorkAppBL.GetVideoChannels(new Guid(videoId), userInfo.UserId);
+            return vidId is null ? null : codeAtWorkAppBL.GetVideoChannels(new Guid(videoId), userInfo.UserId);
         }
 
         public HtmlString AddAndLinkChannelToPath(string channelName, int pathId)
         {
             var userInfo = Session["UserInfo"] as UserInfo;
             //TO-DO Get appid from session and pass through
-    
+
             codeAtWorkAppBL.AddAndLinkChannelToPath(pathId, userInfo.UserId, channelName);
             return GetPathChannels(pathId);
         }
@@ -248,7 +270,7 @@ namespace CodeAtWork.Controllers
         }
 
         #region Path Details
-        public ActionResult PathDetails()
+        public ActionResult PathDetails(int pathId)
         {
             if (Session["UserInfo"] == null)
             {
@@ -258,9 +280,19 @@ namespace CodeAtWork.Controllers
             ViewBag.ChannelVideos = GetChannelVideos(13);
             ViewBag.PathId = 3;
 
+            ViewBag.Details = codeAtWorkAppBL.GetPathDetail(5);
+
             return View();
         }
         #endregion
+
+
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            Session.Clear();
+            return RedirectToAction("Login", "CodeAtWork");
+        }
 
     }
 }

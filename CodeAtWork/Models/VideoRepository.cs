@@ -1,6 +1,5 @@
 ﻿using CodeAtWork.Models.Misc;
 using System;
-using System.Collections.Generic;
 
 namespace CodeAtWork.Models
 {
@@ -13,5 +12,10 @@ namespace CodeAtWork.Models
         public string VideoDescription { get; set; }
         public bool IsBookMarked { get; set; }
         public LevelsEnum Level { get; set; }
+    }
+
+    public class VideoWithTime : VideoRepository
+    {
+        public float SeekTo { get; set; }
     }
 }

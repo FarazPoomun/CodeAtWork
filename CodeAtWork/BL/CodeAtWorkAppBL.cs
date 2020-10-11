@@ -18,95 +18,14 @@ namespace CodeAtWork.BL
             dal = new CodeAtWorkAppDAL();
         }
 
-        public HtmlString PlayVideoById(Guid playById)
-        {
-            return dal.PlayVideoById(playById).ConvertVidToHtmlString();
-        }
-
-        public HtmlString GetRecommendedVids(int userID)
-        {
-            //TO-DO based on selection made on interests, find proper recommendations
-            var vidsStr = ConvertVidGridHTMLSting(dal.GetRecommendedVids(userID));
-            return new HtmlString(vidsStr);
-        }
-
-        public HtmlString GetChannelVideos(int channelId)
-        {
-            //TO-DO based on selection made on interests, find proper recommendations
-            var vidsStr = ConvertVidGridHTMLSting(dal.GetChannelVideos(channelId));
-            return new HtmlString(vidsStr);
-        }
-
-        internal HtmlString GetFilteredVideos(int userChannelId, int userId)
-        {
-            throw new NotImplementedException();
-        }
-
         internal void BookMarkVideo(Guid videoId, int userId, bool isSelected)
         {
             dal.SaveNewBookMark(videoId, userId, isSelected);
         }
 
-        internal HtmlString GetChannelList(int userId)
-        {
-            var result = ConvertToTableHtml(dal.GetChannelLists(userId));
-            return new HtmlString(result);
-        }
-
         internal void AddPathToChannel(int channelId, int pathId)
         {
             dal.AddPathToChannel(channelId, pathId);
-        }
-
-        internal HtmlString GetAllPaths(int userId, CategoryEnum? category, int tabId)
-        {
-            return ConvertToPathBlockHtml(dal.GetAllPaths(userId, category, tabId));
-        }
-
-        internal HtmlString GetPathsPanePerChannelId(int userId, int channelId)
-        {
-            return ConvertToPathBlockHtml(dal.GetPathsPanePerChannelId(channelId), false);
-        }
-
-        private HtmlString ConvertToPathBlockHtml(List<Paths> list, bool withOpt = true, bool withAdd = false)
-        {
-            string result = "";
-            list.ForEach(p =>
-            {
-
-                result += "  <div class=\"pathCard\">" +
-                    $"<div class=\"outerImgDiv\" onclick=\"viewPath({p.PathId})\">" +
-                        "<img class=\"pathCardImg\" src=\"/Design/Topics/CSharp.png\" />" +
-                    "</div>" +
-                    $"<div class=\"outerTextDiv\" onclick=\"viewPath({p.PathId})\">" +
-                        $"<h2> {p.Name}</h2>" +
-                        $"<p> <a class=\"PathVidCount\">14</a> Courses  <i class=\"fas fa-circle dotSeperator\"></i> {p.Level.ToString()} </p>" +
-                    "</div>";
-
-                if (withOpt) {
-                    result += "<div>" +
-                        $"<svg class=\"pathOpt\" onclick=\"openPathOptMenu({p.PathId})\" role=\"img\" viewBox=\"0 0 24 24\">" +
-                            "<path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z\"></path>" +
-                        "</svg>" +
-                        $"<div class=\"optMenuPath\" id=\"OptMenuPath_{p.PathId}\">" +
-                            $"<p onclick=\"OpenAddPathToChannel({p.PathId})\" class =\"AddToChannelTxt\">Add to Channel</p>" +
-                        "</div>" +
-                        $"<div class=\"optMenuChannel\" id=\"OptMenuPathChannel_{p.PathId}\">" +
-                            "<div class=\"optMenuChannelDiv1\">" +
-                                $"<input type=\"text\" placeholder=\"Create New Channel\" class=\"ChannelAddBar\" id=\"ChannelAddBar_{p.PathId}\" onkeyup=\"EnableAddChannelBtn(this, {p.PathId})\">" +
-                                $"<button type=\"submit\" class=\"ChannelAddBtn\" id=\"PathChannelAddBtn_{p.PathId}\" onclick=\"AddNewChannel({p.PathId})\"><i class=\"fas fa-plus\"></i></button>" +
-                            "</div>" +
-                            "<div style=\"padding-bottom: 5%;\">" +
-                                $"<ul class=\"optMenuList ChannelList\" id=\"PathChannelList_{p.PathId}\"></ul>" +
-                            "</div></div></div>"; }
-                if (withAdd)
-                {
-                    result += $"<div><i onclick=\"AddPathToChannel({p.PathId})\" class=\"fas fa-plus-circle pathPlus\"></i> </div>";
-                }
-               result+="</div>";
-            });
-
-            return new HtmlString(result);
         }
 
         internal ChannelHeaderInfo GetChannelInfo(int channelId)
@@ -119,52 +38,9 @@ namespace CodeAtWork.BL
             dal.UpdateIsShared(userChannelId, isShared);
         }
 
-        public string ConvertToTableHtml(List<UserChannelWithCounts> UC)
-        {
-            string result = "";
-            UC.ForEach(u =>
-            {
-                result += $"<tr id=\"channelRow_{u.UserChannelId}\">" +
-                $"<td><input type=\"checkbox\" onchange=\"softDeleteRow(this, {u.UserChannelId})\" /></td>" +
-                $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">{u.ChannelName}</td> " +
-               $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">({u.VideoCount}) Videos</td> " +
-              $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">({u.PathCount}) Paths</td> " +
-                $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">By {u.CreatedBy}</td> " +
-                "</tr> ";
-            });
-
-            return result;
-        }
-
-        internal HtmlString SearchVid(string searchedTxt, bool play)
-        {
-            return new HtmlString(ConvertVidGridHTMLSting(dal.SearchVid(searchedTxt), false, play));
-        }
-
-        internal HtmlString SearchPaths(string filterBy, bool v)
-        {
-            return ConvertToPathBlockHtml(dal.GetAllPathsFiltered(filterBy), withOpt: false, withAdd:true);
-        }
-        internal HtmlString GetBookMarkedVideos(int userId)
-        {
-            //TO-DO based on selection made on interests, find proper recommendations
-            var vidsStr = ConvertVidGridHTMLSting(dal.GetBookmarkedVideos(userId), false);
-            return new HtmlString(vidsStr);
-        }
-
-        internal VideoRepository GetVideoInfo(Guid vidId)
+        internal VideoWithTime GetVideoInfo(Guid vidId)
         {
             return dal.GetVideoInfo(vidId);
-        }
-
-        internal HtmlString GetVideoChannels(Guid vidId, int userId)
-        {
-            return new HtmlString(ConvertToChannelLists(dal.GetVideoChannels(vidId, userId), vidId));
-        }
-
-        internal HtmlString GetPathChannels(int pathId, int userId)
-        {
-            return new HtmlString(ConvertToPathChannelLists(dal.GetPathChannels(pathId, userId), pathId));
         }
 
         internal void AddAndLinkChannel(Guid? videoId, int userId, string channelName)
@@ -185,11 +61,6 @@ namespace CodeAtWork.BL
         internal void DeleteChannels(List<int> channelIdsToDelete)
         {
             dal.DeleteChannels(channelIdsToDelete);
-        }
-
-        public HtmlString GetTopicsByCategoryName(int userId, string CategoryName = "Software Development")
-        {
-            return ConvertTopicsToHTMLSting(dal.GetTopicsByCategoryName(new List<string>() { CategoryName }, userId));
         }
 
         public void SaveTopics(List<InterestCategoryTopicToBeSaved> topics, int userId)
@@ -220,6 +91,65 @@ namespace CodeAtWork.BL
         {
             dal.AddAndLinkChannelToPath(pathId, userId, channelName);
         }
+
+        internal PathDetail GetPathDetail(int pathId)
+        {
+            return dal.GetPathDetail(pathId);
+        }
+
+        internal void CaptureTime(Guid videoId, float time, int userId)
+        {
+            dal.CaptureTime(videoId, time, userId);
+        }
+
+        #region Htmlstring conversions
+
+        public HtmlString ConvertToTableHtml(List<UserChannelWithCounts> UC)
+        {
+            string result = "";
+            UC.ForEach(u =>
+            {
+                result += $"<tr id=\"channelRow_{u.UserChannelId}\">" +
+                $"<td><input type=\"checkbox\" onchange=\"softDeleteRow(this, {u.UserChannelId})\" /></td>" +
+                $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">{u.ChannelName}</td> " +
+               $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">({u.VideoCount}) Videos</td> " +
+              $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">({u.PathCount}) Paths</td> " +
+                $"<td onclick=\"OpenChannelDetails({u.UserChannelId})\">By {u.CreatedBy}</td> " +
+                "</tr> ";
+            });
+
+            return new HtmlString(result);
+        }
+
+        public HtmlString PlayVideoById(Guid playById)
+        {
+            return dal.PlayVideoById(playById).ConvertVidToHtmlString();
+        }
+
+        public HtmlString GetRecommendedVids(int userID)
+        {
+            //TO-DO based on selection made on interests, find proper recommendations
+            var vidsStr = ConvertVidGridHTMLSting(dal.GetRecommendedVids(userID));
+            return new HtmlString(vidsStr);
+        }
+
+        public HtmlString GetChannelVideos(int channelId)
+        {
+            //TO-DO based on selection made on interests, find proper recommendations
+            var vidsStr = ConvertVidGridHTMLSting(dal.GetChannelVideos(channelId));
+            return new HtmlString(vidsStr);
+        }
+
+        internal HtmlString GetFilteredVideos(int userChannelId, int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal HtmlString GetChannelList(int userId)
+        {
+            return ConvertToTableHtml(dal.GetChannelLists(userId));
+        }
+
 
         private HtmlString ConvertTopicsToHTMLSting(List<InterestCatergoryTopic> topics)
         {
@@ -315,5 +245,91 @@ namespace CodeAtWork.BL
 
             return result;
         }
+
+        internal HtmlString GetVideoChannels(Guid vidId, int userId)
+        {
+            return new HtmlString(ConvertToChannelLists(dal.GetVideoChannels(vidId, userId), vidId));
+        }
+
+        internal HtmlString GetPathChannels(int pathId, int userId)
+        {
+            return new HtmlString(ConvertToPathChannelLists(dal.GetPathChannels(pathId, userId), pathId));
+        }
+        public HtmlString GetTopicsByCategoryName(int userId, string CategoryName = "Software Development")
+        {
+            return ConvertTopicsToHTMLSting(dal.GetTopicsByCategoryName(new List<string>() { CategoryName }, userId));
+        }
+        internal HtmlString SearchVid(string searchedTxt, bool play)
+        {
+            return new HtmlString(ConvertVidGridHTMLSting(dal.SearchVid(searchedTxt), false, play));
+        }
+
+        internal HtmlString SearchPaths(string filterBy, bool v)
+        {
+            return ConvertToPathBlockHtml(dal.GetAllPathsFiltered(filterBy), withOpt: false, withAdd: true);
+        }
+
+        internal HtmlString GetBookMarkedVideos(int userId)
+        {
+            //TO-DO based on selection made on interests, find proper recommendations
+            var vidsStr = ConvertVidGridHTMLSting(dal.GetBookmarkedVideos(userId), false);
+            return new HtmlString(vidsStr);
+        }
+
+
+        internal HtmlString GetAllPaths(int userId, CategoryEnum? category, int tabId)
+        {
+            return ConvertToPathBlockHtml(dal.GetAllPaths(userId, category, tabId));
+        }
+
+        internal HtmlString GetPathsPanePerChannelId(int userId, int channelId)
+        {
+            return ConvertToPathBlockHtml(dal.GetPathsPanePerChannelId(channelId), false);
+        }
+
+        private HtmlString ConvertToPathBlockHtml(List<Path> list, bool withOpt = true, bool withAdd = false)
+        {
+            string result = "";
+            list.ForEach(p =>
+            {
+
+                result += "  <div class=\"pathCard\">" +
+                    $"<div class=\"outerImgDiv\" onclick=\"viewPath({p.PathId})\">" +
+                        "<img class=\"pathCardImg\" src=\"/Design/Topics/CSharp.png\" />" +
+                    "</div>" +
+                    $"<div class=\"outerTextDiv\" onclick=\"viewPath({p.PathId})\">" +
+                        $"<h2> {p.Name}</h2>" +
+                        $"<p> <a class=\"PathVidCount\">14</a> Courses  <i class=\"fas fa-circle dotSeperator\"></i> {p.Level.ToString()} </p>" +
+                    "</div>";
+
+                if (withOpt)
+                {
+                    result += "<div>" +
+                        $"<svg class=\"pathOpt\" onclick=\"openPathOptMenu({p.PathId})\" role=\"img\" viewBox=\"0 0 24 24\">" +
+                            "<path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z\"></path>" +
+                        "</svg>" +
+                        $"<div class=\"optMenuPath\" id=\"OptMenuPath_{p.PathId}\">" +
+                            $"<p onclick=\"OpenAddPathToChannel({p.PathId})\" class =\"AddToChannelTxt\">Add to Channel</p>" +
+                        "</div>" +
+                        $"<div class=\"optMenuChannel\" id=\"OptMenuPathChannel_{p.PathId}\">" +
+                            "<div class=\"optMenuChannelDiv1\">" +
+                                $"<input type=\"text\" placeholder=\"Create New Channel\" class=\"ChannelAddBar\" id=\"ChannelAddBar_{p.PathId}\" onkeyup=\"EnableAddChannelBtn(this, {p.PathId})\">" +
+                                $"<button type=\"submit\" class=\"ChannelAddBtn\" id=\"PathChannelAddBtn_{p.PathId}\" onclick=\"AddNewChannel({p.PathId})\"><i class=\"fas fa-plus\"></i></button>" +
+                            "</div>" +
+                            "<div style=\"padding-bottom: 5%;\">" +
+                                $"<ul class=\"optMenuList ChannelList\" id=\"PathChannelList_{p.PathId}\"></ul>" +
+                            "</div></div></div>";
+                }
+                if (withAdd)
+                {
+                    result += $"<div><i onclick=\"AddPathToChannel({p.PathId})\" class=\"fas fa-plus-circle pathPlus\"></i> </div>";
+                }
+                result += "</div>";
+            });
+
+            return new HtmlString(result);
+        }
+
+        #endregion
     }
 }

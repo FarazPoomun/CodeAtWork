@@ -83,6 +83,19 @@ namespace CodeAtWork.DAL
             return vidDetails;
         }
 
+        internal void CaptureTime(Guid videoId, float time, int userId)
+        {
+            SqlDataAdapter adapter = new SqlDataAdapter();
+
+            string sql = $@"
+               Insert into UserVideoLog
+                Values('{videoId}', {userId}, {time}, default)";
+
+            adapter.InsertCommand = new SqlCommand(sql, conn);
+            adapter.InsertCommand.ExecuteNonQuery();
+            adapter.Dispose();
+        }
+
         internal Dictionary<string, int> GetCatergoryIdsByName(List<string> CategoryNames)
         {
             Dictionary<string, int> topics = new Dictionary<string, int>();
@@ -248,19 +261,30 @@ namespace CodeAtWork.DAL
             adapter.Dispose();
         }
 
-        internal VideoRepository GetVideoInfo(Guid vidId)
+        internal VideoWithTime GetVideoInfo(Guid vidId)
         {
-            VideoRepository vidDetails = new VideoRepository();
+            VideoWithTime vidDetails = new VideoWithTime();
             SqlCommand command;
             SqlDataReader dataReader;
 
             //TO-DO Accomodate for UserId And Interests
-            string sql = $@" Select * from VideoRepository where videoId = '{vidId}' ";
+            string sql = $@" 
+            ;with vid_cte as(
+            select vr.*, uvl.LastPlayedDuration,
+            Row_Number() over (partition by uvl.VideoId order by LastPlayedDuration) as logOrder
+            from videorepository vr
+            left join UserVideoLog uvl on uvl.VideoId = vr.VideoId
+            where vr.VideoId = '{vidId}'
+            )
+
+            select * from vid_cte
+            where logOrder = (select max(logOrder) from vid_cte)";
+
             command = new SqlCommand(sql, conn);
             dataReader = command.ExecuteReader();
             while (dataReader.Read())
             {
-                vidDetails = new VideoRepository()
+                vidDetails = new VideoWithTime()
                 {
                     VideoId = Guid.Parse(dataReader.GetValue(dataReader.GetOrdinal("VideoId")).ToString()),
                     VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
@@ -268,6 +292,9 @@ namespace CodeAtWork.DAL
                     VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
                     IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString())
                 };
+
+                vidDetails.SeekTo = dataReader.GetValue(dataReader.GetOrdinal("LastPlayedDuration")) != DBNull.Value ?
+              float.Parse(dataReader.GetValue(dataReader.GetOrdinal("LastPlayedDuration")).ToString()) : 1;
             }
 
             dataReader.Close();
@@ -415,6 +442,47 @@ namespace CodeAtWork.DAL
             }
 
             adapter.Dispose();
+        }
+
+        internal PathDetail GetPathDetail(int pathId)
+        {
+            PathDetail detail = new PathDetail() { PathId = pathId };
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            SqlDataReader dataReader;
+            SqlCommand command;
+
+            string sql = $@"select p.pathId, Name, Description from Path p inner join PathDetail pd on p.PathId = pd.PathId
+                         where p.pathid = {pathId}";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                detail.Name = dataReader.GetValue(dataReader.GetOrdinal("Name")).ToString();
+                detail.Description = dataReader.GetValue(dataReader.GetOrdinal("Description")).ToString();
+            }
+            dataReader.Close();
+            sql = $"select * from PathPrerequisite where pathid = {pathId} ";
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                detail.Prerequisites.Add(dataReader.GetValue(dataReader.GetOrdinal("Prerequisite")).ToString());
+            }
+            dataReader.Close();
+
+            sql = $"select * from PathOutcome where pathid = {pathId} ";
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                detail.Outcomes.Add(dataReader.GetValue(dataReader.GetOrdinal("Outcome")).ToString());
+            }
+
+            dataReader.Close();
+            command.Dispose();
+
+            return detail;
         }
 
         internal void AddOrRemoveChannelFromVid(Guid videoId, int channelId, bool isSelected, int userId)
@@ -671,9 +739,9 @@ namespace CodeAtWork.DAL
             return channelDetails;
         }
 
-        internal List<Paths> GetAllPaths(int userId, CategoryEnum? category, int tabId)
+        internal List<Path> GetAllPaths(int userId, CategoryEnum? category, int tabId)
         {
-            List<Paths> paths = new List<Paths>();
+            List<Path> paths = new List<Path>();
             SqlCommand command;
             SqlDataReader dataReader;
 
@@ -702,7 +770,7 @@ namespace CodeAtWork.DAL
             dataReader = command.ExecuteReader();
             while (dataReader.Read())
             {
-                Paths path = new Paths()
+                Path path = new Path()
                 {
                     PathId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("PathId")).ToString()),
                     Name = dataReader.GetValue(dataReader.GetOrdinal("Name")).ToString(),
@@ -715,9 +783,9 @@ namespace CodeAtWork.DAL
             return paths;
         }
 
-        internal List<Paths> GetAllPathsFiltered(string filterBy)
+        internal List<Path> GetAllPathsFiltered(string filterBy)
         {
-            List<Paths> paths = new List<Paths>();
+            List<Path> paths = new List<Path>();
             SqlCommand command;
             SqlDataReader dataReader;
 
@@ -728,7 +796,7 @@ namespace CodeAtWork.DAL
             dataReader = command.ExecuteReader();
             while (dataReader.Read())
             {
-                Paths path = new Paths()
+                Path path = new Path()
                 {
                     PathId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("PathId")).ToString()),
                     Name = dataReader.GetValue(dataReader.GetOrdinal("Name")).ToString(),
@@ -741,9 +809,9 @@ namespace CodeAtWork.DAL
             return paths;
         }
 
-        internal List<Paths> GetPathsPanePerChannelId(int channelId)
+        internal List<Path> GetPathsPanePerChannelId(int channelId)
         {
-            List<Paths> paths = new List<Paths>();
+            List<Path> paths = new List<Path>();
             SqlCommand command;
             SqlDataReader dataReader;
 
@@ -755,7 +823,7 @@ namespace CodeAtWork.DAL
             dataReader = command.ExecuteReader();
             while (dataReader.Read())
             {
-                Paths path = new Paths()
+                Path path = new Path()
                 {
                     PathId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("PathId")).ToString()),
                     Name = dataReader.GetValue(dataReader.GetOrdinal("Name")).ToString(),

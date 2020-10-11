@@ -1,13 +1,14 @@
 ﻿body {
     background-color: #0d0f12;
     margin: auto;
-    color:ghostwhite;
+    color: ghostwhite;
 }
 
-a{
-    text-decoration:none;
-    color:inherit;
+a {
+    text-decoration: none;
+    color: inherit;
 }
+
 .navbar {
     overflow: hidden;
     background-color: black;
@@ -67,7 +68,7 @@ a{
 }
 
 #NavSearch {
-    width: 90%;
+    width: -webkit-fill-available;
     margin-left: 20px;
     margin-top: 4px;
     font-size: 16px;
@@ -96,7 +97,7 @@ a{
 }
 
 .main {
-    margin-top: 4%;
+    margin-top: 6rem;
 }
 
 
@@ -126,9 +127,8 @@ a{
     box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
     background: #222;
     position: absolute;
-    right: 0;
-    margin-top: -1rem;
-    margin-right: 1rem;
+    margin-top: -3rem;
+    right: 1rem;
 }
 
 
@@ -142,6 +142,7 @@ a{
     padding-top: 3%;
     padding-left: 3%;
     padding-right: 3%;
+    font-family: comfortaa;
 }
 
     .optMenuListNav > li {
@@ -149,20 +150,26 @@ a{
         padding-left: 5%;
         padding-bottom: 5%;
         padding-top: 5%;
-        font-size: x-large;
     }
 
         .optMenuListNav > li:hover {
-            background-color: darkgrey;
+            box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
         }
+
+.svgAccounts {
+    height: 1em;
+    vertical-align: -0.1875em;
+    zoom: 2;
+    fill:white;
+}
 
 .lastLI {
     border-top: thin solid grey;
     padding-top: 1rem !important;
 }
 
-#AccountMenu{
-    display:none;
+#AccountMenu {
+    display: none;
 }
 
 .blueBtn {

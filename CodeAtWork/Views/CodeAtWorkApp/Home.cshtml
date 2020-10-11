@@ -6,6 +6,7 @@
 <link href="~/Content/CodeAtWorkApp/Home.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script src="~/Scripts/CodeAtWorkApp/SharedAppJs.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <div id="HomeMain">
 
@@ -27,11 +28,17 @@
 
         </div>
     </div>
+
+    <iframe id="player_iframe" frameborder="0" height="315" src="http://www.youtube.com/embed/5EnL2WXsxNQ?enablejsapi=1" width="560"></iframe>
 </div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
 
 
 <script>
-    var globalVidId= 0;
+
+    var globalVidId = 0;
+
     function OpenPlayer(id) {
     var url = '@Url.Action("AppPlayer", "CodeAtWorkApp", new { playById = "__id" })';
     var New = url.replace("__id", id)

@@ -8,14 +8,24 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <link href="~/Content/CodeAtWork/AppPlayer.css" rel="stylesheet" />
     <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
-
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <link href="~/Content/CodeAtWorkApp/ProgressStyle.css" rel="stylesheet" />
 </head>
 <body>
     <div class="sidenav">
-        <p class="MainName"> @ViewBag.VideoName</p>
-        <p class="AuthorName"> By @ViewBag.By</p>
+
+        <p class="MainName">Now Playing</p>
+        <div>
+            <div class="pie" id="videoProgress" data-value="0" style="float:left; margin-left: 5%;"></div>
+            <div style="float:right">
+                <p class="videoName"> @ViewBag.VideoName</p>
+                <p class="AuthorName"> By @ViewBag.By</p>
+            </div>
+        </div>
+      
 
     </div>
 
@@ -24,4 +34,79 @@
     </div>
 </body>
 </html>
+<script>
+    var player;
 
+    //this function is called by the API
+    function onYouTubeIframeAPIReady() {
+        //creates the player object
+        player = new YT.Player('player_iframe');
+
+        //subscribe to events
+        player.addEventListener("onReady", "onYouTubePlayerReady");
+        player.addEventListener("onStateChange", "onYouTubePlayerStateChange");
+    }
+
+    window.onbeforeunload = function () {
+        captureTime();
+    }
+
+    function onYouTubePlayerReady() {
+        var seekTo = parseFloat('@ViewBag.SeekTo');
+        setProgress(seekTo, player.getDuration());
+
+        player.seekTo(seekTo);
+    }
+
+    function setProgress(passedDuration, fullDuration) {
+        var percentage = passedDuration / fullDuration * 100;
+        $("#videoProgress").replaceWith('<div class="pie" id="videoProgress" data-value="' + parseInt(percentage) + '" style="float:left; margin-left: 5%;"></div>');
+    }
+
+
+
+    function onYouTubePlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PAUSED) {
+            captureTime()
+        }
+    }
+
+    function captureTime() {
+        var time = player.getCurrentTime();
+        var ajaxPost = $.post('/CodeAtWorkApp/CaptureVideoTime', { videoId: '@ViewBag.VideoId', time: time });
+        Promise.all([ajaxPost]);
+    }
+
+    function formatTime(time) {
+        time = Math.round(time);
+
+        var minutes = Math.floor(time / 60),
+            seconds = time - minutes * 60;
+
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        return minutes + ":" + seconds;
+    }
+
+
+    let percent = 70;
+    let counter = 0;
+    let intervalID = null;
+    $(document).ready(() => {
+        intervalID = setInterval(updateNumber, 100);
+    });
+
+    // Update the number
+    function updateNumber() {
+        let step = 4;
+        if (counter + step >= percent) {
+            counter = percent;
+            $('#percentage').html(counter + '%');
+            clearInterval(intervalID);
+            return;
+        }
+        counter += step;
+        $('#percentage').html(counter + '%');
+    }
+
+</script>
