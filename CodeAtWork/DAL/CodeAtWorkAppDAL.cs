@@ -83,6 +83,29 @@ namespace CodeAtWork.DAL
             return vidDetails;
         }
 
+        internal int GetDurationForWeek(int userId, DateTime thisWeekStart)
+        {
+            List<float> durations = new List<float>();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for UserId
+            string sql = $@"select LastPlayedDuration from UserVideoLog
+                where LastModifiedTimestamp between '{thisWeekStart.ToString()}' AND CURRENT_TIMESTAMP AND AppUserId = {userId}";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                durations.Add(float.Parse(dataReader.GetValue(dataReader.GetOrdinal("LastPlayedDuration")).ToString()));
+            }
+            var duration = durations.Count > 0 ? durations.Sum(d => Convert.ToInt32(d / 60)) : 0;
+            duration = duration > 60 ? 60 : duration;
+
+            dataReader.Close();
+            command.Dispose();
+            return duration;
+        }
         internal void CaptureTime(Guid videoId, float time, int userId)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();

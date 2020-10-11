@@ -7,13 +7,25 @@
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script src="~/Scripts/CodeAtWorkApp/SharedAppJs.js"></script>
 <script src="https://www.youtube.com/iframe_api"></script>
+<link href="~/Content/CodeAtWorkApp/HomeProgress.css" rel="stylesheet" />
+<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
 
 <div id="HomeMain">
 
     <div id="HomeProgress">
-        <div>
+        <div id="AboutUser">
             <span class="dot homeDot">@ViewBag.Initial</span>
             <a id="HelloHome"> Hello, @ViewBag.FirstName <i style="font-size:medium" class="far fa-caret-square-down"></i> </a>
+        </div>
+        <div id="thisWeek">
+            <a style="font-size: 1.5rem;"> @ViewBag.DurationForWeek</a>
+            <a style="color: darkgrey"> THIS WEEK</a>
+        </div>
+        <div class="progress-chart" data-target="60" data-color="#f3f3f3">
+           @ViewBag.ProgressForWeekHtml
+            <div class="bar target" data-color="#006982">
+                <div class="label">1 HOUR</div>
+            </div>
         </div>
     </div>
 
@@ -29,11 +41,8 @@
         </div>
     </div>
 
-    <iframe id="player_iframe" frameborder="0" height="315" src="http://www.youtube.com/embed/5EnL2WXsxNQ?enablejsapi=1" width="560"></iframe>
 </div>
-
-<script src="https://www.youtube.com/iframe_api"></script>
-
+<script src="~/Scripts/CodeAtWorkApp/HomeProgress.js"></script>
 
 <script>
 

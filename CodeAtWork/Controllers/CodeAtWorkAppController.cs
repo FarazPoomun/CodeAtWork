@@ -18,11 +18,6 @@ namespace CodeAtWork.Controllers
 
         }
 
-        public ActionResult TestHtml()
-        {
-            return View();
-        }
-
         // GET: CodeAtWorkApp
         public ActionResult Home()
         {
@@ -30,8 +25,13 @@ namespace CodeAtWork.Controllers
             {
                 return RedirectToAction("Login", "CodeAtWork");
             }
+
             //GetRecommended
             var userInfo = Session["UserInfo"] as UserInfo;
+            var DurationForWeekInMin = codeAtWorkAppBL.GetDurationForWeek(userInfo.UserId);
+            ViewBag.DurationForWeek = $"{DurationForWeekInMin}min";
+            ViewBag.ProgressForWeekHtml = codeAtWorkAppBL.ConvertToThisWeekProgress(DurationForWeekInMin);
+
             ViewBag.FirstName = userInfo.FirstName;
             ViewBag.Initial = userInfo.FirstName.ToCharArray()[0];
             ViewBag.RecommendedWatch = codeAtWorkAppBL.GetRecommendedVids(userInfo.UserId);

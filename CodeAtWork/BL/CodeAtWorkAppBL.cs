@@ -53,6 +53,25 @@ namespace CodeAtWork.BL
             dal.AddOrRemoveChannelFromVid(videoId, channelId, isSelected, userId);
         }
 
+        internal int GetDurationForWeek(int userId)
+        {
+            DateTime baseDate = DateTime.Now;
+
+            var today = baseDate;
+            DateTime thisWeekStart;
+            if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                thisWeekStart = baseDate.AddDays(-7);
+            }
+            else
+            {
+                thisWeekStart = baseDate.AddDays(-(int)baseDate.DayOfWeek);
+            };
+
+            thisWeekStart = new DateTime(thisWeekStart.Year, thisWeekStart.Month, thisWeekStart.Day, 0, 0, 0);
+            return dal.GetDurationForWeek(userId, thisWeekStart);
+        }
+
         internal void AddOrRemovePathChannelFromVid(int pathId, int channelId, bool isSelected, int userId)
         {
             dal.AddOrRemovePathChannelFromVid(pathId, channelId, isSelected, userId);
@@ -327,6 +346,13 @@ namespace CodeAtWork.BL
                 result += "</div>";
             });
 
+            return new HtmlString(result);
+        }
+
+        public HtmlString ConvertToThisWeekProgress(int value)
+        {
+            string result = $@"<div class='bar actual' data-value='{value}' data -color='#0084bd'>
+                <div class='label'> {value} MIN</div> </div>";
             return new HtmlString(result);
         }
 

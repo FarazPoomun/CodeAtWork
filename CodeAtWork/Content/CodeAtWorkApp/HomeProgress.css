@@ -1,0 +1,65 @@
+* {
+    box-sizing: border-box;
+}
+
+.progress-chart {
+    background: #cccccc;
+    display: inline-block;
+    height: 7%;
+    margin-bottom: 20px;
+    max-width: 50%;
+    position: relative;
+    width: 35%;
+}
+
+.bar {
+    height: 100%;
+    position: absolute;
+    top: 0;
+}
+
+    .bar .label {
+        background: #f0f0f0;
+        border-radius: 4px;
+        color: gray;
+        margin-top: 2px;
+        padding: 2px 4px;
+        position: absolute;
+        right: 0;
+        WHITE-SPACE: nowrap;
+        top: 100%;
+    }
+
+    .bar.forecast {
+        background: #00a2c9;
+        z-index: 1;
+        -webkit-animation: bar 0.9s ease-in-out;
+        animation: bar 0.9s ease-in-out;
+    }
+
+    .bar.actual {
+        background: #00cbfc;
+        z-index: 2;
+        -webkit-animation: bar 0.8s ease-in-out;
+        animation: bar 0.8s ease-in-out;
+    }
+
+    .bar.target {
+        background: #006982;
+        top: -2px;
+        width: 3px;
+        z-index: 3;
+        height: calc(100% + 4px);
+    }
+
+@-webkit-keyframes bar {
+    0% {
+        width: 0;
+    }
+}
+
+@keyframes bar {
+    0% {
+        width: 0;
+    }
+}
