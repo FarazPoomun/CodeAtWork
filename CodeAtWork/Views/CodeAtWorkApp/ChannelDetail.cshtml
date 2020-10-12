@@ -36,25 +36,32 @@
 
     <div id="AddContentsModal">
         <div><i class="fas fa-times CloseModal" onclick="CloseAddContentModal()"></i></div>
-
-        <div id="ChannelDetailTable">
-            <div class="selectedModelChannelSection" onclick="toggleModalSelectedDiv(this, 1)">
-                Videos
-            </div>
-            <div onclick="toggleModalSelectedDiv(this, 2)">
-                Path
+        <div id="AddingContentToChannelDIV" style="display:none">
+            <div id="ChannelDetailTable">
+                <div class="selectedModelChannelSection" onclick="toggleModalSelectedDiv(this, 1)">
+                    Videos
+                </div>
+                <div onclick="toggleModalSelectedDiv(this, 2)">
+                    Path
+                </div>
+                <div>
+                </div>
             </div>
             <div>
+                <div>
+                    <input type="text" name="search" class="ModalSearch" placeholder="Start typing to filter videos.." onkeyup="FilterListOfVids(this)">
+                </div>
+                <div class="ModalScreenshots" id="FilteredVidsGrid">
+                </div>
+
+                <div id="FilteredPathPanes">
+                </div>
             </div>
         </div>
-        <div>
-            <div>
-                <input type="text" name="search" id="ModalSearch" placeholder="Start typing to filter videos.." onkeyup="FilterListOfVids(this)">
-            </div>
-            <div class="ModalScreenshots" id="FilteredVidsGrid">
-            </div>
-
-            <div id="FilteredPathPanes">
+        <div id="SharingChannelDIV">
+            <div class="optMenuChannelDiv1" style="border-bottom:none">
+                <input type="text" placeholder="Enter emails to share" class="ShareAddBar">
+                <button type="submit" class="ShareAddBtn" onclick="AddNewChannel()"><i class="fas fa-plus"></i></button>
             </div>
         </div>
     </div>

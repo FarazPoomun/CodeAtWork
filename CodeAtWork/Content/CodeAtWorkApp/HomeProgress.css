@@ -38,7 +38,7 @@
     }
 
     .bar.actual {
-        background: #00cbfc;
+        background: #154a94;
         z-index: 2;
         -webkit-animation: bar 0.8s ease-in-out;
         animation: bar 0.8s ease-in-out;

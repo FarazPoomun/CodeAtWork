@@ -445,7 +445,7 @@ input:focus {
     cursor: pointer;
 }
 
-#ModalSearch {
+.ModalSearch {
     width: 90%;
     margin-left: 2rem;
     margin-top: 1rem;
@@ -463,7 +463,7 @@ input:focus {
     font-family: Comfortaa;
 }
 
-    #ModalSearch:focus {
+    .ModalSearch:focus {
         outline: none;
     }
 
@@ -532,4 +532,34 @@ input:focus {
     padding-left: 0.5%;
     padding-right: 0.5%;
     color: darkgrey;
+}
+
+.ShareAddBar {
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 50rem;
+    background: #f1f1f1;
+    margin-left: 2%;
+    margin-top: 5%;
+}
+
+.optMenuChannelDiv1 {
+    height: 7rem;
+    border-bottom: 1px solid darkgrey !important;
+}
+
+.ShareAddBtn {
+    float: left;
+    width: 4rem;
+    padding: 10px;
+    background: #0084bd;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+    margin-top: 5%;
 }

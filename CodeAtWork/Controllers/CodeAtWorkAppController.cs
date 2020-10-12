@@ -124,9 +124,16 @@ namespace CodeAtWork.Controllers
             }
             var userInfo = Session["UserInfo"] as UserInfo;
 
-            ViewBag.ChannelsTabData = codeAtWorkAppBL.GetChannelList(userInfo.UserId);
+            ViewBag.ChannelsTabData = GetChannelList();
 
             return View();
+        }
+
+        public HtmlString GetChannelList(int isShared = 0)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+
+            return codeAtWorkAppBL.GetChannelList(userInfo.UserId, isShared);
         }
 
         [HttpGet]

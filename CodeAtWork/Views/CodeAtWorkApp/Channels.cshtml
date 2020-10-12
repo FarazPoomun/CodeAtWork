@@ -16,10 +16,10 @@
         <button type="submit" class="ChannelAddBtn" id="ChannelAddBtn" onclick="AddNewChannel()"><i class="fas fa-plus"></i></button>
     </div>
     <div id="ChannelTable">
-        <div class="selectedChannelSection" onclick="toggleSelectedDiv(this)">
+        <div class="selectedChannelSection" onclick="toggleSelectedDiv(this, 0)">
             My Channels
         </div>
-        <div onclick="toggleSelectedDiv(this)">
+        <div onclick="toggleSelectedDiv(this, 1)">
             Shared Channels
         </div>
         <div>
@@ -90,10 +90,17 @@
     window.open(New, "_blank");
     }
 
-    function toggleSelectedDiv(elem) {
+    function toggleSelectedDiv(elem, tabId) {
         var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
         $(existingElem).removeClass("selectedChannelSection");
         $(elem).addClass("selectedChannelSection");
+
+        var ajaxPost = $.post('/CodeAtWorkApp/GetChannelList', { isShared: tabId });
+        Promise.all([ajaxPost]).then((result) => {
+            document.getElementById("channelListTable").innerHTML = result;
+            $("#deleteChannelBtn").css("pointer-events", "none");
+            $("#deleteChannelBtn").css("background-color", "grey");
+        });
     }
 
 </script>

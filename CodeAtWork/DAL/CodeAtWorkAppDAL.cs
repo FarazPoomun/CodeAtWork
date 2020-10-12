@@ -722,7 +722,7 @@ namespace CodeAtWork.DAL
             return vidDetails;
         }
 
-        public List<UserChannelWithCounts> GetChannelLists(int userId)
+        public List<UserChannelWithCounts> GetChannelLists(int userId, int isShared)
         {
             List<UserChannelWithCounts> channelDetails = new List<UserChannelWithCounts>();
             SqlCommand command;
@@ -737,7 +737,7 @@ namespace CodeAtWork.DAL
 								CONCAT(UD.FirstName, ' ', UD.Lastname) as CreatedBy
                                 from  UserChannel UC
 								inner join UserDetail UD on UD.AppUserId = {userId}
-                                where UC.AppUserId  = {userId} And IsShared  = 0
+                                where UC.AppUserId  = {userId} And IsShared  = {isShared}
             ";
 
             command = new SqlCommand(sql, conn);

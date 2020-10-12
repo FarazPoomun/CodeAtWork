@@ -164,9 +164,9 @@ namespace CodeAtWork.BL
             throw new NotImplementedException();
         }
 
-        internal HtmlString GetChannelList(int userId)
+        internal HtmlString GetChannelList(int userId, int isShared)
         {
-            return ConvertToTableHtml(dal.GetChannelLists(userId));
+            return ConvertToTableHtml(dal.GetChannelLists(userId, isShared));
         }
 
 

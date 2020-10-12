@@ -222,12 +222,12 @@ th, td {
     float: left;
     width: 80%;
     background: #f1f1f1;
-    margin-left: 2%;
+    margin-left: 1%;
     margin-top: 5%;
 }
 
 .optMenuChannelDiv1 {
-    height: 4vw;
+    height: 7rem;
     border-bottom: 1px solid black;
     float: right;
 }
