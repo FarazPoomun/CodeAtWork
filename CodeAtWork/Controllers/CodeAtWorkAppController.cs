@@ -4,6 +4,7 @@ using CodeAtWork.Models.Misc;
 using CodeAtWork.Models.Session;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
 
@@ -134,6 +135,44 @@ namespace CodeAtWork.Controllers
             var userInfo = Session["UserInfo"] as UserInfo;
 
             return codeAtWorkAppBL.GetChannelList(userInfo.UserId, isShared);
+        }
+
+        public JsonResult SubscribeUserToChannel(int channelId, string email)
+        {
+            Models.Misc.ValidationResult result = new Models.Misc.ValidationResult();
+
+            var foo = new EmailAddressAttribute();
+
+            if (!new EmailAddressAttribute().IsValid(email))
+            {
+                result.HasValidationFailed = true;
+                result.ValidationMsg = "Invalid Email Format";
+            }
+            else
+            {
+                var newId = codeAtWorkAppBL.SubscribeUserToChannel(channelId, email);
+               if (newId is null)
+                {
+                    result.HasValidationFailed = true;
+                    result.ValidationMsg = "Duplicate Email";
+                }
+                else
+                {
+                    result.HasValidationFailed = false;
+                    result.AdditionalMsg = codeAtWorkAppBL.ConvertToSubscribedPill(newId, email);
+                }
+            }
+            return Json(result);
+        }
+
+        public HtmlString GetSubscribeUserToChannel(int channelId)
+        {
+            return codeAtWorkAppBL.GetSubscribeUserToChannel(channelId);
+        }
+
+        public void UnsubscribeUserToChannel(int channelSubscribedUserId)
+        {
+            codeAtWorkAppBL.UnsubscribeUserToChannel(channelSubscribedUserId);
         }
 
         [HttpGet]

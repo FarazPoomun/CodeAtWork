@@ -142,6 +142,7 @@
     <Compile Include="Models\Misc\RegistrationValidations.cs" />
     <Compile Include="Models\Paths.cs" />
     <Compile Include="Models\Session\UserInfo.cs" />
+    <Compile Include="Models\SubscribedChannelUser.cs" />
     <Compile Include="Models\UI\CreateVid.cs" />
     <Compile Include="Models\Channels.cs" />
     <Compile Include="Models\UserDetails.cs" />

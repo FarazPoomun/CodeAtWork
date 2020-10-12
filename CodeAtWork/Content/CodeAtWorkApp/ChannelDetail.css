@@ -540,7 +540,7 @@ input:focus {
     font-size: 17px;
     border: 1px solid grey;
     float: left;
-    width: 50rem;
+    width: 20rem;
     background: #f1f1f1;
     margin-left: 2%;
     margin-top: 5%;
@@ -553,7 +553,7 @@ input:focus {
 
 .ShareAddBtn {
     float: left;
-    width: 4rem;
+    width: 3rem;
     padding: 10px;
     background: #0084bd;
     color: white;
@@ -562,4 +562,29 @@ input:focus {
     border-left: none;
     cursor: pointer;
     margin-top: 5%;
+}
+
+.removePill {
+    padding-left: 1rem;
+}
+
+.removePill:hover {
+    color:red;
+}
+
+.br-pill {
+    border-width: thin;
+    font-size: medium;
+    margin-right: 0.5%;
+    cursor: pointer;
+    display: inline-flex;
+    border-color: #0084bd;
+    background-color: #0084bd;
+}
+
+#validationMsg {
+    font-family: comfortaa;
+
+    background: red;
+    font-size: 1.3em;
 }

@@ -27,7 +27,7 @@ namespace CodeAtWork.Controllers
 
         public JsonResult SaveRegistration(UserDetails user)
         {
-            RegistrationValidations result = new RegistrationValidations();
+            Models.Misc.ValidationResult result = new Models.Misc.ValidationResult();
 
             var foo = new EmailAddressAttribute();
 

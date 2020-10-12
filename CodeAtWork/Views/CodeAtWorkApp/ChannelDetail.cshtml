@@ -17,7 +17,7 @@
         <div id="ChannelPaneBtns">
             <div>
                 <div style="float:left;  margin-left: 4%;">
-                    <button class="blueBtn" onclick="OpenAddContentModal()"> <i style="font-size:1rem" class="fas fa-plus"></i> Add Contents</button>
+                    <button class="blueBtn" onclick="OpenAddContentModal(1)"> <i style="font-size:1rem" class="fas fa-plus"></i> Add Contents</button>
                     <svg role="img" viewBox="0 0 24 24" class="optSvgHeader" onclick="OpenChannelMenu()" id="OptMenuBtn"><path fill="currentColor" fill-rule="evenodd" d="M6 14.5a2 2 0 110-4 2 2 0 010 4zm12 0a2 2 0 110-4 2 2 0 010 4zm-6 0a2 2 0 110-4 2 2 0 010 4z"></path></svg>
                     <div id="optChannelMenu">
                         <ul class="optMenuList">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div style="float:right;margin-right: 1%;">
-                    <button class="blueBtn"> <i style="font-size:1rem" class="fas fa-users"></i> Share Channel</button>
+                    <button class="blueBtn" onclick="OpenAddContentModal(2)"> <i style="font-size:1rem" class="fas fa-users"></i> Share Channel</button>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
 
     <div id="AddContentsModal">
         <div><i class="fas fa-times CloseModal" onclick="CloseAddContentModal()"></i></div>
-        <div id="AddingContentToChannelDIV" style="display:none">
+        <div id="AddingContentToChannelDIV">
             <div id="ChannelDetailTable">
                 <div class="selectedModelChannelSection" onclick="toggleModalSelectedDiv(this, 1)">
                     Videos
@@ -60,8 +60,13 @@
         </div>
         <div id="SharingChannelDIV">
             <div class="optMenuChannelDiv1" style="border-bottom:none">
-                <input type="text" placeholder="Enter emails to share" class="ShareAddBar">
-                <button type="submit" class="ShareAddBtn" onclick="AddNewChannel()"><i class="fas fa-plus"></i></button>
+                <input type="text" placeholder="Enter emails to share" class="ShareAddBar" id="userEmail">
+                <button type="submit" class="ShareAddBtn" onclick="SubscribeUserToChannel()"><i class="fas fa-plus"></i></button>
+                <a id="validationMsg" style="display:none;"></a>
+            </div>
+
+            <div class="ph3 mt4" id="subscribedUserToChannel">
+                <a id="Pill_1" class="f6 br-pill ba ph3 pv2 mb2 dib isSubscribed">.Net <i class="fas fa-times removePill" onclick="unsubscribeUser(1)"></i></a>
             </div>
         </div>
     </div>
@@ -92,6 +97,34 @@
 
 
 <script>
+    function SubscribeUserToChannel() {
+        var email = document.getElementById("userEmail").value;
+        if (!IsNullOrEmpty(email)) {
+            $("#validationMsg").css("display", "none");
+            var subscribeUserPost = $.post('/CodeAtWorkApp/SubscribeUserToChannel', { channelId: '@ViewBag.UserChannelId', email: email });
+            Promise.all([subscribeUserPost]).then((result) => {
+                if (result && result[0] && result[0].HasValidationFailed) {
+                    document.getElementById("validationMsg").innerHTML = result[0].ValidationMsg;
+                    $("#validationMsg").slideDown();
+                }
+                else {
+                    document.getElementById("subscribedUserToChannel").innerHTML += result[0].AdditionalMsg;
+                    document.getElementById("userEmail").value = "";
+                    }
+            });
+        }
+        else {
+            document.getElementById("validationMsg").innerHTML = 'Enter an email';
+            $("#validationMsg").slideDown();
+        }
+    }
+
+    function unsubscribeUser(pillId) {
+        var subscribeUserPost = $.post('/CodeAtWorkApp/UnsubscribeUserToChannel', { channelSubscribedUserId: pillId});
+            Promise.all([subscribeUserPost]).then(() => {
+                $("#Pill_" + pillId).remove();
+            });
+    }
 
     var isPathPulled = false;
 
@@ -100,8 +133,24 @@
         Promise.all([ajaxPost]);
     }
 
-    function OpenAddContentModal() {
-        $("#AddContentsModal").show();
+    function OpenAddContentModal(tabId) {
+        var addContent = $("#AddingContentToChannelDIV");
+        var shareContent = $("#SharingChannelDIV");
+
+        if (tabId == 1) {
+            $(shareContent).css("display", "none");
+            $("#AddContentsModal").show();
+            $(addContent).css("display", "block");
+        }
+        else {
+            var subscribeUserPost = $.post('/CodeAtWorkApp/GetSubscribeUserToChannel', { channelId: '@ViewBag.UserChannelId'});
+            Promise.all([subscribeUserPost]).then((result) => {
+                document.getElementById("subscribedUserToChannel").innerHTML = result;
+                $(addContent).css("display", "none");
+                $("#AddContentsModal").show();
+                $(shareContent).css("display", "block");
+            });
+        }
     }
 
     function viewPath(pathId) {

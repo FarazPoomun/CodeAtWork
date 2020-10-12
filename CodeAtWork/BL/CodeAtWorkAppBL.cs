@@ -140,6 +140,11 @@ namespace CodeAtWork.BL
             return new HtmlString(result);
         }
 
+        internal int? SubscribeUserToChannel(int channelId, string email)
+        {
+            return dal.SubscribeUserToChannel(channelId, email);
+        }
+
         public HtmlString PlayVideoById(Guid playById)
         {
             return dal.PlayVideoById(playById).ConvertVidToHtmlString();
@@ -150,6 +155,28 @@ namespace CodeAtWork.BL
             //TO-DO based on selection made on interests, find proper recommendations
             var vidsStr = ConvertVidGridHTMLSting(dal.GetRecommendedVids(userID));
             return new HtmlString(vidsStr);
+        }
+
+        internal string ConvertToSubscribedPill(int? newId, string email)
+        {
+            string result = $"<a id=\"Pill_{newId}\" class='f6 br-pill ba ph3 pv2 mb2 dib'>{email}<i class=\"fas fa-times removePill\" onclick=\"unsubscribeUser({newId})\"></i></a>";
+            return result;
+        }
+
+        internal HtmlString GetSubscribeUserToChannel(int channelId)
+        {
+           var subscribedChannelUsers = dal.GetSubscribeUserToChannel(channelId);
+            string result ="";
+            subscribedChannelUsers.ForEach(s => {
+                result += ConvertToSubscribedPill(s.ChannelSubscribedUserId, s.Email);
+            });
+
+            return new HtmlString(result);
+        }
+
+        internal void UnsubscribeUserToChannel(int channelSubscribedUserId)
+        {
+            dal.UnsubscribeUserToChannel(channelSubscribedUserId);
         }
 
         public HtmlString GetChannelVideos(int channelId)

@@ -145,6 +145,80 @@ namespace CodeAtWork.DAL
             return topics;
         }
 
+        internal List<SubscribedChannelUser> GetSubscribeUserToChannel(int channelId)
+        {
+            List<SubscribedChannelUser> subscribedChannelUsers = new List<SubscribedChannelUser>();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for UserId
+            string sql = $@" SELECT * FROM ChannelSubscribedUser where UserChannelId = {channelId};";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                SubscribedChannelUser subscribedChannelUser = new SubscribedChannelUser()
+                {
+                    ChannelSubscribedUserId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("ChannelSubscribedUserId")).ToString()),
+                    UserChannelId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("UserChannelId")).ToString()),
+                    Email = dataReader.GetValue(dataReader.GetOrdinal("Email")).ToString(),
+                };
+
+                subscribedChannelUsers.Add(subscribedChannelUser);
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return subscribedChannelUsers;
+        }
+
+        internal void UnsubscribeUserToChannel(int channelSubscribedUserId)
+        {
+            SqlCommand command;
+            SqlDataAdapter adapter = new SqlDataAdapter();
+
+            string sql = $"DELETE FROM channelSubscribedUser WHERE channelSubscribedUserId ={channelSubscribedUserId}";
+
+            command = new SqlCommand(sql, conn);
+
+            adapter.DeleteCommand = new SqlCommand(sql, conn);
+            adapter.DeleteCommand.ExecuteNonQuery();
+            command.Dispose();
+        }
+
+        internal int? SubscribeUserToChannel(int channelId, string email)
+        {
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for UserId And Interests
+            string sql = $@"select 1 from ChannelSubscribedUser where email ='{email}' and UserChannelId = {channelId}";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                return null;
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            SqlDataAdapter adapter = new SqlDataAdapter();
+
+            sql = $@"DECLARE @INSERTED table([ChannelSubscribedUserId] int);
+            Insert into ChannelSubscribedUser
+            OUTPUT INSERTED.[ChannelSubscribedUserId] Into @inserted
+            values({ channelId},'{email}'); select* from @inserted";
+
+            adapter.InsertCommand = new SqlCommand(sql, conn);
+
+            var newId = (int)adapter.InsertCommand.ExecuteScalar();
+            command.Dispose();
+            adapter.Dispose();
+            return newId;
+        }
+
         internal List<UserChannel> GetPathChannels(int pathId, int userId)
         {
             List<UserChannel> vidChannelDetails = new List<UserChannel>();
@@ -253,8 +327,6 @@ namespace CodeAtWork.DAL
 
         public void SaveTopics(Dictionary<int, bool> updatedVal, int userId)
         {
-
-            //TO-DO UserID in delete and insert
             SqlCommand command;
             SqlDataAdapter adapter = new SqlDataAdapter();
             if (updatedVal.Values.Any(z => !z))
