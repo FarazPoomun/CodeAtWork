@@ -67,13 +67,16 @@
 
     function onYouTubePlayerStateChange(event) {
         if (event.data == YT.PlayerState.PAUSED) {
-            captureTime()
+            captureTime();
+        }
+        else if (event.data == YT.PlayerState.ENDED) {
+            captureTime(1);
         }
     }
 
-    function captureTime() {
+    function captureTime(IsFinished = 0) {
         var time = player.getCurrentTime();
-        var ajaxPost = $.post('/CodeAtWorkApp/CaptureVideoTime', { videoId: '@ViewBag.VideoId', time: time });
+        var ajaxPost = $.post('/CodeAtWorkApp/CaptureVideoTime', { videoId: '@ViewBag.VideoId', time: time, IsFinished: IsFinished });
         Promise.all([ajaxPost]);
     }
 

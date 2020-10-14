@@ -9,4 +9,10 @@
         public string Username { get; set; }
         public string Email { get; set; }
     }
+
+    public class UserDetailsWithId: UserDetails
+    {
+        public int AppUserId { get; set; }
+        public int UserDetailId { get; set; }
+    }
 }

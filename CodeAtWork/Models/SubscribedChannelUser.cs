@@ -10,6 +10,5 @@ namespace CodeAtWork.Models
         public int ChannelSubscribedUserId { get; set; }
         public int UserChannelId { get; set; }
         public string Email { get; set; }
-
     }
 }

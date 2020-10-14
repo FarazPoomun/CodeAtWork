@@ -31,13 +31,18 @@
 
     <div id="HomeVids">
         <div class="vidScreenshotWrapper">
+
+            @if (@ViewBag.RecentViews != null)
+            {
+            <p class="vidScreenshotHeader">Continue Watching</p>
+            <div class="HomeScreenshots">
+                @ViewBag.RecentViews
+            </div>
+            }
             <p class="vidScreenshotHeader">Recommended Watch</p>
             <div class="HomeScreenshots">
                 @ViewBag.RecommendedWatch
             </div>
-
-            <p class="vidScreenshotHeader">Recommended Watch</p>
-
         </div>
     </div>
 

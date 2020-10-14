@@ -116,9 +116,9 @@ namespace CodeAtWork.BL
             return dal.GetPathDetail(pathId);
         }
 
-        internal void CaptureTime(Guid videoId, float time, int userId)
+        internal void CaptureTime(Guid videoId, float time, int IsFinished, int userId)
         {
-            dal.CaptureTime(videoId, time, userId);
+            dal.CaptureTime(videoId, time, IsFinished, userId);
         }
 
         #region Htmlstring conversions
@@ -150,6 +150,17 @@ namespace CodeAtWork.BL
             return dal.PlayVideoById(playById).ConvertVidToHtmlString();
         }
 
+        public HtmlString GetRecentViewedVids(int userID)
+        {
+            var objs = dal.GetRecentViewedVids(userID);
+            if (objs.Any())
+            {
+                var vidsStr = ConvertVidGridHTMLSting(objs);
+                return new HtmlString(vidsStr);
+            }
+            return null;
+        }
+
         public HtmlString GetRecommendedVids(int userID)
         {
             //TO-DO based on selection made on interests, find proper recommendations
@@ -165,9 +176,10 @@ namespace CodeAtWork.BL
 
         internal HtmlString GetSubscribeUserToChannel(int channelId)
         {
-           var subscribedChannelUsers = dal.GetSubscribeUserToChannel(channelId);
-            string result ="";
-            subscribedChannelUsers.ForEach(s => {
+            var subscribedChannelUsers = dal.GetSubscribeUserToChannel(channelId);
+            string result = "";
+            subscribedChannelUsers.ForEach(s =>
+            {
                 result += ConvertToSubscribedPill(s.ChannelSubscribedUserId, s.Email);
             });
 
@@ -195,7 +207,6 @@ namespace CodeAtWork.BL
         {
             return ConvertToTableHtml(dal.GetChannelLists(userId, isShared));
         }
-
 
         private HtmlString ConvertTopicsToHTMLSting(List<InterestCatergoryTopic> topics)
         {
@@ -321,7 +332,6 @@ namespace CodeAtWork.BL
             var vidsStr = ConvertVidGridHTMLSting(dal.GetBookmarkedVideos(userId), false);
             return new HtmlString(vidsStr);
         }
-
 
         internal HtmlString GetAllPaths(int userId, CategoryEnum? category, int tabId)
         {

@@ -36,7 +36,8 @@ namespace CodeAtWork.Controllers
             ViewBag.FirstName = userInfo.FirstName;
             ViewBag.Initial = userInfo.FirstName.ToCharArray()[0];
             ViewBag.RecommendedWatch = codeAtWorkAppBL.GetRecommendedVids(userInfo.UserId);
-
+            var recents = codeAtWorkAppBL.GetRecentViewedVids(userInfo.UserId);
+            ViewBag.RecentViews = recents;
             return View();
         }
 
@@ -151,10 +152,15 @@ namespace CodeAtWork.Controllers
             else
             {
                 var newId = codeAtWorkAppBL.SubscribeUserToChannel(channelId, email);
-               if (newId is null)
+                if (newId is null)
                 {
                     result.HasValidationFailed = true;
                     result.ValidationMsg = "Duplicate Email";
+                }
+                else if (newId == -1)
+                {
+                    result.HasValidationFailed = true;
+                    result.ValidationMsg = "Invalid User";
                 }
                 else
                 {
@@ -191,13 +197,13 @@ namespace CodeAtWork.Controllers
         }
 
 
-        public void CaptureVideoTime(Guid videoId, float time)
+        public void CaptureVideoTime(Guid videoId, float time, int IsFinished)
         {
             try
             {
                 var userInfo = Session["UserInfo"] as UserInfo;
 
-                codeAtWorkAppBL.CaptureTime(videoId, time, userInfo.UserId);
+                codeAtWorkAppBL.CaptureTime(videoId, time, IsFinished, userInfo.UserId);
             }
             catch
             {

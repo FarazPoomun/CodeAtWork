@@ -90,8 +90,16 @@ namespace CodeAtWork.DAL
             SqlDataReader dataReader;
 
             //TO-DO Accomodate for UserId
-            string sql = $@"select LastPlayedDuration from UserVideoLog
-                where LastModifiedTimestamp between '{thisWeekStart.ToString()}' AND CURRENT_TIMESTAMP AND AppUserId = {userId}";
+            string sql = $@"
+            ;with logCte as(
+            select * ,
+            Row_Number() over (partition by videoId Order by LastPlayedDuration) as DurationRank
+            from UserVideoLog
+            where LastModifiedTimestamp between '{thisWeekStart.ToString()}' AND CURRENT_TIMESTAMP AND AppUserId = {userId}
+            )
+
+            select lc.LastPlayedDuration from logCte lc
+            where DurationRank = (select Max(DurationRank) from logCte where VideoId = lc.VideoId)";
 
             command = new SqlCommand(sql, conn);
             dataReader = command.ExecuteReader();
@@ -106,13 +114,13 @@ namespace CodeAtWork.DAL
             command.Dispose();
             return duration;
         }
-        internal void CaptureTime(Guid videoId, float time, int userId)
+        internal void CaptureTime(Guid videoId, float time, int IsFinished, int userId)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
 
             string sql = $@"
                Insert into UserVideoLog
-                Values('{videoId}', {userId}, {time}, default)";
+                Values('{videoId}', {userId}, {time}, default ,{IsFinished})";
 
             adapter.InsertCommand = new SqlCommand(sql, conn);
             adapter.InsertCommand.ExecuteNonQuery();
@@ -162,7 +170,7 @@ namespace CodeAtWork.DAL
                 {
                     ChannelSubscribedUserId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("ChannelSubscribedUserId")).ToString()),
                     UserChannelId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("UserChannelId")).ToString()),
-                    Email = dataReader.GetValue(dataReader.GetOrdinal("Email")).ToString(),
+                    Email = dataReader.GetValue(dataReader.GetOrdinal("Email")).ToString()
                 };
 
                 subscribedChannelUsers.Add(subscribedChannelUser);
@@ -191,9 +199,27 @@ namespace CodeAtWork.DAL
         {
             SqlCommand command;
             SqlDataReader dataReader;
+            bool validUser = false;
+            string sql = $@"select 1 from UserDetail where email ='{email}'";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                validUser = true;
+                break;
+            }
+
+            if (!validUser)
+            {
+                return -1;
+            }
+
+            dataReader.Close();
+            command.Dispose();
 
             //TO-DO Accomodate for UserId And Interests
-            string sql = $@"select 1 from ChannelSubscribedUser where email ='{email}' and UserChannelId = {channelId}";
+            sql = $@"select 1 from ChannelSubscribedUser where email ='{email}' and UserChannelId = {channelId}";
 
             command = new SqlCommand(sql, conn);
             dataReader = command.ExecuteReader();
@@ -709,6 +735,69 @@ namespace CodeAtWork.DAL
             adapter.Dispose();
         }
 
+        public List<VideoRepository> GetRecentViewedVids(int userId, int? top = 5)
+        {
+            List<VideoRepository> vidDetails = new List<VideoRepository>();
+            SqlCommand command;
+            SqlDataReader dataReader;
+            string sql = "";
+            if (top is null)
+            {
+                //TO-DO Accomodate for UserId And Interests
+                sql = $@"
+                    ;with logCte as(
+                    select distinct(uvl.VideoId)
+                    from UserVideoLog uvl
+                    where AppUserId = {userId} and not exists (select 1 from UserVideoLog where IsFinished = 1 and VideoId = uvl.VideoId)
+                    )
+
+                     SELECT vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
+                                            left join Userbookmarkedvideo UBV on vr.VideoId =  UBV.VideoId AND UBV.AppUserId = {userId}
+						                    where Vr.VideoId in (select * from logCte)
+            ";
+            }
+            else
+            {
+                //TO-DO Accomodate for UserId And Interests
+                sql = $@"     ;with logCte as(
+                    select distinct(uvl.VideoId)
+                    from UserVideoLog uvl
+                    where AppUserId = {userId} and not exists (select 1 from UserVideoLog where IsFinished = 1 and VideoId = uvl.VideoId)
+                    )
+
+                     SELECT top {top} vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
+                                            left join Userbookmarkedvideo UBV on vr.VideoId =  UBV.VideoId AND UBV.AppUserId = {userId}
+						                    where Vr.VideoId in (select * from logCte)
+            ";
+            }
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                VideoRepository vid = new VideoRepository()
+                {
+                    VideoId = Guid.Parse(dataReader.GetValue(dataReader.GetOrdinal("VideoId")).ToString()),
+                    VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
+                    VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
+                    VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
+                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString()),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString())
+                };
+
+                if (dataReader.GetValue(dataReader.GetOrdinal("UserBookMarkedVideo")) != DBNull.Value)
+                {
+                    vid.IsBookMarked = true;
+                }
+
+                vidDetails.Add(vid);
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return vidDetails;
+        }
+        
         public List<VideoRepository> GetRecommendedVids(int userId, int? top = 5)
         {
             List<VideoRepository> vidDetails = new List<VideoRepository>();
@@ -778,7 +867,8 @@ namespace CodeAtWork.DAL
                     VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
                     VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
                     VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
-                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString())
+                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString()),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString()),
                 };
 
                 if (dataReader.GetValue(dataReader.GetOrdinal("UserBookMarkedVideo")) != DBNull.Value)
@@ -800,6 +890,15 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
+            string additionalJoin = "";
+            string additionalWhere = "";
+
+            if (isShared == 1)
+            {
+                additionalJoin = "left join ChannelSubscribedUser csu on csu.UserChannelId = UC.UserChannelId";
+                additionalWhere = "OR UD.Email =csu.Email";
+            }
+
             //TO-DO Accomodate for UserId And Interests
             string sql = $@"   select UC.*, 
                                 (select count(*)from ChannelVideo
@@ -809,7 +908,8 @@ namespace CodeAtWork.DAL
 								CONCAT(UD.FirstName, ' ', UD.Lastname) as CreatedBy
                                 from  UserChannel UC
 								inner join UserDetail UD on UD.AppUserId = {userId}
-                                where UC.AppUserId  = {userId} And IsShared  = {isShared}
+                                {additionalJoin}
+                                where (UC.AppUserId  = {userId} {additionalWhere}) And IsShared  = {isShared}
             ";
 
             command = new SqlCommand(sql, conn);
@@ -826,7 +926,10 @@ namespace CodeAtWork.DAL
                     CreatedBy = dataReader.GetValue(dataReader.GetOrdinal("CreatedBy")).ToString(),
                     AppUserId = userId
                 };
-                channelDetails.Add(UC);
+                if (!channelDetails.Any(z => z.UserChannelId == UC.UserChannelId))
+                {
+                    channelDetails.Add(UC);
+                }
             }
 
             dataReader.Close();

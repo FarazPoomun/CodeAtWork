@@ -38,7 +38,7 @@
 .homeDot {
     height: 4rem;
     width: 4rem;
-    line-height: 3.5rem;
+    line-height: 4.5rem;
     font-size: 3rem;
     margin-left: 2%;
     margin-top: -1rem;
@@ -90,6 +90,7 @@
 .vidScreenshotHeader {
     padding-top: 2%;
     font-size: 23px;
+    font-family: comfortaa;
 }
 
 .innerScreenshot {
