@@ -4,6 +4,9 @@
     font-family: Comfortaa;
 }
 
+.AccountDropdown {
+    margin-top: -1rem;
+}
 
 th {
     border-bottom: 2px solid ghostwhite;

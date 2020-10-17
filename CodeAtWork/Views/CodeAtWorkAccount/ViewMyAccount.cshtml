@@ -4,8 +4,71 @@
     Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
 }
 <link href="~/Content/CodeAtWorkAccount/ViewMyAccount.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+
+
 <div id="AccountPageWrapper">
     <div id="AccountHeaderDIV">
-        <h1 id="NameText">Faraz Poomun</h1>
+        <div id="firstHeaderDIV">
+            <h1 id="NameText">Faraz Poomun</h1>
+            <a class="NameSubText">Software Developer <i class="fas fa-circle dotSeperator"></i> Ceridian</a>
+        </div>
+        <div style="font-family:comfortaa" id="sideHeaderLinks">
+            <p class="headerLinks" style="padding-top: 1rem">  <a class="HeaderNum"> 12 </a> Interests</p>
+            <p class="headerLinks">  <a class="HeaderNum"> 8 </a> Paths</p>
+            <p class="headerLinks">  <a class="HeaderNum"> 10 </a> Channels</p>
+        </div>
     </div>
+
+    <div id="TabSelection">
+        <div class="selectedChannelSection" onclick="toggleSelectedDiv(this, 0)">
+            Personal Info
+        </div>
+        <div onclick="toggleSelectedDiv(this, 1)">
+            Demographic Info
+        </div>
+        <div onclick="toggleSelectedDiv(this, 3)">
+            Change Password
+        </div>
+        <div>
+        </div>
+    </div>
+    <div id="tabContent">
+        <div id="Tab1">
+            <h2 style="    font-family: 'Comfortaa'"> Update Your Personal Information </h2>
+            <div id="PersonalInfoInputs">
+                <div>
+                    <h3 class="inputHeader">First Name</h3>
+                    <input type="text" id="FirstName">
+                </div>
+                <div>
+                    <h3 class="inputHeader">Last Name</h3>
+                    <input type="text" id="LastName">
+                </div>
+                <div>
+                    <h3 class="inputHeader">Email</h3>
+                    <input type="text" id="Email">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="    float: right;
+    margin-right: 1rem;">
+        <p><button class="blueBtn disabledBtn" id="deleteChannelBtn" onclick="deleteChannels()">Update Account</button></p>
+    </div>
+
 </div>
+<script>
+    function toggleSelectedDiv(elem, tabId) {
+        var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
+        $(existingElem).removeClass("selectedChannelSection");
+        $(elem).addClass("selectedChannelSection");
+
+        //var ajaxPost = $.post('/CodeAtWorkApp/GetChannelList', { isShared: tabId });
+        //Promise.all([ajaxPost]).then((result) => {
+        //    document.getElementById("channelListTable").innerHTML = result;
+        //    $("#deleteChannelBtn").css("pointer-events", "none");
+        //    $("#deleteChannelBtn").css("background-color", "grey");
+        //});
+    }
+</script>

@@ -55,7 +55,7 @@
     </div>
     <div class="AccountDropdown" id="AccountMenu">
         <ul class="optMenuListNav">
-            <li>
+            <li onclick="redirectToPage('ViewMyAccount', 'CodeAtWorkAccount')">
                 <svg class="svgAccounts" role="img" viewBox="0 0 24 24">
                     <path fill-rule="evenodd" fill="currentColor" d="M8,8 C8,5.79401 9.79395,4 12,4 C14.2061,4 16,5.79401 16,8 C16,10.20599 14.2061,12 12,12 C9.79395,12 8,10.20599 8,8 Z M10,8 C10,9.103 10.89697,10 12,10 C13.10303,10 14,9.103 14,8 C14,6.896 13.10303,6 12,6 C10.89697,6 10,6.896 10,8 Z M4.5,20 C4.223877,20 4,19.7761 4,19.5 L4,19 C4,15.467 7.29004,13 12,13 C16.71,13 20,15.467 20,19 L20,19.5 C20,19.7761 19.7761,20 19.5,20 L4.5,20 Z M17.842,18 C17.244,16.192 15.009,15 12.0011,15 C8.99304,15 6.75708,16.192 6.15906,18 L17.842,18 Z"></path>
                 </svg>
@@ -88,6 +88,27 @@
     </div>
 
     <div class="main" id="PageBody">
+        <div class="toast__container" id="ToastContainer" style="margin-top: -4%;">
+            <div class="toast__cell">
+                <div class="toast">
+                    <div class="toast__icon">
+                        <svg version="1.1" class="toast__svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g><g><path d="M504.502,75.496c-9.997-9.998-26.205-9.998-36.204,0L161.594,382.203L43.702,264.311c-9.997-9.998-26.205-9.997-36.204,0    c-9.998,9.997-9.998,26.205,0,36.203l135.994,135.992c9.994,9.997,26.214,9.99,36.204,0L504.502,111.7    C514.5,101.703,514.499,85.494,504.502,75.496z"></path>
+	</g></g>
+    </svg>
+                    </div>
+                    <div class="toast__content">
+                        <p class="toast__type" id="type"></p>
+                        <p class="toast__message" id="msg"></p>
+                    </div>
+                    <div class="toast__close">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.642 15.642" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 15.642 15.642">
+                            <path fill-rule="evenodd" d="M8.882,7.821l6.541-6.541c0.293-0.293,0.293-0.768,0-1.061  c-0.293-0.293-0.768-0.293-1.061,0L7.821,6.76L1.28,0.22c-0.293-0.293-0.768-0.293-1.061,0c-0.293,0.293-0.293,0.768,0,1.061  l6.541,6.541L0.22,14.362c-0.293,0.293-0.293,0.768,0,1.061c0.147,0.146,0.338,0.22,0.53,0.22s0.384-0.073,0.53-0.22l6.541-6.541  l6.541,6.541c0.147,0.146,0.338,0.22,0.53,0.22c0.192,0,0.384-0.073,0.53-0.22c0.293-0.293,0.293-0.768,0-1.061L8.882,7.821z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
         @RenderBody()
 
         <div id="SearchResult">
@@ -99,6 +120,19 @@
 </html>
 
 <script>
+
+    jQuery(document).ready(function () {
+        jQuery('.toast__close').click(function (e) {
+            e.preventDefault();
+            $(".toast__container").removeClass("toastAppear");
+            var parent = $(this).parent('.toast');
+            parent.fadeOut("slow", function () {
+                $(".toast").removeClass("toast--red");
+                $(".toast__container").removeClass("ErrToastAppear");
+            });
+        });
+    });
+
     function OpenAccountMenu() {
         $("#AccountMenu").slideToggle("fast");
     }
@@ -120,10 +154,11 @@
         return !value || value.length == 0;
     }
 
-    function redirectToPage(pageName) {
-        var url = '@Url.Action("pageName", "CodeAtWorkApp")';
+    function redirectToPage(pageName, controllerName = 'CodeAtWorkApp') {
+        var url = '@Url.Action("pageName", "controllerName")';
         var New = url.replace("pageName", pageName)
-        window.open(New, "_self");
+        var finalUrl = New.replace("controllerName", controllerName)
+        window.open(finalUrl, "_self");
      }
 
 

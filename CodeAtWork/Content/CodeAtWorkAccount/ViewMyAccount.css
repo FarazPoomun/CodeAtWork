@@ -3,9 +3,14 @@
 }
 
 .main {
-    margin-top: 3rem;
+    margin-top: 4rem;
 }
-    #AccountHeaderDIV {
+
+.AccountDropdown {
+    margin-top: -1rem;
+}
+
+#AccountHeaderDIV {
     height: 20rem;
     width: 100%;
     height: 11rem;
@@ -16,4 +21,97 @@
     font-family: comfortaa;
     font-size: 48px;
     font-weight: 100;
+    padding-top: 1rem;
+    padding-left: 2rem;
+    margin-block-end: 0;
+}
+
+.NameSubText {
+    font-family: comfortaa;
+    padding-left: 2rem;
+    color: darkgrey;
+}
+
+.dotSeperator {
+    vertical-align: middle;
+    font-size: 1%;
+    color: darkgrey;
+}
+
+#firstHeaderDIV {
+    height: 100%;
+    width: 80%;
+    border-right: 10px solid #0d0f12;
+    float: left;
+}
+
+.HeaderNum {
+    color: darkgrey;
+    font-size: 2rem;
+    padding-left: 2rem;
+}
+
+.headerLinks {
+    cursor: pointer;
+}
+
+#TabSelection {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 11% 11% 11% auto;
+    grid-column-gap: 1%;
+    border-bottom: 1px solid grey;
+    margin-top: 3rem;
+    font-family: Comfortaa;
+}
+
+    #TabSelection > div {
+        text-align: center;
+        padding-bottom: 2.5%;
+        cursor: pointer;
+    }
+
+.selectedChannelSection {
+    border-bottom: thick solid #0084bd;
+}
+
+#tabContent {
+    margin-left: 1rem;
+    border-bottom: 1px solid grey;
+    padding-bottom: 1rem;
+    padding-top: 2rem;
+    margin-right: 1rem;
+}
+
+#PersonalInfoInputs {
+    margin-left: 2rem;
+}
+
+#PersonalInfoInputs input {
+    padding: 8px;
+    display: block;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    width: 90%;
+}
+
+.inputHeader {
+    font-family: Comfortaa;
+    color: grey;
+    margin-block-end: 0.5em;
+}
+
+
+.blueBtn {
+    border: none;
+    border-radius: 2px;
+    padding: 12px 18px;
+    /* font-size: 16px; */
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+    background-color: #0084bd;
+    /* box-shadow: 0 0 4px #999; */
+    outline: none;
+    font-family:comfortaa;
 }

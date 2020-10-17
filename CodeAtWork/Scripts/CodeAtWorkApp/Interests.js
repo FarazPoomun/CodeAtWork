@@ -77,8 +77,29 @@ function UpdateTopics() {
         }
     });
 
-    var ajaxPost = $.post('/CodeAtWorkApp/UpdateInterestTopics', { InterestTopics: UpdatePills });
-    Promise.all([ajaxPost]).then((results) => { });
+    var selectedItems = UpdatePills.map(function (i) { return i.IsSelected }).filter(function (p) { return p == true });
+    $(".toast__container").removeClass("ErrToastAppear");
+
+    if (selectedItems.length >= 5) {
+        var ajaxPost = $.post('/CodeAtWorkApp/UpdateInterestTopics', { InterestTopics: UpdatePills });
+        Promise.all([ajaxPost]).then(() => {
+            $(".toast").removeClass("toast--red");
+            $(".toast").addClass("toast--green");
+            $(".toast").css("display", "block");
+            $(".toast__container").addClass("ErrToastAppear");
+            document.getElementById("type").innerHTML = 'Success';
+            document.getElementById("msg").innerHTML = 'Topics Updated';
+        });
+    }
+    else {
+        $(".toast").removeClass("toast--green");
+        $(".toast").addClass("toast--red");
+        $(".toast").css("display", "block");
+        $(".toast__container").addClass("ErrToastAppear");
+        document.getElementById("type").innerHTML = 'Error';
+        document.getElementById("msg").innerHTML = 'Please select at least 5 topics.';
+    }
+
 }
 
 function UpdateSearchCriteria(searchBox) {
