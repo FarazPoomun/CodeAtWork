@@ -141,6 +141,7 @@
     <Compile Include="Models\InterestCatergoryTopic.cs" />
     <Compile Include="Models\Misc\Category.cs" />
     <Compile Include="Models\Misc\ChannelHeaderInfo.cs" />
+    <Compile Include="Models\Misc\JobTitle.cs" />
     <Compile Include="Models\Misc\Levels.cs" />
     <Compile Include="Models\Misc\RegistrationValidations.cs" />
     <Compile Include="Models\Paths.cs" />

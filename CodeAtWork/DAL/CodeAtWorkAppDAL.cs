@@ -958,7 +958,7 @@ namespace CodeAtWork.DAL
             {
                 if (tabId == 2)
                 {
-                    sql += " And category = {(int)category}";
+                    sql += $" And category = {(int)category}";
                 }
                 else
                     sql += $" where category = {(int)category}";

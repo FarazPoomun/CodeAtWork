@@ -1,7 +1,10 @@
-﻿
+﻿@using CodeAtWork.Models.Session;
 @{
     ViewBag.Title = "ViewMyAccount";
     Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
+
+    var UserDetails = ViewBag.UserDetails as FullUserDetail;
+    var AccountCounts = ViewBag.AccountCounts as Dictionary<string, int>;
 }
 <link href="~/Content/CodeAtWorkAccount/ViewMyAccount.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -10,21 +13,21 @@
 <div id="AccountPageWrapper">
     <div id="AccountHeaderDIV">
         <div id="firstHeaderDIV">
-            <h1 id="NameText">Faraz Poomun</h1>
+            <h1 id="NameText">@UserDetails.DisplayName</h1>
             <a class="NameSubText">Software Developer <i class="fas fa-circle dotSeperator"></i> Ceridian</a>
         </div>
         <div style="font-family:comfortaa" id="sideHeaderLinks">
-            <p class="headerLinks" style="padding-top: 1rem">  <a class="HeaderNum"> 12 </a> Interests</p>
-            <p class="headerLinks">  <a class="HeaderNum"> 8 </a> Paths</p>
-            <p class="headerLinks">  <a class="HeaderNum"> 10 </a> Channels</p>
+            <p onclick="redirectToPage('Interests')" class="headerLinks" style="padding-top: 1rem">  <a class="HeaderNum"> @AccountCounts["InterestCount"] </a> Interests</p>
+            <p onclick="redirectToPage('Paths')" class="headerLinks">  <a class="HeaderNum"> @AccountCounts["PathCount"] </a> Paths</p>
+            <p onclick="redirectToPage('Channels')" class="headerLinks">  <a class="HeaderNum"> @AccountCounts["ChannelCount"] </a> Channels</p>
         </div>
     </div>
 
     <div id="TabSelection">
-        <div class="selectedChannelSection" onclick="toggleSelectedDiv(this, 0)">
+        <div class="selectedChannelSection" onclick="toggleSelectedDiv(this, 1)">
             Personal Info
         </div>
-        <div onclick="toggleSelectedDiv(this, 1)">
+        <div onclick="toggleSelectedDiv(this, 2)">
             Demographic Info
         </div>
         <div onclick="toggleSelectedDiv(this, 3)">
@@ -35,26 +38,111 @@
     </div>
     <div id="tabContent">
         <div id="Tab1">
-            <h2 style="    font-family: 'Comfortaa'"> Update Your Personal Information </h2>
-            <div id="PersonalInfoInputs">
+            <h2 style="font-family: 'Comfortaa'; font-weight: 100;"> Update Your Personal Information </h2>
+            <div id="PersonalInfoInputs" class="UpdateInputs">
                 <div>
                     <h3 class="inputHeader">First Name</h3>
-                    <input type="text" id="FirstName">
+                    <input class="formInputs" type="text" id="FirstName" value="@UserDetails.FirstName">
                 </div>
                 <div>
                     <h3 class="inputHeader">Last Name</h3>
-                    <input type="text" id="LastName">
+                    <input class="formInputs" type="text" id="LastName" value="@UserDetails.LastName">
                 </div>
                 <div>
                     <h3 class="inputHeader">Email</h3>
-                    <input type="text" id="Email">
+                    <input class="formInputs" type="text" id="Email" value="@UserDetails.Email">
+                </div>
+            </div>
+        </div>
+        <div id="Tab2" style="display:none">
+            <h2 style="font-family: 'Comfortaa';font-weight: 100;">This information will be used to help customize your learning experience</h2>
+            <div id="demoGraphicsInputs">
+                <h4 style="font-family: 'Comfortaa';font-weight: 100;"> I Am a ...</h4>
+
+                <div id="UpdateCheckbox">
+                    <div>
+                        <input type="checkbox" id="Dev">
+                        <label for="Dev">Developer</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="IT">
+                        <label for="IT">IT Professional</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="Tester">
+                        <label for="Tester">Tester</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="Other">
+                        <label for="Other">Other</label>
+                    </div>
+                </div>
+                <div class="UpdateForm">
+                    <div>
+                        <h3 class="inputHeader">Company</h3>
+                        <input class="inputStyle" type="text" id="Company">
+                    </div>
+                    <div>
+                        <h3 class="inputHeader">Years Of Experience</h3>
+                        <input class="inputStyle" type="number" id="Experience" min="0">
+                    </div>
+                    <div>
+                        <h3 class="inputHeader">Role</h3>
+                        <select class="inputStyle" id="Role">
+                            <option value="">Select</option>
+                            <option>Back-end Web Dev</option>
+                            <option>Data-Focused Dev</option>
+                            <option>Desktop Dev</option>
+                            <option>Embedded App Dev</option>
+                            <option>Entry Level Services Dev</option>
+                            <option>Front-end Dev</option>
+                            <option>Full-stack Game Dev</option>
+                            <option>Full-stack Web Dev</option>
+                            <option>Game Dev</option>
+                            <option>Manager / Director / Executive</option>
+                            <option>Mobile Dev</option>
+                            <option>Quality Assurance / Tester</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <h3 class="inputHeader">Level With Organization</h3>
+                        <select class="inputStyle" id="Role">
+                            <option value="">Select</option>
+                            <option>Individual Contributor</option>
+                            <option>Manager / Team Lead</option>
+                            <option>Director</option>
+                            <option>Executive / CxO / VP</option>
+                            <option>Owner</option>
+                            <option>Freelancer / Consultant / Contractor</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div> <div id="Tab3" style="display:none">
+            <h2 style="font-family: 'Comfortaa';font-weight: 100;">Update your Password</h2>
+            <div id="updatePWDInputs">
+                <div class="UpdateForm">
+                    <div>
+                        <h3 class="inputHeader">Confirm your current Password</h3>
+                        <input class="inputStyle" type="password" id="confirmPWD">
+                    </div>
+                    <div></div>
+                    <div>
+                        <h3 class="inputHeader">New Password</h3>
+                        <input class="inputStyle" type="password" id="newPWD">
+                    </div> 
+                    <div>
+                        <h3 class="inputHeader">Confirm your new Password</h3>
+                        <input class="inputStyle" type="text" id="confirmNewPWD">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div style="    float: right;
-    margin-right: 1rem;">
-        <p><button class="blueBtn disabledBtn" id="deleteChannelBtn" onclick="deleteChannels()">Update Account</button></p>
+    <div style="float: right; margin-right: 1rem;">
+        <p><button class="blueBtn disabledBtn" id="deleteChannelBtn" onclick="deleteChannels()">Update</button></p>
     </div>
 
 </div>
@@ -63,6 +151,12 @@
         var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
         $(existingElem).removeClass("selectedChannelSection");
         $(elem).addClass("selectedChannelSection");
+        $("#Tab1").css("display", "none");
+        $("#Tab2").css("display", "none");
+        $("#Tab3").css("display", "none");
+
+        $("#Tab" + tabId).css("display", "block");
+
 
         //var ajaxPost = $.post('/CodeAtWorkApp/GetChannelList', { isShared: tabId });
         //Promise.all([ajaxPost]).then((result) => {
@@ -71,4 +165,12 @@
         //    $("#deleteChannelBtn").css("background-color", "grey");
         //});
     }
+
+       function redirectToPage(pageName, controllerName = 'CodeAtWorkApp') {
+        var url = '@Url.Action("pageName", "controllerName")';
+        var New = url.replace("pageName", pageName)
+        var finalUrl = New.replace("controllerName", controllerName)
+        window.open(finalUrl, "_self");
+     }
+
 </script>

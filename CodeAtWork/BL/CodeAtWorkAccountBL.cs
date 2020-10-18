@@ -1,4 +1,5 @@
 ﻿using CodeAtWork.DAL;
+using CodeAtWork.Models.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,14 @@ namespace CodeAtWork.BL
             dal = new CodeAtWorkAccountDAL();
         }
 
-        public void GetUserDetails(int userId)
+        public FullUserDetail GetUserDetails(int userId)
         {
-            dal.GetUserDetails(userId);
+          return dal.GetUserDetails(userId);
+        }
+
+        public Dictionary<string, int> GetAccountCounts(int userId)
+        {
+            return dal.GetAccountCounts(userId);
         }
     }
 }

@@ -13,6 +13,8 @@
     <link href="~/Content/w3.css" rel="stylesheet" />
 
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/a076d05399.js"></script>
+
 </head>
 <body onload="showRegisterInvalidCred()">
     <div id="invalidRegisterCreds" class="showInvalidRegisterCreds">
@@ -24,61 +26,197 @@
             <img class="circleHeader" src="~/Design/Home/circle-green.png" />
         </h1>
     </div>
+    <div style="margin-left: 5%;">
+        <div id="SideRegisterNav">
+            <div>
+                <a onclick="changeSideSelection(this, 1)" class="SideNavLinks selectedSideNavLink" id="LinkForTab_1">Personal Info <i class="fas fa-caret-right"></i> </a>
+                <a onclick="changeSideSelection(this, 2)" class="SideNavLinks" id="LinkForTab_2">Demographic Info <i class="fas fa-caret-right"></i> </a>
+                <a onclick="changeSideSelection(this, 3)" class="SideNavLinks" id="LinkForTab_3">Account Info <i class="fas fa-caret-right"></i> </a>
+            </div>
+        </div>
+        <div id="RegisterPane" style="font-family: Comfortaa;">
 
-    <div id="RegisterPane" style="font-family: Comfortaa;">
-        <h2 style="    padding-left: 1%;    font-family: comfortaa;
-    padding-top: 2%;
-        padding-bottom: 3%;">
-            Registration
-            <img src="~/Design/Home/line-yellow.png" style="position: absolute;
-    width: 14rem;
-    margin-left: -12.5rem;
-    margin-top: 2.5rem;" />
-        </h2>
-        <div id="RegisterForm">
-            <div>
-                <form class="w3-container">
-                    <input class="w3-input" type="text" placeholder="First Name" id="FirstName">
-                </form>
-            </div>
-            <div>
-                <form class="w3-container">
-                    <input class="w3-input" type="text" placeholder="Last Name" id="LastName">
-                </form>
-            </div>
-            <div>
-                <form class="w3-container">
-                    <input class="w3-input" type="text" placeholder="Email" id="Email">
-                </form>
-            </div>
-            <div>
-                <form class="w3-container">
-                    <input class="w3-input" type="text" placeholder="Username" id="Username">
-                </form>
-            </div>
-            <div>
-                <form class="w3-container">
-                    <input class="w3-input" type="password" placeholder="Password" id="Password">
-                </form>
-            </div>
-            <div>
-                <form class="w3-container">
-                    <input class="w3-input" type="password" placeholder="Confirm Password" id="ConfirmPassword">
-                </form>
-            </div>
-            <div>
-            </div>
-            <div>
-                <div class="w3-container" style="float: right;">
-                    <p><button type="submit" class="w3-button w3-round loginBtn" style="background-color: #0084bd" onclick="ValidateEntries()">Submit Registration</button></p>
+            <h2 style="padding-left: 1%; font-family: comfortaa; padding-top: 2%; padding-bottom: 3%;">
+                Registration
+                <img src="~/Design/Home/line-yellow.png" style="position: absolute;width: 14rem;margin-left: -12.5rem;margin-top: 2.5rem;" />
+            </h2>
+
+            <div id="RegisterForm">
+                <div id="Tab1">
+                    <div>
+                        <form class="w3-container">
+                            <input class="w3-input" type="text" placeholder="First Name" id="FirstName">
+                        </form>
+                    </div>
+                    <div>
+                        <form class="w3-container">
+                            <input class="w3-input" type="text" placeholder="Last Name" id="LastName">
+                        </form>
+                    </div>
+                    <div>
+                        <form class="w3-container">
+                            <input class="w3-input" type="text" placeholder="Email" id="Email">
+                        </form>
+                    </div>
+
+                    <div>
+                    </div>
+                </div>
+
+                <div id="Tab2" style="display:none">
+                    <h4 style="font-family: 'Comfortaa';font-weight: 100;"> I Am a ...</h4>
+                    <div id="UpdateCheckbox">
+                        <div>
+                            <input type="checkbox" id="Dev">
+                            <label for="Dev">Developer</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="IT">
+                            <label for="IT">IT Professional</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="Tester">
+                            <label for="Tester">Tester</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="Other">
+                            <label for="Other">Other</label>
+                        </div>
+                    </div>
+                    <div id="Tab2Inps">
+                        <div>
+                            <form class="w3-container Tab2InputStyle">
+                                <input class="w3-input" type="text" placeholder="Company" id="Company">
+                            </form>
+                        </div>
+                        <div>
+                            <form class="w3-container Tab2InputStyle">
+                                <input class="w3-input" type="number" min="0" placeholder="Years Of Experience" id="XP">
+                            </form>
+                        </div>
+                        <div>
+                            <h3 class="inputHeader">Role</h3>
+                            <select class="inputStyle" id="Role">
+                                <option value="">Select</option>
+                                <option>Back-end Web Dev</option>
+                                <option>Data-Focused Dev</option>
+                                <option>Desktop Dev</option>
+                                <option>Embedded App Dev</option>
+                                <option>Entry Level Services Dev</option>
+                                <option>Front-end Dev</option>
+                                <option>Full-stack Game Dev</option>
+                                <option>Full-stack Web Dev</option>
+                                <option>Game Dev</option>
+                                <option>Manager / Director / Executive</option>
+                                <option>Mobile Dev</option>
+                                <option>Quality Assurance / Tester</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <h3 class="inputHeader">Level With Organization</h3>
+                            <select class="inputStyle" id="Role">
+                                <option value="">Select</option>
+                                <option>Individual Contributor</option>
+                                <option>Manager / Team Lead</option>
+                                <option>Director</option>
+                                <option>Executive / CxO / VP</option>
+                                <option>Owner</option>
+                                <option>Freelancer / Consultant / Contractor</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="Tab3" style="display:none">
+                    <div>
+                        <form class="w3-container">
+                            <input class="w3-input" type="text" placeholder="Username" id="Username">
+                        </form>
+                    </div>
+                    <div></div>
+                    <div>
+                        <form class="w3-container">
+                            <input class="w3-input" type="password" placeholder="Password" id="Password">
+                        </form>
+                    </div>
+                    <div>
+                        <form class="w3-container">
+                            <input class="w3-input" type="password" placeholder="Confirm Password" id="ConfirmPassword">
+                        </form>
+                    </div>
+                    <div>
+                    </div>
                 </div>
             </div>
+
+            <div>
+                <div class="w3-container" style="float: right;" id="Next">
+                    <p><button type="submit" class="w3-button w3-round loginBtn" style="background-color: #0084bd" id="NextBtn" onclick="MoveTo('Next')">Next</button></p>
+                </div>
+                <div class="w3-container" style="float: left; display:none;" id="Prev">
+                    <p><button type="submit" class="w3-button w3-round loginBtn" style="background-color: #0084bd" onclick="MoveTo('Prev')">Previous</button></p>
+                </div>
+            </div>
+
+            @*<div id="FinishBtn">
+                    <div></div>
+                    <div class="w3-container"  >
+                        <p><button type="submit" class="w3-button w3-round loginBtn" style="background-color: #0084bd" onclick="ValidateEntries()">Submit Registration</button></p>
+                    </div>
+                </div>*@
         </div>
     </div>
 </body>
 </html>
 
 <script>
+
+    function MoveTo(direction) {
+        if (direction == 'Next') {
+            var selectedId = parseInt($(".selectedSideNavLink")[0].id.split("_")[1]) + 1;
+            changeSideSelection($("#LinkForTab_" + selectedId)[0], selectedId)
+        }
+        else {
+            var selectedId = parseInt($(".selectedSideNavLink")[0].id.split("_")[1]) - 1;
+            changeSideSelection($("#LinkForTab_" + selectedId)[0], selectedId)
+        }
+    }
+
+    function changeSideSelection(elem, sideId) {
+        $(".selectedSideNavLink").removeClass("selectedSideNavLink");
+        $(elem).addClass("selectedSideNavLink");
+
+        $("#Tab1").css("display", "none");
+        $("#Tab2").css("display", "none");
+        $("#Tab3").css("display", "none");
+
+        if (sideId == 2) {
+            $("#Tab" + sideId).css("display", "block");
+        }
+        else {
+            $("#Tab" + sideId).css("display", "grid");
+        }
+
+        if (sideId == 1) {
+            $("#Prev").css("display", "none");
+            document.getElementById("NextBtn").innerText = "Next";
+
+        }
+        else {
+            $("#Prev").css("display", "block");
+            if (sideId == 3) {
+                document.getElementById("NextBtn").innerText = "Done";
+            }
+            else {
+                document.getElementById("NextBtn").innerText = "Next";
+            }
+        }
+    }
 
     function ValidateEntries() {
         $("#invalidRegisterCreds").slideUp("fast");

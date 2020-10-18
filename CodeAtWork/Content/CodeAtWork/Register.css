@@ -19,17 +19,61 @@
 }
 
 #RegisterForm {
+    border-bottom: 1px solid grey;
+}
+
+#Tab1 {
+    margin-top: 2rem;
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 7rem 7rem 4rem;
+    grid-template-rows: 7rem 7rem;
 }
+
+#Tab3 {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 7rem 7rem;
+}
+
+#Tab2{
+    margin-left:4rem;
+}
+
+#Tab2Inps {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 4rem 7rem;
+    margin-top:2rem;
+}
+
+.Tab2InputStyle {
+    padding-left: 0 !important;
+}
+
+
+.inputStyle {
+    font-size: 14px;
+    background-color: #ffffff;
+    border-style: none;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    color: rgba(0, 0, 0, 0.95);
+    margin-top: 6px;
+    display: block;
+    padding: 0 5px;
+    width: 96%;
+    height: 30px;
+    font-family: comfortaa;
+}
+
 
 #RegisterPane {
     box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
     background: #222;
     width: 50%;
     height: 31rem;
-    margin-left: 24%;
+    margin-left: 28rem;
     margin-top: 5rem;
 }
 
@@ -47,4 +91,39 @@ h1, h2 {
     background-color: red;
     height: 3rem;
     width: 100%;
+}
+
+#SideRegisterNav {
+    float: left;
+    height: 25.4rem;
+    width: 10rem;
+    margin-left: 21rem;
+    margin-top: 5.6rem;
+    box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
+    background: #222;
+    padding-top: 1rem;
+    font-family: 'Comfortaa';
+}
+
+.SideNavLinks {
+    color: darkgrey;
+    cursor: pointer;
+    padding: 6px 8px 6px 16px;
+    display:block
+}
+.SideNavLinks:hover{
+    color:white;
+}
+
+.selectedSideNavLink {
+    border-left: 1px solid #0084bd;
+    color: white !important;
+}
+
+#UpdateCheckbox {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-column-gap: 1%;
+    width: 50%;
+    font-family: 'Comfortaa';
 }
