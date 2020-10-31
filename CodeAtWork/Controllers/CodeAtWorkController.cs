@@ -1,4 +1,5 @@
 ﻿using CodeAtWork.BL;
+using CodeAtWork.ML;
 using CodeAtWork.Models.Misc;
 using CodeAtWork.Models.Session;
 using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,8 @@ namespace CodeAtWork.Controllers
         // GET: CodeAtWork
         public ActionResult Home()
         {
+            RecommendedWatchML test = new RecommendedWatchML();
+            test.GetRecommendations();
             return View();
         }
         public ActionResult Login(bool invalidLogin = false)
