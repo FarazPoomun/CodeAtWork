@@ -139,7 +139,7 @@
 
         if (tabId == 1) {
             $(shareContent).css("display", "none");
-            $("#AddContentsModal").show();
+            $("#AddContentsModal").fadeIn();
             $(addContent).css("display", "block");
         }
         else {
@@ -147,7 +147,7 @@
             Promise.all([subscribeUserPost]).then((result) => {
                 document.getElementById("subscribedUserToChannel").innerHTML = result;
                 $(addContent).css("display", "none");
-                $("#AddContentsModal").show();
+                $("#AddContentsModal").fadeIn();
                 $(shareContent).css("display", "block");
             });
         }
@@ -178,7 +178,7 @@
     }
 
     function CloseAddContentModal() {
-        $("#AddContentsModal").hide();
+        $("#AddContentsModal").fadeOut();
     }
 
     if ('@ViewBag.IsShared' === 'True')

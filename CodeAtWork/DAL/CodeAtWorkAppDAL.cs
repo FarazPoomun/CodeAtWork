@@ -181,6 +181,8 @@ namespace CodeAtWork.DAL
             return subscribedChannelUsers;
         }
 
+    
+
         internal void UnsubscribeUserToChannel(int channelSubscribedUserId)
         {
             SqlCommand command;
@@ -683,6 +685,38 @@ namespace CodeAtWork.DAL
             return vidDetails;
         }
 
+        internal List<VideoRepository> GetVideoByMLId(List<int> MLVideoIds)
+        {
+            List<VideoRepository> vidDetails = new List<VideoRepository>();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            //TO-DO Accomodate for UserId And Interests
+            string sql = $@"   SELECT vr.* FROM VideoRepository vr
+                                WHERE vr.MLVideoId in ({string.Join(",",MLVideoIds)})
+            ";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                VideoRepository vid = new VideoRepository()
+                {
+                    VideoId = Guid.Parse(dataReader.GetValue(dataReader.GetOrdinal("VideoId")).ToString()),
+                    VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
+                    VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
+                    VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
+                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString())
+                };
+
+                vidDetails.Add(vid);
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return vidDetails;
+        }
+
         internal void SaveNewBookMark(Guid videoId, int userId, bool isSelected)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -797,26 +831,47 @@ namespace CodeAtWork.DAL
             command.Dispose();
             return vidDetails;
         }
-        
-        public List<VideoRepository> GetRecommendedVids(int userId, int? top = 5)
+
+        public List<VideoRepository> GetRecommendedVids(int userId, int? top = 5, List<int> whereNotIn = null, List<int> whereIn = null)
         {
             List<VideoRepository> vidDetails = new List<VideoRepository>();
             SqlCommand command;
             SqlDataReader dataReader;
             string sql = "";
+            string whereCond = null;
+
+            if(whereNotIn != null && whereNotIn.Any())
+            {
+                whereCond = $" where vr.MLVideoId not in ({string.Join(",",whereNotIn)})";
+            }
+            else if(whereIn != null && whereIn.Any())
+            {
+                if(whereCond is null)
+                whereCond = $" where vr.MLVideoId in ({string.Join(",", whereIn)})";
+                else
+                {
+                    whereCond = $" and vr.MLVideoId in ({string.Join(",", whereIn)})";
+
+                }
+            }
+
             if (top is null)
             {
                 //TO-DO Accomodate for UserId And Interests
                 sql = $@" SELECT  vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
-                        left join Userbookmarkedvideo UBV on vr.VideoId =  UBV.VideoId AND UBV.AppUserId = {userId}
+                        left join Userbookmarkedvideo UBV on vr.VideoId = UBV.VideoId AND UBV.AppUserId = {userId}
             ";
             }
             else
             {
                 //TO-DO Accomodate for UserId And Interests
                 sql = $@" SELECT top {top} vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
-                        left join Userbookmarkedvideo UBV on vr.VideoId =  UBV.VideoId AND UBV.AppUserId = {userId}
+                        left join Userbookmarkedvideo UBV on vr.VideoId = UBV.VideoId AND UBV.AppUserId = {userId}
             ";
+            }
+            if (whereCond != null)
+            {
+                sql += whereCond;
             }
 
             command = new SqlCommand(sql, conn);

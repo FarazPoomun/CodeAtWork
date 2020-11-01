@@ -211,6 +211,11 @@ namespace CodeAtWork.Controllers
             }
         }
 
+        public HtmlString GetNextRecommendedWatch(Guid videoId)
+        {
+            return codeAtWorkAppBL.GetNextRecommendedWatch(videoId);
+        }
+
         public void BookMarkVideo(string videoId, bool isSelected)
         {
             var userInfo = Session["UserInfo"] as UserInfo;

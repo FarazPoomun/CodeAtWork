@@ -13,6 +13,7 @@
     <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
     <script src="https://www.youtube.com/iframe_api"></script>
     <link href="~/Content/CodeAtWorkApp/ProgressStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/a076d05399.js"></script>
 </head>
 <body>
     <div class="sidenav">
@@ -25,10 +26,17 @@
                 <p class="AuthorName"> By @ViewBag.By</p>
             </div>
         </div>
-      
+
 
     </div>
-
+    <div id="AddContentsModal">
+        <div><i class="fas fa-times CloseModal" onclick="CloseAddContentModal()"></i></div>
+        <div id="ModalContainer">
+        <h2 style="font-family:comfortaa; color:white; border-bottom: 1px solid grey; font-weight: 100;">Recommended Next Watch</h2>
+        <div class="ModalScreenshots" id="FilteredVidsGrid">
+        </div>
+        </div>
+    </div>
     <div class="main">
         @ViewBag.VidFrame
     </div>
@@ -71,7 +79,19 @@
         }
         else if (event.data == YT.PlayerState.ENDED) {
             captureTime(1);
+            var nextRecommendation = $.post('/CodeAtWorkApp/GetNextRecommendedWatch', { videoId: '@ViewBag.VideoId' });
+            Promise.all([nextRecommendation]).then((result) => {
+
+                if (result != null && result != "" && result != " ") {
+                    document.getElementById("FilteredVidsGrid").innerHTML = result;
+                    $("#AddContentsModal").fadeToggle();
+                }
+            });
         }
+    }
+
+    function CloseAddContentModal() {
+        $("#AddContentsModal").fadeToggle();
     }
 
     function captureTime(IsFinished = 0) {
@@ -91,6 +111,11 @@
         return minutes + ":" + seconds;
     }
 
+     function OpenPlayer(id) {
+    var url = '@Url.Action("AppPlayer", "CodeAtWorkApp", new { playById = "__id" })';
+    var New = url.replace("__id", id)
+    window.open(New, "_blank");
+    }
 
     let percent = 70;
     let counter = 0;

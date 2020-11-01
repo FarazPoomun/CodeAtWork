@@ -1,5 +1,6 @@
 ﻿using CodeAtWork.Common;
 using CodeAtWork.DAL;
+using CodeAtWork.ML;
 using CodeAtWork.Models;
 using CodeAtWork.Models.Misc;
 using System;
@@ -163,8 +164,22 @@ namespace CodeAtWork.BL
 
         public HtmlString GetRecommendedVids(int userID)
         {
-            //TO-DO based on selection made on interests, find proper recommendations
-            var vidsStr = ConvertVidGridHTMLSting(dal.GetRecommendedVids(userID));
+            RecommendedWatchML ml = new RecommendedWatchML();
+            ML_BL ml_bl = new ML_BL();
+            List<VideoRepository> recommendedWatch = new List<VideoRepository>();
+
+            var topics = ml_bl.GetUserTopics(userID);
+
+            //Use ML to determine best recommended video based on interests
+            var MLOutputs = ml.GetRecommendationsFromInterests(topics);
+
+            if (MLOutputs.Any())
+                recommendedWatch.AddRange(dal.GetRecommendedVids(userID, whereIn: MLOutputs.Select(z => (int)z.VideoId).ToList()));
+
+            if (MLOutputs.Count < 5)
+                recommendedWatch.AddRange(dal.GetRecommendedVids(userID, top: 5 - MLOutputs.Count, whereNotIn: MLOutputs.Select(z => (int)z.VideoId).ToList()));
+
+            var vidsStr = ConvertVidGridHTMLSting(recommendedWatch);
             return new HtmlString(vidsStr);
         }
 
@@ -186,6 +201,23 @@ namespace CodeAtWork.BL
             return new HtmlString(result);
         }
 
+        internal HtmlString GetNextRecommendedWatch(Guid videoId)
+        {
+            RecommendedWatchML ml = new RecommendedWatchML();
+            ML_BL ml_bl = new ML_BL();
+            List<VideoRepository> recommendedWatch = new List<VideoRepository>();
+            var MLVideoId = ml_bl.GetMLVideoId(videoId);
+
+            var MLOutputs = ml.GetRecommendationsFromPreviousWatch(MLVideoId);
+
+            if (MLOutputs.Any())
+            {
+              return  new HtmlString(ConvertVidGridHTMLSting(dal.GetVideoByMLId(MLOutputs.Select(z => (int)z.nextWatch).ToList()), withSVG: false));
+            }
+
+            else return null;
+        }
+
         internal void UnsubscribeUserToChannel(int channelSubscribedUserId)
         {
             dal.UnsubscribeUserToChannel(channelSubscribedUserId);
@@ -196,11 +228,6 @@ namespace CodeAtWork.BL
             //TO-DO based on selection made on interests, find proper recommendations
             var vidsStr = ConvertVidGridHTMLSting(dal.GetChannelVideos(channelId));
             return new HtmlString(vidsStr);
-        }
-
-        internal HtmlString GetFilteredVideos(int userChannelId, int userId)
-        {
-            throw new NotImplementedException();
         }
 
         internal HtmlString GetChannelList(int userId, int isShared)

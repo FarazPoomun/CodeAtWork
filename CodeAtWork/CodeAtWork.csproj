@@ -180,6 +180,7 @@
     <Compile Include="BL\CodeAtWorkAppBL.cs" />
     <Compile Include="BL\CodeAtWorkBL.cs" />
     <Compile Include="BL\EncryptionHelper.cs" />
+    <Compile Include="BL\ML_BL.cs" />
     <Compile Include="Common\CodeAtWorkExtensions.cs" />
     <Compile Include="Controllers\CodeAtWorkAccountController.cs" />
     <Compile Include="Controllers\CodeAtWorkAdminController.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="DAL\CodeAtWorkAppDAL.cs" />
     <Compile Include="DAL\CommonDAL.cs" />
     <Compile Include="DAL\CodeAtWorkDAL.cs" />
+    <Compile Include="DAL\ML_DAL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -199,6 +201,7 @@
     <Compile Include="Models\Misc\ChannelHeaderInfo.cs" />
     <Compile Include="Models\Misc\JobTitle.cs" />
     <Compile Include="Models\Misc\Levels.cs" />
+    <Compile Include="Models\Misc\MLConnector.cs" />
     <Compile Include="Models\Misc\RegistrationValidations.cs" />
     <Compile Include="Models\MLModels\Interests\RecommendedWatchInterestPrediction.cs" />
     <Compile Include="Models\MLModels\Interests\RecommendedWatchInterestRating.cs" />
