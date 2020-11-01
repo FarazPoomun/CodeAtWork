@@ -334,10 +334,9 @@ namespace CodeAtWork.Controllers
                 return RedirectToAction("Login", "CodeAtWork");
             }
             var userInfo = Session["UserInfo"] as UserInfo;
-            ViewBag.ChannelVideos = GetChannelVideos(13);
-            ViewBag.PathId = 3;
+            ViewBag.PathId = pathId;
 
-            ViewBag.Details = codeAtWorkAppBL.GetPathDetail(5);
+            ViewBag.Details = codeAtWorkAppBL.GetPathDetail(pathId);
 
             return View();
         }

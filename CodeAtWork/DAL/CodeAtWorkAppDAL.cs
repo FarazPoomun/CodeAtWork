@@ -34,6 +34,7 @@ namespace CodeAtWork.DAL
                     VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
                     VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
                     VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString()),
                     IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString())
                 };
 
@@ -67,6 +68,7 @@ namespace CodeAtWork.DAL
                     VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
                     VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
                     VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString()),
                     IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString())
                 };
 
@@ -413,7 +415,8 @@ namespace CodeAtWork.DAL
                     VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
                     VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
                     VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
-                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString())
+                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString()),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString())
                 };
 
                 vidDetails.SeekTo = dataReader.GetValue(dataReader.GetOrdinal("LastPlayedDuration")) != DBNull.Value ?
@@ -608,6 +611,41 @@ namespace CodeAtWork.DAL
             return detail;
         }
 
+        public List<VideoWithSequence> GetPathVideos(int pathId)
+        {
+            List<VideoWithSequence> vidDetails = new List<VideoWithSequence>();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            string sql = $@"   SELECT vr.*, pv.Sequence FROM VideoRepository vr
+                                Inner Join PathVideo pv on pv.VideoId =  vr.VideoId
+                                WHERE pv.PathId = {pathId}
+            ";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                VideoWithSequence vid = new VideoWithSequence()
+                {
+                    VideoId = Guid.Parse(dataReader.GetValue(dataReader.GetOrdinal("VideoId")).ToString()),
+                    VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
+                    VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
+                    VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
+                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString()),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString()),
+                    Sequence = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Sequence")).ToString())
+                };
+
+                vidDetails.Add(vid);
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return vidDetails;
+        }
+
+
         internal void AddOrRemoveChannelFromVid(Guid videoId, int channelId, bool isSelected, int userId)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
@@ -659,7 +697,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@"   SELECT vr.* FROM VideoRepository vr
                                 WHERE vr.VideoDescription like'%{searchedTxt}%'
             ";
@@ -674,7 +711,9 @@ namespace CodeAtWork.DAL
                     VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
                     VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
                     VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
-                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString())
+                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString()),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString())
+
                 };
 
                 vidDetails.Add(vid);
@@ -706,7 +745,8 @@ namespace CodeAtWork.DAL
                     VideoAuthor = dataReader.GetValue(dataReader.GetOrdinal("VideoAuthor")).ToString(),
                     VideoURL = dataReader.GetValue(dataReader.GetOrdinal("VideoURL")).ToString(),
                     VideoDescription = dataReader.GetValue(dataReader.GetOrdinal("VideoDescription")).ToString(),
-                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString())
+                    IsLocal = Convert.ToBoolean(dataReader.GetValue(dataReader.GetOrdinal("IsLocal")).ToString()),
+                    Level = (LevelsEnum)Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("Level")).ToString())
                 };
 
                 vidDetails.Add(vid);

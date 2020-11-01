@@ -1,4 +1,5 @@
-﻿using CodeAtWork.Common;
+﻿using AutoMapper;
+using CodeAtWork.Common;
 using CodeAtWork.DAL;
 using CodeAtWork.ML;
 using CodeAtWork.Models;
@@ -114,7 +115,21 @@ namespace CodeAtWork.BL
 
         internal PathDetail GetPathDetail(int pathId)
         {
-            return dal.GetPathDetail(pathId);
+            var pathDetails = dal.GetPathDetail(pathId);
+            var pathVideos = dal.GetPathVideos(pathId);
+
+            var mapConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<VideoWithSequence, VideoRepository>();
+            });
+
+            IMapper iMapper = mapConfig.CreateMapper();
+
+            pathDetails.GettingStartVideos = new HtmlString(ConvertVidGridHTMLSting(iMapper.Map<List<VideoWithSequence>, List<VideoRepository>>(pathVideos.Where(v => v.Level == LevelsEnum.Beginner).OrderBy(z => z.Sequence).ToList())));
+            pathDetails.IntermediateVideos = new HtmlString(ConvertVidGridHTMLSting(iMapper.Map<List<VideoWithSequence>, List<VideoRepository>>(pathVideos.Where(v => v.Level == LevelsEnum.Intermediate).OrderBy(z => z.Sequence).ToList())));
+            pathDetails.AdvanceVideos = new HtmlString(ConvertVidGridHTMLSting(iMapper.Map<List<VideoWithSequence>, List<VideoRepository>>(pathVideos.Where(v => v.Level == LevelsEnum.Advanced).OrderBy(z => z.Sequence).ToList())));
+
+            return pathDetails;
         }
 
         internal void CaptureTime(Guid videoId, float time, int IsFinished, int userId)
@@ -212,7 +227,7 @@ namespace CodeAtWork.BL
 
             if (MLOutputs.Any())
             {
-              return  new HtmlString(ConvertVidGridHTMLSting(dal.GetVideoByMLId(MLOutputs.Select(z => (int)z.nextWatch).ToList()), withSVG: false));
+                return new HtmlString(ConvertVidGridHTMLSting(dal.GetVideoByMLId(MLOutputs.Select(z => (int)z.nextWatch).ToList()), withSVG: false));
             }
 
             else return null;

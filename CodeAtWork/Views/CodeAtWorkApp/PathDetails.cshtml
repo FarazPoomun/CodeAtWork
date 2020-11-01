@@ -67,14 +67,40 @@
             </div>
             <!-- https://www.youtube.com/watch?v=MqGM70ljpq8&list=PLyJiOytEPs4eQUuzs3PhM_7yU63jdibtf -->
             <div id="ActualPathBodyContent">
-                <div>
-                    <button class="collapsible"><i class="fas fa-caret-down collapseTextIcon"></i>Getting Started</button>
-                    <div class="content">
-                        <div class="HomeScreenshots">
-                            @ViewBag.ChannelVideos
+                @if (!String.IsNullOrEmpty(pathDetail.GettingStartVideos.ToString()))
+                {
+                    <div>
+                        <button class="collapsible"><i class="fas fa-caret-down collapseTextIcon"></i>Getting Started</button>
+                        <div class="content">
+                            <div class="HomeScreenshots">
+                                @pathDetail.GettingStartVideos
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+                @if (!String.IsNullOrEmpty(pathDetail.IntermediateVideos.ToString()))
+                {
+                    <div>
+                        <button class="collapsible"><i class="fas fa-caret-down collapseTextIcon"></i>Intermediate</button>
+                        <div class="content">
+                            <div class="HomeScreenshots">
+                                @pathDetail.IntermediateVideos
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (!String.IsNullOrEmpty(pathDetail.AdvanceVideos.ToString()))
+                {
+                    <div>
+                        <button class="collapsible"><i class="fas fa-caret-down collapseTextIcon"></i>Advanced</button>
+                        <div class="content">
+                            <div class="HomeScreenshots">
+                                @pathDetail.AdvanceVideos
+                            </div>
+                        </div>
+                    </div>
+                }
+
             </div>
         </div>
     </div>

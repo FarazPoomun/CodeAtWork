@@ -1,5 +1,6 @@
 ﻿using CodeAtWork.Models.Misc;
 using System.Collections.Generic;
+using System.Web;
 
 namespace CodeAtWork.Models
 {
@@ -16,5 +17,8 @@ namespace CodeAtWork.Models
         public string Description { get; set; }
         public List<string> Prerequisites = new List<string>();
         public List<string> Outcomes = new List<string>();
+        public HtmlString GettingStartVideos;
+        public HtmlString IntermediateVideos;
+        public HtmlString AdvanceVideos;
     }
 }
