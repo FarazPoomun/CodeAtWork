@@ -67,19 +67,19 @@
                     <h4 style="font-family: 'Comfortaa';font-weight: 100;"> I Am a ...</h4>
                     <div id="UpdateCheckbox">
                         <div>
-                            <input type="checkbox" id="Title_1">
+                            <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_1" checked>
                             <label for="Title_1">Developer</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="Title_2">
+                            <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_2">
                             <label for="Title_2">IT Professional</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="Title_3">
+                            <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_3">
                             <label for="Title_3">Tester</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="Title_4">
+                            <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_4">
                             <label for="Title_4">Other</label>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                         </div>
                         <div>
                             <h3 class="inputHeader">Level With Organization</h3>
-                            <select class="inputStyle" id="Role">
+                            <select class="inputStyle" id="OrgLevel">
                                 <option value="">Select</option>
                                 <option id="Org_1">Individual Contributor</option>
                                 <option id="Org_2">Manager / Team Lead</option>
@@ -157,24 +157,43 @@
             <div>
                 <div class="w3-container" style="float: right;" id="Next">
                     <p><button type="submit" class="w3-button w3-round loginBtn" style="background-color: #0084bd" id="NextBtn" onclick="MoveTo('Next')">Next</button></p>
+                    <p><button type="submit" class="w3-button w3-round loginBtn" style="background-color: #0084bd; display:none" id="DoneBtn" onclick="ValidateEntries()">Done</button></p>
                 </div>
                 <div class="w3-container" style="float: left; display:none;" id="Prev">
                     <p><button type="submit" class="w3-button w3-round loginBtn" style="background-color: #0084bd" onclick="MoveTo('Prev')">Previous</button></p>
                 </div>
             </div>
 
-            @*<div id="FinishBtn">
-                    <div></div>
-                    <div class="w3-container"  >
-                        <p><button type="submit" class="w3-button w3-round loginBtn" style="background-color: #0084bd" onclick="ValidateEntries()">Submit Registration</button></p>
-                    </div>
-                </div>*@
+
+
         </div>
     </div>
 </body>
 </html>
 
 <script>
+
+    function TitleCheck(elem) {
+        var cheks = document.getElementsByClassName("TitleCheckbox");
+        var oneChecked = false;
+        for (var i = 0; i < cheks.length; i++) {
+            if (cheks[i] != elem) {
+                cheks[i].checked = false;
+            }
+        }
+
+        for (var i = 0; i < cheks.length; i++) {
+            if (cheks[i].checked) {
+                oneChecked = true;
+                break;
+            }
+        }
+
+        if (!oneChecked)
+            document.getElementById("Title_4").checked = true;
+
+    }
+
 
     function MoveTo(direction) {
         if (direction == 'Next') {
@@ -204,16 +223,18 @@
 
         if (sideId == 1) {
             $("#Prev").css("display", "none");
-            document.getElementById("NextBtn").innerText = "Next";
-
+            $("#NextBtn").css("display", "block");
+            $("#DoneBtn").css("display", "none");  
         }
         else {
             $("#Prev").css("display", "block");
             if (sideId == 3) {
-                document.getElementById("NextBtn").innerText = "Done";
+                $("#NextBtn").css("display", "none");
+                $("#DoneBtn").css("display", "block");
             }
             else {
-                document.getElementById("NextBtn").innerText = "Next";
+                $("#NextBtn").css("display", "block");
+                $("#DoneBtn").css("display", "none");
             }
         }
     }
@@ -227,6 +248,21 @@
         var password = document.getElementById("Password").value;
         var confirmPassword = document.getElementById("ConfirmPassword").value;
 
+        var company = $("#Company").val();
+        var xp = $("#XP").val();
+        var selectedRole = $('#Role :selected')[0].id.split("_")[1];
+        var selectedOrgLevel = $('#OrgLevel :selected')[0].id.split("_")[1];
+
+        var selectedTitle;
+
+        var cheks = document.getElementsByClassName("TitleCheckbox");
+        for (var i = 0; i < cheks.length; i++) {
+            if (cheks[i].checked) {
+                selectedTitle = cheks[i].id.split("_")[1];
+                break;
+            }
+        }
+
 
         if (IsNullOrEmpty(firstName) || IsNullOrEmpty(lastName) || IsNullOrEmpty(email) || IsNullOrEmpty(username) || IsNullOrEmpty(password) || IsNullOrEmpty(confirmPassword)) {
             showInvalidBanner("Please Fill Out All The Fields.");
@@ -238,7 +274,7 @@
 
         else {
 
-            var objToSend = { FirstName: firstName, LastName: lastName, Email: email, Password: password, ConfirmPassword: confirmPassword, UserName: username };
+            var objToSend = { FirstName: firstName, LastName: lastName, Email: email, Password: password, ConfirmPassword: confirmPassword, UserName: username, Company: company, YrsOfXP: xp, Title: selectedTitle, Role: selectedRole, OrgLevel: selectedOrgLevel }
 
             var ajaxPost = $.post('/CodeAtWork/SaveRegistration', { user: objToSend });
             Promise.all([ajaxPost]).then((result) => {

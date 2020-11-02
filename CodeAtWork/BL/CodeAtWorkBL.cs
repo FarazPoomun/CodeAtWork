@@ -22,7 +22,7 @@ namespace CodeAtWork.BL
             return dal.ValidateUsername(username);
         }
 
-        internal int SaveRegistration(UserDetails user)
+        internal int SaveRegistration(FullUserDetail user)
         {
             return dal.SaveRegistration(user);
         }

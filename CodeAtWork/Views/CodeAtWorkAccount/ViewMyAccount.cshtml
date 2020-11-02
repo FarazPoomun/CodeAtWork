@@ -262,7 +262,6 @@ var AccountCounts = ViewBag.AccountCounts as Dictionary<string, int>;
     }
 
     function TitleCheck(elem) {
-
         var cheks = document.getElementsByClassName("TitleCheckbox");
         var oneChecked = false;
         for (var i = 0; i < cheks.length; i++) {
@@ -292,14 +291,6 @@ var AccountCounts = ViewBag.AccountCounts as Dictionary<string, int>;
         $("#Tab3").css("display", "none");
 
         $("#Tab" + tabId).css("display", "block");
-
-
-        //var ajaxPost = $.post('/CodeAtWorkApp/GetChannelList', { isShared: tabId });
-        //Promise.all([ajaxPost]).then((result) => {
-        //    document.getElementById("channelListTable").innerHTML = result;
-        //    $("#deleteChannelBtn").css("pointer-events", "none");
-        //    $("#deleteChannelBtn").css("background-color", "grey");
-        //});
     }
 
        function redirectToPage(pageName, controllerName = 'CodeAtWorkApp') {

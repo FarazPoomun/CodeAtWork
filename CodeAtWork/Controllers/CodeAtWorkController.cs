@@ -24,7 +24,7 @@ namespace CodeAtWork.Controllers
             return View();
         }
 
-        public JsonResult SaveRegistration(UserDetails user)
+        public JsonResult SaveRegistration(FullUserDetail user)
         {
             Models.Misc.ValidationResult result = new Models.Misc.ValidationResult();
 

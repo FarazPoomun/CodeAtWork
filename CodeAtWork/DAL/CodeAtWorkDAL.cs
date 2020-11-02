@@ -63,7 +63,7 @@ namespace CodeAtWork.DAL
             return result;
         }
 
-        internal int SaveRegistration(UserDetails user)
+        internal int SaveRegistration(FullUserDetail user)
         {
             SqlDataAdapter adapter = new SqlDataAdapter();
 
@@ -74,7 +74,7 @@ namespace CodeAtWork.DAL
                             SET @AppUserId = SCOPE_IDENTITY()
 
                             Insert into UserDetail
-                            Values (@AppUserId, '{user.FirstName}', '{user.LastName}','{user.Email}')
+                            Values (@AppUserId, '{user.FirstName}', '{user.LastName}','{user.Email}', {user.Title}, '{user.Company}', {user.YrsOfXP}, {user.Role}, {user.OrgLevel})
 
                             select @AppUserId
                             ";
