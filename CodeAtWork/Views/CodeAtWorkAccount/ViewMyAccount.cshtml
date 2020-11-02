@@ -1,10 +1,10 @@
 ﻿@using CodeAtWork.Models.Session;
 @{
     ViewBag.Title = "ViewMyAccount";
-    Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
+Layout = "~/Views/Shared/CodeAtWorkAppLayout.cshtml";
 
-    var UserDetails = ViewBag.UserDetails as FullUserDetail;
-    var AccountCounts = ViewBag.AccountCounts as Dictionary<string, int>;
+var UserDetails = ViewBag.UserDetails as FullUserDetail;
+var AccountCounts = ViewBag.AccountCounts as Dictionary<string, int>;
 }
 <link href="~/Content/CodeAtWorkAccount/ViewMyAccount.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -14,13 +14,17 @@
     <div id="AccountHeaderDIV">
         <div id="firstHeaderDIV">
             <h1 id="NameText">@UserDetails.DisplayName</h1>
-            <a class="NameSubText">Software Developer <i class="fas fa-circle dotSeperator"></i> Ceridian</a>
+            <a class="NameSubText">@JobRole.GetJobRoleById(UserDetails.Role) <i class="fas fa-circle dotSeperator"></i> @UserDetails.Company</a>
         </div>
         <div style="font-family:comfortaa" id="sideHeaderLinks">
             <p onclick="redirectToPage('Interests')" class="headerLinks" style="padding-top: 1rem">  <a class="HeaderNum"> @AccountCounts["InterestCount"] </a> Interests</p>
             <p onclick="redirectToPage('Paths')" class="headerLinks">  <a class="HeaderNum"> @AccountCounts["PathCount"] </a> Paths</p>
             <p onclick="redirectToPage('Channels')" class="headerLinks">  <a class="HeaderNum"> @AccountCounts["ChannelCount"] </a> Channels</p>
         </div>
+    </div>
+
+    <div id="outputMsg">
+        <h2 style="font-family:comfortaa; padding:0.5rem" id="ErrorMsg"></h2>
     </div>
 
     <div id="TabSelection">
@@ -61,61 +65,59 @@
 
                 <div id="UpdateCheckbox">
                     <div>
-                        <input type="checkbox" id="Dev">
-                        <label for="Dev">Developer</label>
+                        <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_1">
+                        <label for="Title_1">Developer</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="IT">
-                        <label for="IT">IT Professional</label>
+                        <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_2">
+                        <label for="Title_2">IT Professional</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="Tester">
-                        <label for="Tester">Tester</label>
+                        <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_3">
+                        <label for="Title_3">Tester</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="Other">
-                        <label for="Other">Other</label>
+                        <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_4">
+                        <label for="Title_4">Other</label>
                     </div>
                 </div>
                 <div class="UpdateForm">
                     <div>
                         <h3 class="inputHeader">Company</h3>
-                        <input class="inputStyle" type="text" id="Company">
+                        <input class="inputStyle" type="text" id="Company" value="@UserDetails.Company">
                     </div>
                     <div>
                         <h3 class="inputHeader">Years Of Experience</h3>
-                        <input class="inputStyle" type="number" id="Experience" min="0">
+                        <input class="inputStyle" type="number" id="Experience" value="@UserDetails.YrsOfXP" min="0">
                     </div>
                     <div>
                         <h3 class="inputHeader">Role</h3>
                         <select class="inputStyle" id="Role">
-                            <option value="">Select</option>
-                            <option>Back-end Web Dev</option>
-                            <option>Data-Focused Dev</option>
-                            <option>Desktop Dev</option>
-                            <option>Embedded App Dev</option>
-                            <option>Entry Level Services Dev</option>
-                            <option>Front-end Dev</option>
-                            <option>Full-stack Game Dev</option>
-                            <option>Full-stack Web Dev</option>
-                            <option>Game Dev</option>
-                            <option>Manager / Director / Executive</option>
-                            <option>Mobile Dev</option>
-                            <option>Quality Assurance / Tester</option>
-                            <option value="other">Other</option>
+                            <option id="Role_1">Back-end Web Dev</option>
+                            <option id="Role_2">Data-Focused Dev</option>
+                            <option id="Role_3">Desktop Dev</option>
+                            <option id="Role_4">Embedded App Dev</option>
+                            <option id="Role_5">Entry Level Services Dev</option>
+                            <option id="Role_6">Front-end Dev</option>
+                            <option id="Role_7">Full-stack Game Dev</option>
+                            <option id="Role_8">Full-stack Web Dev</option>
+                            <option id="Role_9">Game Dev</option>
+                            <option id="Role_10">Manager / Director / Executive</option>
+                            <option id="Role_11">Mobile Dev</option>
+                            <option id="Role_12">Quality Assurance / Tester</option>
+                            <option id="Role_13">Other</option>
                         </select>
                     </div>
                     <div>
                         <h3 class="inputHeader">Level With Organization</h3>
-                        <select class="inputStyle" id="Role">
-                            <option value="">Select</option>
-                            <option>Individual Contributor</option>
-                            <option>Manager / Team Lead</option>
-                            <option>Director</option>
-                            <option>Executive / CxO / VP</option>
-                            <option>Owner</option>
-                            <option>Freelancer / Consultant / Contractor</option>
-                            <option value="other">Other</option>
+                        <select class="inputStyle" id="OrgLevel">
+                            <option id="Org_1">Individual Contributor</option>
+                            <option id="Org_2">Manager / Team Lead</option>
+                            <option id="Org_3">Director</option>
+                            <option id="Org_4">Executive / CxO / VP</option>
+                            <option id="Org_5">Owner</option>
+                            <option id="Org_6">Freelancer / Consultant / Contractor</option>
+                            <option id="Org_7">Other</option>
                         </select>
                     </div>
                 </div>
@@ -132,7 +134,7 @@
                     <div>
                         <h3 class="inputHeader">New Password</h3>
                         <input class="inputStyle" type="password" id="newPWD">
-                    </div> 
+                    </div>
                     <div>
                         <h3 class="inputHeader">Confirm your new Password</h3>
                         <input class="inputStyle" type="text" id="confirmNewPWD">
@@ -142,11 +144,145 @@
         </div>
     </div>
     <div style="float: right; margin-right: 1rem;">
-        <p><button class="blueBtn disabledBtn" id="deleteChannelBtn" onclick="deleteChannels()">Update</button></p>
+        <p><button class="blueBtn disabledBtn" id="deleteChannelBtn" onclick="UpdateAccountInfo()">Update</button></p>
     </div>
 
 </div>
 <script>
+
+    var savedTitle = '@UserDetails.Title';
+    var savedRole = '@UserDetails.Role';
+    var savedOrg = '@UserDetails.OrgLevel';
+
+    document.getElementById("Title_" + savedTitle).checked = true;
+    document.getElementById("Role_"+ savedRole).selected = true;
+    document.getElementById("Org_"+ savedOrg).selected = true;
+
+    function UpdateAccountInfo() {
+        var currentPwd = $("#confirmPWD").val();
+        var newPwd = $("#newPWD").val();
+        var confirmNewPwd = $("#confirmNewPWD").val();
+
+        if (newPwd != "" && confirmNewPwd != "") {
+            if (newPwd != confirmNewPwd) {
+                document.getElementById("ErrorMsg").innerHTML = "Password Don't Match";
+                $("#outputMsg").fadeIn(function () {
+                    $("#outputMsg").fadeOut(6000);
+                });
+            }
+            var ajaxPost = $.post('/CodeAtWorkAccount/VerifyPwd', { pwd: currentPwd });
+            Promise.all([ajaxPost]).then((result) => {
+                //Loses scope hence the code replication
+
+                if (result == "False") {
+                    document.getElementById("ErrorMsg").innerHTML = "Invalid Current Password";
+                    $("#outputMsg").fadeIn(function () {
+                        $("#outputMsg").fadeOut(6000);
+                    });
+                }
+                if (result == "True") {
+                    var firstName = $("#FirstName").val();
+                    var lastName = $("#LastName").val();
+                    var email = $("#Email").val();
+                    var company = $("#Company").val();
+                    var xp = $("#Experience").val();
+                    var selectedRole = $('#Role :selected')[0].id.split("_")[1];
+                    var selectedOrgLevel = $('#OrgLevel :selected')[0].id.split("_")[1];
+                    var pwd = $("#newPWD").val();
+
+                    var selectedTitle;
+
+                    var cheks = document.getElementsByClassName("TitleCheckbox");
+                    for (var i = 0; i < cheks.length; i++) {
+                        if (cheks[i].checked) {
+                            selectedTitle = cheks[i].id.split("_")[1];
+                            break;
+                        }
+                    }
+
+                    var obj = { FirstName: firstName, LastName: lastName, Email: email, Company: company, YrsOfXP: xp, Title: selectedTitle, Role: selectedRole, OrgLevel: selectedOrgLevel, Password : pwd }
+                    var ajaxPost = $.post('/CodeAtWorkAccount/UpdateInfo', { UpdatedInfo: obj });
+                    Promise.all([ajaxPost]).then((result) => {
+                        location.reload();
+                    });
+                }
+            });
+        }
+        else {
+            var firstName = $("#FirstName").val();
+            var lastName = $("#LastName").val();
+            var email = $("#Email").val();
+            var company = $("#Company").val();
+            var xp = $("#Experience").val();
+            var selectedRole = $('#Role :selected')[0].id.split("_")[1];
+            var selectedOrgLevel = $('#OrgLevel :selected')[0].id.split("_")[1];
+
+            var selectedTitle;
+
+            var cheks = document.getElementsByClassName("TitleCheckbox");
+            for (var i = 0; i < cheks.length; i++) {
+                if (cheks[i].checked) {
+                    selectedTitle = cheks[i].id.split("_")[1];
+                    break;
+                }
+            }
+
+            var obj = { FirstName: firstName, LastName: lastName, Email: email, Company: company, YrsOfXP: xp, Title: selectedTitle, Role: selectedRole, OrgLevel: selectedOrgLevel}
+            var ajaxPost = $.post('/CodeAtWorkAccount/UpdateInfo', { UpdatedInfo: obj });
+            Promise.all([ajaxPost]).then((result) => {
+                location.reload();
+            });
+        }
+    }
+
+    function checkPWD() {
+        var currentPwd = $("#confirmPWD").val();
+        var newPwd = $("#newPWD").val();
+        var confirmNewPwd = $("#confirmNewPWD").val();
+
+        if (newPwd != confirmNewPwd) {
+            document.getElementById("ErrorMsg").innerHTML = "Password Don't Match";
+            $("#outputMsg").fadeIn(function () {
+                $("#outputMsg").fadeOut(6000);
+            });
+            return false;
+        }
+        var ajaxPost = $.post('/CodeAtWorkAccount/VerifyPwd', { pwd: currentPwd });
+        Promise.all([ajaxPost]).then((result) => {
+            if (result == "False") {
+                document.getElementById("ErrorMsg").innerHTML = "Invalid Current Password";
+                $("#outputMsg").fadeIn(function () {
+                    $("#outputMsg").fadeOut(6000);
+                });
+            }
+            return result == "True";
+
+        });
+
+    }
+
+    function TitleCheck(elem) {
+
+        var cheks = document.getElementsByClassName("TitleCheckbox");
+        var oneChecked = false;
+        for (var i = 0; i < cheks.length; i++) {
+            if (cheks[i] != elem) {
+                cheks[i].checked = false;
+            }
+        }
+
+        for (var i = 0; i < cheks.length; i++) {
+            if (cheks[i].checked) {
+                oneChecked = true;
+                break;
+            }
+        }
+
+        if (!oneChecked)
+            document.getElementById("Title_4").checked = true;
+
+    }
+
     function toggleSelectedDiv(elem, tabId) {
         var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
         $(existingElem).removeClass("selectedChannelSection");

@@ -26,5 +26,18 @@ namespace CodeAtWork.Controllers
             ViewBag.AccountCounts = codeAtWorkAccountBL.GetAccountCounts(userInfo.UserId);
             return View();
         }
+
+
+        public bool VerifyPwd(string pwd)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+           return codeAtWorkAccountBL.VerifyPassword(pwd, userInfo.UserId);
+        }
+
+        public void UpdateInfo(FullUserDetail UpdatedInfo)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+            codeAtWorkAccountBL.UpdateInfo(userInfo.UserId, UpdatedInfo);
+        }
     }
 }

@@ -14,6 +14,16 @@
     font-family: comfortaa;
 }
 
+#outputMsg {
+    width: 98%;
+    margin: auto;
+    text-align: center;
+    background: red;
+    height: 3rem;
+    border-radius: 8px;
+    display:none;
+}
+
 #AccountHeaderDIV {
     height: 20rem;
     width: 100%;

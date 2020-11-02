@@ -25,5 +25,15 @@ namespace CodeAtWork.BL
         {
             return dal.GetAccountCounts(userId);
         }
+
+        internal bool VerifyPassword(string pwd, int userId)
+        {
+            return dal.VerifyPassword(pwd, userId);
+        }
+
+        internal void UpdateInfo(int userId, FullUserDetail updatedInfo)
+        {
+             dal.UpdateInfo(userId, updatedInfo);
+        }
     }
 }

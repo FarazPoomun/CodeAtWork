@@ -2,9 +2,9 @@
 {
     public enum JobTitle
     {
-        Developer = 0,
-        IT = 1,
-        Tester = 2,
-        Other = 3
+        Developer = 1,
+        IT = 2,
+        Tester = 3,
+        Other = 4
     }
 }
