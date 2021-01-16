@@ -1,7 +1,8 @@
 ﻿
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/CodeAtWorkAdminLayout.cshtml";
 }
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,15 +37,15 @@
             <div class="form-group">
                 <label for="VideoAuthor">Author:</label>
                 <input type="text" class="form-control" id="VideoAuthor" name="VideoAuthor" required>
-            </div> 
-            
+            </div>
+
             <div class="form-group">
                 <!-- partial:index.partial.html -->
                 <div class="container">
                     <h2>Related Topics</h2>
                     <div class="row">
                         <div class="col-md-12">
-                            <select  type="text" id="topicsMultiSelect" class="multiselect" multiple="multiple" role="multiselect" style="border: 1px solid grey;
+                            <select type="text" id="topicsMultiSelect" class="multiselect" multiple="multiple" role="multiselect" style="border: 1px solid grey;
     border-radius: 3px;">
                                 <option value="0" selected="selected">None</option>
                                 @ViewBag.TopicsOptions

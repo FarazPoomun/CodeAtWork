@@ -1,9 +1,9 @@
 ﻿using CodeAtWork.DAL;
 using CodeAtWork.Models;
+using CodeAtWork.Models.Session;
 using CodeAtWork.Models.UI;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 
 namespace CodeAtWork.BL
@@ -25,6 +25,11 @@ namespace CodeAtWork.BL
 
         }
 
+        internal dynamic GetUsers(bool isActive)
+        {
+            return ConvertToTableHtml(dal.GetUsersList(isActive));
+        }
+
         private HtmlString ConvertTopicsToSelectOptions(List<InterestCatergoryTopic> topics)
         {
             string result = "";
@@ -39,6 +44,24 @@ namespace CodeAtWork.BL
         public Guid SaveNewVid(CreateVid vid)
         {
             return dal.SaveNewVideo(vid);
+        }
+
+
+        public HtmlString ConvertToTableHtml(List<FullUserDetail> UC)
+        {
+            string result = "";
+            UC.ForEach(u =>
+            {
+                result += $"<tr id=\"channelRow_{u.AppUserId}\">" +
+                $"<td><input type=\"checkbox\" onchange=\"softDeleteRow(this, {u.AppUserId})\" /></td>" +
+                $"<td >{u.FirstName}</td> " +
+               $"<td>({u.LastName}) Videos</td> " +
+              $"<td>({u.Email}) Paths</td> " +
+                $"<td>By {u.Company}</td> " +
+                "</tr> ";
+            });
+
+            return new HtmlString(result);
         }
     }
 }

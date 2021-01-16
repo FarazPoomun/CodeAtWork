@@ -1,0 +1,89 @@
+﻿@using CodeAtWork.Models.Session;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/CodeAtWork/tachyons.min.css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+    <link href="~/Content/CodeAtWorkAdmin/CodeAtWorkAdminLayout.css" rel="stylesheet" />
+    <script src="~/Scripts/a076d05399.js"></script>
+</head>
+<body>
+    <ul class="NavUL">
+        <li><a href="/CodeAtWorkAdmin/Home"> Home</a></li>
+        <li><a href="/CodeAtWorkAdmin/AddNewVideo"> Add New Video</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">About</a></li>
+    </ul>
+    <div class="AccountDropdown" id="AccountMenu">
+        <ul class="optMenuListNav">
+            <li onclick="redirectToPage('ViewMyAccount', 'CodeAtWorkAccount')">
+                <svg class="svgAccounts" role="img" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" fill="currentColor" d="M8,8 C8,5.79401 9.79395,4 12,4 C14.2061,4 16,5.79401 16,8 C16,10.20599 14.2061,12 12,12 C9.79395,12 8,10.20599 8,8 Z M10,8 C10,9.103 10.89697,10 12,10 C13.10303,10 14,9.103 14,8 C14,6.896 13.10303,6 12,6 C10.89697,6 10,6.896 10,8 Z M4.5,20 C4.223877,20 4,19.7761 4,19.5 L4,19 C4,15.467 7.29004,13 12,13 C16.71,13 20,15.467 20,19 L20,19.5 C20,19.7761 19.7761,20 19.5,20 L4.5,20 Z M17.842,18 C17.244,16.192 15.009,15 12.0011,15 C8.99304,15 6.75708,16.192 6.15906,18 L17.842,18 Z"></path>
+                </svg>
+                Profile
+            </li>
+            <li onclick="redirectToPage('Interests')">
+                <svg class="SVGInline-svg svgAccounts" height="51" viewBox="0 0 51 51" xmlns="http://www.w3.org/2000/svg">
+                    <g class="default" fill="white" fill-rule="evenodd">
+                        <path d="m1.31272192 13.9293495h40.99999998v-9h-9.6294815l3.5 6h-5.1577036l-3.5-6h-3.9037979l3 6h-5.118034l-3-6h-3.881966l3 6h-5.118034l-2.99999997-6h-4.69098301c-1.93299662 0-3.5 1.56700338-3.5 3.5z" stroke="#aaa" transform="matrix(.984807753012 -.173648177667 .173648177667 .984807753012 -1.306005183984 3.93099243939)"></path>
+                        <path d="m43 26.5h1v-7.5h-42v19c0 2.209139 1.790861 4 4 4h9v-1h-9c-1.65685425 0-3-1.3431458-3-3v-18h40z" fill="white" fill-rule="nonzero"></path>
+                        <g stroke="#aaa" transform="translate(14 25)">
+                            <path d="m10.1427122.74733507c-.19514538-.0538665-.39311598-.0969176-.59300796-.12895674-2.99928406-.48073202-5.82039449 1.56095781-6.30112646 4.56024187l-2.59348467 16.1807346c-.1150647.7178879.13685889 1.4457169.6710984 1.9388611.88104386.8132712 2.25455764.7583307 3.0678289-.1227132l5.70302779-6.1782801c.28396-.3076233.6835581-.4825798 1.1022052-.4825798h13.1243375c.4186471 0 .8182452.1749565 1.1022052.4825798l5.7030278 6.1782801c.4931441.5342395 1.2209731.7861631 1.9388611.6710984 1.1839086-.1897595 1.9898257-1.3033377 1.8000662-2.4872463l-2.5383671-15.83685602c-.0318721-.19885002-.0746418-.39579942-.1281159-.58995835-.806557-2.92852753-3.8344413-4.64872454-6.7629688-3.84216758-2.2367845.61604139-4.4842861.92426991-6.7413642.92426991-2.6441452 0-5.4954891-.42299705-8.554223-1.26730769z"></path>
+                            <circle cx="10.5" cy="9.5" r="3"></circle>
+                            <g transform="matrix(.707106781187 -.707106781187 .707106781187 .707106781187 20.757359312881 9)">
+                                <path d="m .5.5h1.66666667v1.66666667h-1.66666667z"></path>
+                                <path d="m .5 3.83333333h1.66666667v1.66666667h-1.66666667z"></path>
+                                <path d="m3.83333333.5h1.66666667v1.66666667h-1.66666667z"></path>
+                                <path d="m3.83333333 3.83333333h1.66666667v1.66666667h-1.66666667z"></path>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+                Interests
+            </li>
+            <li class="lastLI" onclick="redirectToPage('Logout')">
+                <svg class="svgAccounts" role="img" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12,5 L12,10 L14,10 L14,4 C14,3.447716 13.5522,3 13,3 L3,3 C2.447754,3 2,3.447716 2,4 L2,20 C2,20.5523 2.447754,21 3,21 L13,21 C13.5522,21 14,20.5523 14,20 L14,14 L12,14 L12,19 L4,19 L4,5 L12,5 Z M17.0314,7.65755 L16.3459,8.35709 C16.1555,8.55148 16.1555,8.86252 16.3459,9.05692 L18.2496,11 L10.33777,11 C10.06165,11 9.83777,11.22386 9.83777,11.5 L9.83777,12.5 C9.83777,12.77614 10.06165,13 10.33777,13 L18.2496,13 L16.3459,14.9431 C16.1555,15.1375 16.1555,15.4485 16.3459,15.6429 L17.0386,16.3497 C17.2358,16.5429 17.5524,16.5397 17.7456,16.3425 L21.6572,12.34991 C21.8477,12.15552 21.8477,11.84448 21.6572,11.65009 L17.7384,7.6503 C17.5411,7.45705 17.2246,7.4603 17.0314,7.65755 Z"></path></svg>
+                Logout
+            </li>
+        </ul>
+    </div>
+
+    <div class="main" id="PageBody">
+        <div class="toast__container" id="ToastContainer" style="margin-top: -4%;">
+            <div class="toast__cell">
+                <div class="toast">
+                    <div class="toast__icon">
+                        <svg version="1.1" class="toast__svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g><g><path d="M504.502,75.496c-9.997-9.998-26.205-9.998-36.204,0L161.594,382.203L43.702,264.311c-9.997-9.998-26.205-9.997-36.204,0    c-9.998,9.997-9.998,26.205,0,36.203l135.994,135.992c9.994,9.997,26.214,9.99,36.204,0L504.502,111.7    C514.5,101.703,514.499,85.494,504.502,75.496z"></path>
+	</g></g>
+    </svg>
+                    </div>
+                    <div class="toast__content">
+                        <p class="toast__type" id="type"></p>
+                        <p class="toast__message" id="msg"></p>
+                    </div>
+                    <div class="toast__close">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.642 15.642" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 15.642 15.642">
+                            <path fill-rule="evenodd" d="M8.882,7.821l6.541-6.541c0.293-0.293,0.293-0.768,0-1.061  c-0.293-0.293-0.768-0.293-1.061,0L7.821,6.76L1.28,0.22c-0.293-0.293-0.768-0.293-1.061,0c-0.293,0.293-0.293,0.768,0,1.061  l6.541,6.541L0.22,14.362c-0.293,0.293-0.293,0.768,0,1.061c0.147,0.146,0.338,0.22,0.53,0.22s0.384-0.073,0.53-0.22l6.541-6.541  l6.541,6.541c0.147,0.146,0.338,0.22,0.53,0.22c0.192,0,0.384-0.073,0.53-0.22c0.293-0.293,0.293-0.768,0-1.061L8.882,7.821z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @RenderBody()
+
+        <div id="SearchResult">
+            <div class="SearchScreenshots" id="searchResultsFromNav">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

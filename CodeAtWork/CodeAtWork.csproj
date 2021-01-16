@@ -226,6 +226,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap_4_5_2.min.css" />
     <Content Include="Content\CodeAtWorkAccount\ViewMyAccount.css" />
+    <Content Include="Content\CodeAtWorkAdmin\CodeAtWorkAdminLayout.css" />
     <Content Include="Content\CodeAtWorkApp\Bookmarks.css" />
     <Content Include="Content\CodeAtWorkApp\ChannelDetail.css" />
     <Content Include="Content\CodeAtWorkApp\Channels.css" />
@@ -312,10 +313,12 @@
     <Content Include="Views\CodeAtWorkApp\Paths.cshtml" />
     <Content Include="Views\CodeAtWorkApp\PathDetails.cshtml" />
     <Content Include="Views\CodeAtWorkAccount\ViewMyAccount.cshtml" />
+    <Content Include="Views\CodeAtWorkAdmin\Home.cshtml" />
+    <Content Include="Views\Shared\CodeAtWorkAdminLayout.cshtml" />
+    <Content Include="Views\CodeAtWorkAdmin\UserManagement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\CodeAtWorkAdmin\" />
     <Folder Include="Scripts\CodeAtWork\" />
     <Folder Include="Uploads\" />
   </ItemGroup>

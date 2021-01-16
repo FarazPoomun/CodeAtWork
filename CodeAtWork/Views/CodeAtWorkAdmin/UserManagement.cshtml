@@ -1,0 +1,101 @@
+﻿
+@{
+    Layout = "~/Views/Shared/CodeAtWorkAdminLayout.cshtml";
+}
+<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+<link href="~/Content/CodeAtWorkApp/Channels.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/CodeAtWorkApp/SharedAppJs.js"></script>
+<div id="ChannelsOuterDiv">
+
+    <h2 style="float:left; margin-top:2vh">Channels</h2>
+
+    <div class="optMenuChannelDiv1" style="border-bottom:none">
+        <input type="text" placeholder="Create New Channel" class="ChannelAddBar" id="ChannelAddBar">
+        <button type="submit" class="ChannelAddBtn" id="ChannelAddBtn" onclick="AddNewChannel()"><i class="fas fa-plus"></i></button>
+    </div>
+    <div id="ChannelTable">
+        <div class="selectedChannelSection" onclick="toggleSelectedDiv(this, true)">
+            Active
+        </div>
+        <div onclick="toggleSelectedDiv(this, false)">
+            Inactive
+        </div>
+        <div>
+        </div>
+    </div>
+    <div>
+        <div>
+            <p><button class="blueBtn disabledBtn" id="deleteChannelBtn" onclick="deleteChannels()">Delete</button></p>
+        </div>
+        <table id="channelListTable">
+            @ViewBag.UsersTabData
+        </table>
+    </div>
+
+</div>
+<script>
+
+    function OpenChannelDetails(channelId) {
+        var url = '@Url.Action("ChannelDetail", "CodeAtWorkApp", new { channelId = "__id" })';
+        var New = url.replace("__id", channelId)
+        window.open(New, "_self");
+    }
+
+    function AddNewChannel() {
+        var elem = document.getElementById("ChannelAddBar");
+        if (!IsNullOrEmpty(elem.value)) {
+            var ajaxPost = $.post('/CodeAtWorkApp/AddAndLinkChannel', { channelName: elem.value});
+            Promise.all([ajaxPost]).then((results) => {
+                location.reload();
+            });
+        }
+    }
+
+    function softDeleteRow(elem, channelId) {
+        var row = document.getElementById("channelRow_" + channelId);
+        $(row).toggleClass("softDeleteRow");
+
+        var softdeletedRows = document.getElementsByClassName("softDeleteRow");
+        if (softdeletedRows.length > 0) {
+            $("#deleteChannelBtn").css("pointer-events", "all");
+            $("#deleteChannelBtn").css("background-color", "#0084bd");
+        }
+        else {
+            $("#deleteChannelBtn").css("pointer-events", "none");
+            $("#deleteChannelBtn").css("background-color", "grey");
+        }
+    }
+
+
+    function deleteChannels() {
+        var elems = document.getElementsByClassName("softDeleteRow");
+        var channelIdsToDelete = [];
+        for (var i = 0; i< elems.length; i++) {
+            var channelId = parseInt(elems[i].id.split('_')[1]);
+            channelIdsToDelete.push(channelId);
+        }
+
+
+        var ajaxPost = $.post('/CodeAtWorkApp/DeleteChannels', { channelIdsToDelete: channelIdsToDelete });
+        Promise.all([ajaxPost]).then(() => {
+            location.reload();
+        });
+    }
+
+    function toggleSelectedDiv(elem, tabId) {
+        var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
+        $(existingElem).removeClass("selectedChannelSection");
+        $(elem).addClass("selectedChannelSection");
+
+        var ajaxPost = $.post('/CodeAtWorkAdmin/GetUserList', { isActive: tabId });
+        Promise.all([ajaxPost]).then((result) => {
+            console.log(result);
+            document.getElementById("channelListTable").innerHTML = result;
+            $("#deleteChannelBtn").css("pointer-events", "none");
+            $("#deleteChannelBtn").css("background-color", "grey");
+        });
+    }
+
+</script>

@@ -1,0 +1,349 @@
+﻿body {
+    margin: auto;
+    overflow-x: hidden;
+}
+
+.NavUL {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.NavUL li {
+    float: left;
+}
+
+    .NavUL li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+        li a:hover {
+            background-color: #111;
+        }
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 50px;
+    z-index: 100;
+    box-shadow: 3px -2px 21px 2px dimgrey;
+}
+
+#appLogo {
+    width: 70%;
+    margin-top: 3px;
+    margin-left: 10px;
+}
+
+
+#navbarButtons {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 10% 3% 3% auto 3% 4% 4% 5%;
+    grid-column-gap: 1%;
+}
+
+.navbarSvgs {
+    color: darkgrey;
+    width: 29px;
+    margin-top: 3px;
+}
+
+.navGrid {
+    text-align: center;
+    cursor: pointer;
+    font-size: 13px;
+    color: darkgrey;
+}
+
+    .navGrid:hover {
+        background-color: #353b42;
+    }
+
+.dot {
+    font-size: 25px;
+    height: 35px;
+    width: 35px;
+    background-color: #7048c6;
+    border-radius: 50%;
+    display: inline-block;
+    color: ghostwhite;
+    line-height: 39px;
+    margin-top: 7px;
+    text-align: center;
+}
+
+#NavSearch {
+    width: -webkit-fill-available;
+    margin-left: 20px;
+    margin-top: 4px;
+    font-size: 16px;
+    background-color: #181c20;
+    background-image: url('../../Design/Icons/search-13-64.ico');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 5%;
+    transition: width 0.4s ease-in-out;
+    background-size: 1.2vw;
+    border: none;
+    caret-color: darkgrey;
+    color: darkgrey;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height: 2.7rem;
+}
+
+    #NavSearch:focus {
+        outline: none;
+    }
+
+::placeholder {
+    color: darkgrey;
+    font-size: medium;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.main {
+    margin-top: 6rem;
+}
+
+
+#SearchResult {
+    width: 70%;
+    height: 50vh;
+    position: absolute;
+    top: 50px;
+    margin-left: 15%;
+    background-color: #363636;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: none;
+}
+
+    #SearchResult > .SearchScreenshots {
+        grid-column-gap: 3%;
+        margin-left: 7%;
+        margin-top: 2%;
+        grid-row-gap: 2%;
+    }
+
+
+.AccountDropdown {
+    width: 10rem;
+    height: 12rem;
+    box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
+    background: #222;
+    position: absolute;
+    margin-top: -3rem;
+    right: 1rem;
+}
+
+
+.optMenuListNav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-size: medium;
+    text-align: left;
+    padding-top: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
+    font-family: comfortaa;
+}
+
+    .optMenuListNav > li {
+        cursor: pointer;
+        padding-left: 5%;
+        padding-bottom: 5%;
+        padding-top: 5%;
+    }
+
+        .optMenuListNav > li:hover {
+            box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
+        }
+
+.svgAccounts {
+    height: 1em;
+    vertical-align: -0.1875em;
+    zoom: 2;
+    fill: white;
+}
+
+.lastLI {
+    border-top: thin solid grey;
+    padding-top: 1rem !important;
+}
+
+#AccountMenu {
+    display: none;
+}
+
+.blueBtn {
+    border: none;
+    border-radius: 2px;
+    padding: 12px 18px;
+    /* font-size: 16px; */
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+    background-color: #0084bd;
+    /* box-shadow: 0 0 4px #999; */
+    outline: none;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i');
+
+.toast__container {
+    margin-top: -4%;
+    position: absolute;
+    right: 0px;
+    margin-right: -45rem;
+}
+
+.toastAppear {
+    animation: slide-left 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes slide-left {
+    from {
+        margin-right: -150%;
+    }
+
+    to {
+        margin-right: -75%;
+    }
+}
+
+.ErrToastAppear {
+    animation: Errslide-left 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes Errslide-left {
+    from {
+        margin-right: -50rem;
+    }
+
+    to {
+        margin-right: 1rem;
+    }
+}
+
+.toast__cell {
+    display: inline-block;
+}
+
+.add-margin {
+    margin-top: 20px;
+}
+
+.toast__svg {
+    fill: #fff;
+}
+
+.toast {
+    z-index: 10001;
+    text-align: left;
+    padding: 21px 0;
+    background-color: #fff;
+    border-radius: 4px;
+    max-width: 500px;
+    top: 0px;
+    position: relative;
+    box-shadow: 1px 7px 14px -5px rgba(0,0,0,0.2);
+}
+
+
+    .toast:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+.toast__icon {
+    position: absolute;
+    top: 50%;
+    left: 22px;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    padding: 7px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.toast__type {
+    color: #3e3e3e;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.toast__message {
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #878787;
+}
+
+.toast__content {
+    padding-left: 70px;
+    padding-right: 60px;
+}
+
+.toast__close {
+    position: absolute;
+    right: 22px;
+    top: 50%;
+    width: 14px;
+    cursor: pointer;
+    height: 14px;
+    fill: #878787;
+    transform: translateY(-50%);
+}
+
+
+.toast--green .toast__icon {
+    background-color: #2BDE3F;
+}
+
+.toast--green:before {
+    background-color: #2BDE3F;
+}
+
+.toast--red .toast__icon {
+    background-color: red;
+}
+
+.toast--red:before {
+    background-color: red;
+}
+
+#accordion {
+    box-shadow: none;
+}

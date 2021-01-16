@@ -142,8 +142,6 @@ namespace CodeAtWork.Controllers
         {
             Models.Misc.ValidationResult result = new Models.Misc.ValidationResult();
 
-            var foo = new EmailAddressAttribute();
-
             if (!new EmailAddressAttribute().IsValid(email))
             {
                 result.HasValidationFailed = true;

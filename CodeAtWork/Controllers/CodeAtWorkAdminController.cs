@@ -2,6 +2,7 @@
 using CodeAtWork.Models.UI;
 using System;
 using System.IO;
+using System.Web;
 using System.Web.Mvc;
 
 namespace CodeAtWork.Controllers
@@ -10,9 +11,21 @@ namespace CodeAtWork.Controllers
     {
         CodeAtWorkAdminBL bl => new CodeAtWorkAdminBL();
         // GET: CodeAtWorkAdmin
-        public ActionResult Index()
+        public ActionResult Home()
         {
             return View();
+        }
+
+        public ActionResult UserManagement()
+        {
+            ViewBag.UsersTabData = GetUserList(true);
+
+            return View();
+        }
+
+        public HtmlString GetUserList(bool IsActive)
+        {
+            return bl.GetUsers(IsActive);
         }
 
         public ActionResult AddNewVideo()

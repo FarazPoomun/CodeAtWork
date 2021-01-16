@@ -11,7 +11,7 @@ namespace CodeAtWork.ML
     {
         MLContext mlContext;
         ML_BL ML_BL;
-        private readonly static string DataFolderPath = @"C:\Users\P12480E\source\repos\CodeAtWork\CodeAtWorkML\Data";
+        private readonly static string DataFolderPath = @"C:\Users\p12480E\Documents\CodeAtWork\CodeAtWork\CodeAtWorkML\Data";
 
         private readonly string TrainedModelForNextWatch = $@"{DataFolderPath}\TrainedModel\NextWatchRecommenderModel.zip";
         private readonly string TrainedModelForInterestWatch = $@"{DataFolderPath}\TrainedModel\InterestsRecommenderModel.zip";
