@@ -40,6 +40,16 @@ namespace CodeAtWork.DAL
             return usernameIsInUse;
         }
 
+        internal void UpdateLastLogin(int userId)
+        {
+            SqlCommand command;
+
+            string sql = $@"Update UserDetail Set LastLogin = GetDate() Where AppUserId = {userId}";
+
+            command = new SqlCommand(sql, conn);
+            command.ExecuteScalar();
+        }
+
         internal UserInfo GetUserInfo(int userId)
         {
             UserInfo result = new UserInfo();
@@ -74,7 +84,7 @@ namespace CodeAtWork.DAL
                             SET @AppUserId = SCOPE_IDENTITY()
 
                             Insert into UserDetail
-                            Values (@AppUserId, '{user.FirstName}', '{user.LastName}','{user.Email}', {user.Title}, '{user.Company}', {user.YrsOfXP}, {user.Role}, {user.OrgLevel})
+                            Values (@AppUserId, '{user.FirstName}', '{user.LastName}','{user.Email}', {user.Title}, '{user.Company}', {user.YrsOfXP}, {user.Role}, {user.OrgLevel}, GetDate(), GetDate())
 
                             select @AppUserId
                             ";

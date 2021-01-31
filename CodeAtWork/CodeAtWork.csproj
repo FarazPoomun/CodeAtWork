@@ -199,6 +199,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ML\RecommendedWatchML.cs" />
+    <Compile Include="Models\UserVideoLog.cs" />
     <Compile Include="Models\InterestCatergoryTopic.cs" />
     <Compile Include="Models\Misc\Category.cs" />
     <Compile Include="Models\Misc\ChannelHeaderInfo.cs" />
@@ -227,6 +228,7 @@
     <Content Include="Content\bootstrap_4_5_2.min.css" />
     <Content Include="Content\CodeAtWorkAccount\ViewMyAccount.css" />
     <Content Include="Content\CodeAtWorkAdmin\CodeAtWorkAdminLayout.css" />
+    <Content Include="Content\CodeAtWorkAdmin\UserManagement.css" />
     <Content Include="Content\CodeAtWorkApp\Bookmarks.css" />
     <Content Include="Content\CodeAtWorkApp\ChannelDetail.css" />
     <Content Include="Content\CodeAtWorkApp\Channels.css" />

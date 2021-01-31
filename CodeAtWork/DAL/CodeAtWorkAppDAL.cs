@@ -20,7 +20,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId
             string sql = $@" SELECT * FROM VideoRepository where VideoId = '{vidId}'
             ";
 
@@ -52,7 +51,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@"   SELECT vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
                                 left join Userbookmarkedvideo UBV on vr.VideoId =  UBV.VideoId
                                 inner join ChannelVideo CV on CV.VideoId =  vr.VideoId AND CV.UserChannelId = {channelId}
@@ -91,7 +89,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId
             string sql = $@"
             ;with logCte as(
             select * ,
@@ -136,7 +133,6 @@ namespace CodeAtWork.DAL
             SqlDataReader dataReader;
 
             string catergoryNames = string.Join(",", CategoryNames.Select(z => "'" + z + "'"));
-            //TO-DO Accomodate for UserId
             string sql = $@"SELECT InterestCategoryId, Name FROM InterestCategory where Name in ({catergoryNames})
             ";
 
@@ -161,7 +157,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId
             string sql = $@" SELECT * FROM ChannelSubscribedUser where UserChannelId = {channelId};";
 
             command = new SqlCommand(sql, conn);
@@ -222,7 +217,6 @@ namespace CodeAtWork.DAL
             dataReader.Close();
             command.Dispose();
 
-            //TO-DO Accomodate for UserId And Interests
             sql = $@"select 1 from ChannelSubscribedUser where email ='{email}' and UserChannelId = {channelId}";
 
             command = new SqlCommand(sql, conn);
@@ -255,7 +249,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@"   select UC.*, CP.UserChannelId as IsSelected
                                 from  UserChannel UC
                                 left join channelPath CP on CP.UserChannelId = UC.UserChannelId AND pathId = {pathId}
@@ -294,7 +287,6 @@ namespace CodeAtWork.DAL
 
             string catergoryNames = string.Join(",", CategoryNames.Select(z => "'" + z + "'"));
 
-            //TO-DO Accomodate for UserId
             string sql = $@"SELECT IGT.*, UST.InterestCategoryTopicId as selectedTopic FROM  InterestCategoryTopic IGT
             Left join UserSubscribedTopic UST on IGT.InterestCategoryTopicId =  UST.InterestCategoryTopicId And UST.AppUserId = {userId}
             inner join interestCategory IG on IGT.InterestCategoryId = IG.InterestCategoryId AND IG.Name in ({catergoryNames})
@@ -392,7 +384,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@" 
             ;with vid_cte as(
             select vr.*, uvl.LastPlayedDuration,
@@ -434,7 +425,6 @@ namespace CodeAtWork.DAL
 
             int isShared = IsShared ? 1 : 0;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@"  Update UserChannel Set IsShared = {isShared} where UserChannelId = {userChannelId} 
             ";
 
@@ -448,7 +438,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@"  select * from userchannel UC 
                             Inner join UserDetail AU on AU.AppUserId = UC.AppUserId
                             where uc.UserChannelId = {channelId}
@@ -479,7 +468,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@"   select UC.*, CV.UserChannelId as IsSelected
                                 from  UserChannel UC
                                 left join channelVideo CV  on CV.UserChannelId = UC.UserChannelId AND VideoId = '{vidId}'
@@ -730,7 +718,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@"   SELECT vr.* FROM VideoRepository vr
                                 WHERE vr.MLVideoId in ({string.Join(",",MLVideoIds)})
             ";
@@ -817,7 +804,6 @@ namespace CodeAtWork.DAL
             string sql = "";
             if (top is null)
             {
-                //TO-DO Accomodate for UserId And Interests
                 sql = $@"
                     ;with logCte as(
                     select distinct(uvl.VideoId)
@@ -832,7 +818,6 @@ namespace CodeAtWork.DAL
             }
             else
             {
-                //TO-DO Accomodate for UserId And Interests
                 sql = $@"     ;with logCte as(
                     select distinct(uvl.VideoId)
                     from UserVideoLog uvl
@@ -897,14 +882,12 @@ namespace CodeAtWork.DAL
 
             if (top is null)
             {
-                //TO-DO Accomodate for UserId And Interests
                 sql = $@" SELECT  vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
                         left join Userbookmarkedvideo UBV on vr.VideoId = UBV.VideoId AND UBV.AppUserId = {userId}
             ";
             }
             else
             {
-                //TO-DO Accomodate for UserId And Interests
                 sql = $@" SELECT top {top} vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
                         left join Userbookmarkedvideo UBV on vr.VideoId = UBV.VideoId AND UBV.AppUserId = {userId}
             ";
@@ -947,7 +930,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@"   SELECT vr.*, UBV.UserBookMarkedVideo FROM VideoRepository vr
                         inner join Userbookmarkedvideo UBV on vr.VideoId =  UBV.VideoId AND UBV.AppUserId = {userId}
             ";
@@ -994,7 +976,6 @@ namespace CodeAtWork.DAL
                 additionalWhere = "OR UD.Email =csu.Email";
             }
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@"   select UC.*, 
                                 (select count(*)from ChannelVideo
                                 where ChannelVideo.UserChannelId = UC.UserChannelId ) as VideoCount,
@@ -1038,7 +1019,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@" select * from path ";
 
             if (tabId == 2) //2 == Following
@@ -1082,7 +1062,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@" select * from path where Name like '%{filterBy}%'";
 
             command = new SqlCommand(sql, conn);
@@ -1108,7 +1087,6 @@ namespace CodeAtWork.DAL
             SqlCommand command;
             SqlDataReader dataReader;
 
-            //TO-DO Accomodate for UserId And Interests
             string sql = $@" select * from path 
                             inner join channelPath cp on path.pathId = cp.pathId AND cp.UserChannelId = {channelId}";
 

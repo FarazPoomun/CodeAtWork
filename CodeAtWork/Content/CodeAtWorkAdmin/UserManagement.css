@@ -1,0 +1,154 @@
+﻿.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    font-family: Comfortaa;
+}
+
+    .sidenav a {
+        padding: 6px 5px 6px 5px;
+        text-decoration: none;
+        color: #818181;
+        display: block;
+        font-family: Comfortaa;
+        font-size: smaller;
+    }
+
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+#ChannelsOuterDiv {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+}
+
+#SelectedUsernameSection {
+    margin-left: 2.5%;
+}
+
+.dropbtn {
+    background-color: #0084bd;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: 75%;
+    font-family: Comfortaa;
+    margin-left: 2.5%;
+}
+
+#myInput {
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    font-size: 16px;
+    padding: 14px 100% 12px 5px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+}
+
+    #myInput:focus {
+        outline: 3px solid #ddd;
+    }
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: 98%;
+    font-family: Comfortaa;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f6f6f6;
+    overflow: auto;
+    border: 1px solid #ddd;
+    z-index: 1;
+    width: 98%;
+    font-family: Comfortaa;
+    margin-left: 2.5%;
+}
+
+.dropdown a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
+}
+
+
+
+#DownloadReportModal {
+    height: 13rem;
+    width: 35%;
+    margin: auto;
+    position: absolute;
+    margin-left: 32%;
+    margin-top: -5rem;
+    border-radius: 1%;
+    box-shadow: 0 20px 25px -2px rgba(0,0,0,.4);
+    background: #222;
+    z-index: 1;
+    display: none;
+    border: thin solid rgb(0, 132, 189);
+    overflow: hidden;
+}
+
+.CloseModal {
+    float: right;
+    font-size: larger;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    color: rgb(0, 132, 189);
+}
+
+
+#DownloadOptDiv {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-column-gap: 2%;
+    grid-row-gap: 2rem;
+    color:white;
+    font-family:comfortaa;
+}
+
+
+.DownloadModalBtn {
+    width: auto;
+    padding: 10px;
+    background: #0084bd;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+    margin-top: -9%;
+    margin-left: 2rem;
+}

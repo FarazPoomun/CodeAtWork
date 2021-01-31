@@ -1,5 +1,6 @@
 ﻿using CodeAtWork.DAL;
 using CodeAtWork.Models.Session;
+using System;
 
 namespace CodeAtWork.BL
 {
@@ -30,6 +31,11 @@ namespace CodeAtWork.BL
         internal UserInfo GetUserInfo(int userId)
         {
             return dal.GetUserInfo(userId);
+        }
+
+        internal void UpdateLastLogin(int userId)
+        {
+            dal.UpdateLastLogin(userId);
         }
 
         #endregion

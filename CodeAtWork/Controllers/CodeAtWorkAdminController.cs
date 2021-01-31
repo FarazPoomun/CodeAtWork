@@ -1,6 +1,7 @@
 ﻿using CodeAtWork.BL;
 using CodeAtWork.Models.UI;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
@@ -19,13 +20,20 @@ namespace CodeAtWork.Controllers
         public ActionResult UserManagement()
         {
             ViewBag.UsersTabData = GetUserList(true);
+            ViewBag.UsernameLists = GetUsernameList();
 
             return View();
         }
 
-        public HtmlString GetUserList(bool IsActive)
+        private HtmlString GetUsernameList()
         {
-            return bl.GetUsers(IsActive);
+            return bl.GetUsernameList();
+
+        }
+
+        public HtmlString GetUserList(bool IsActive, string filterBy = null)
+        {
+            return bl.GetUsers(IsActive, filterBy);
         }
 
         public ActionResult AddNewVideo()
@@ -33,6 +41,13 @@ namespace CodeAtWork.Controllers
             ViewBag.TopicsOptions = bl.GetTopics();
 
             return View();
+        }
+
+        public ActionResult ManageActiveAccount(IEnumerable<int> userIds, bool toDeactive)
+        {
+            bl.DeactivateAccounts(userIds, toDeactive);
+
+            return RedirectToAction("UserManagement");
         }
 
 
@@ -56,6 +71,11 @@ namespace CodeAtWork.Controllers
         {
             var path = Path.Combine(Server.MapPath("~/Uploads/"), newId.ToString() + ".jpg");
             newVid.ImageFile.SaveAs(path);
+        }
+
+        public void DownloadReport(IEnumerable<int> userIds, bool includeInProgress, bool includeCompleted)
+        {
+            bl.GetDetailsAndDownload(userIds, includeInProgress, includeCompleted);
         }
     }
 }

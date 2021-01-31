@@ -1,4 +1,5 @@
 ﻿using CodeAtWork.Models.Misc;
+using System;
 using System.Collections.Generic;
 
 namespace CodeAtWork.Models.Session
@@ -27,6 +28,8 @@ namespace CodeAtWork.Models.Session
         public int Title { get; set; }
         public int Role { get; set; }
         public int OrgLevel { get; set; }
+        public DateTime LastLogin { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 
     public class JobRole

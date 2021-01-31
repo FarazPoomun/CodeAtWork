@@ -4,22 +4,50 @@
 }
 <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
 <link href="~/Content/CodeAtWorkApp/Channels.css" rel="stylesheet" />
+<link href="~/Content/CodeAtWorkAdmin/UserManagement.css" rel="stylesheet" />
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script src="~/Scripts/CodeAtWorkApp/SharedAppJs.js"></script>
-<div id="ChannelsOuterDiv">
 
-    <h2 style="float:left; margin-top:2vh">Channels</h2>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="dropdown">
+        <button onclick="OpenModal()" class="dropbtn" id="downloadBtn" style="float:right; width:auto"><i class="fas fa-file-download"></i></button>
+
+        <button onclick="toggleDropdown()" id="SelectUserDropdownBtn" class="dropbtn">Select User <i class="fas fa-caret-down"></i></button>
+        <div id="myDropdown" class="dropdown-content">
+            <input type="text" placeholder="Search user" id="myInput" onkeyup="filterFunction()">
+
+            @ViewBag.UsernameLists
+
+        </div>
+    </div>
+
+    <div id="SelectedUsernameSection">
+        <h2 style="color:whitesmoke">Selected Users</h2>
+
+        <div id="SelectedUsernameToGenerate">
+
+        </div>
+    </div>
+</div>
+
+<a href="~/Exports/UserReport.csv" download id="download" hidden></a>
+
+<div id="ChannelsOuterDiv">
+    <span style="font-size:30px;cursor:pointer; display:none;">&#9776; open</span>
+
+    <h2 style="float:left; margin-top:2vh">User Management</h2>
 
     <div class="optMenuChannelDiv1" style="border-bottom:none">
-        <input type="text" placeholder="Create New Channel" class="ChannelAddBar" id="ChannelAddBar">
-        <button type="submit" class="ChannelAddBtn" id="ChannelAddBtn" onclick="AddNewChannel()"><i class="fas fa-plus"></i></button>
+        <button style="width:auto" class="ChannelAddBtn" onclick="openNav()">Generate Report</button>
     </div>
+
     <div id="ChannelTable">
-        <div class="selectedChannelSection" onclick="toggleSelectedDiv(this, true)">
+        <div class="selectedChannelSection" onclick="toggleSelectedDiv(this, true, 'deactiveBtn')">
             Active
         </div>
-        <div onclick="toggleSelectedDiv(this, false)">
+        <div onclick="toggleSelectedDiv(this, false, 'reactiveBtn')">
             Inactive
         </div>
         <div>
@@ -27,15 +55,159 @@
     </div>
     <div>
         <div>
-            <p><button class="blueBtn disabledBtn" id="deleteChannelBtn" onclick="deleteChannels()">Delete</button></p>
+            <p id="deactiveBtnWrapper" style=" float: left;"><button class="blueBtn disabledBtn" id="deleteChannelBtn" onclick="DeactivateUser(true)">De-Activate</button></p>
+            <p id="reactiveBtnWrapper" style=" display: none;float: left;"><button class="blueBtn disabledBtn" id="reactiveBtn" onclick="DeactivateUser(false)">Re-Activate</button></p>
+            <div class="optMenuChannelDiv1" style="border-bottom: none; height: auto;">
+                <input type="text" placeholder="Search User" class="ChannelAddBar" id="ChannelAddBar">
+                <button type="submit" class="ChannelAddBtn" id="ChannelAddBtn" onclick="SearchByName()"><i class="fas fa-search"></i></button>
+            </div>
         </div>
         <table id="channelListTable">
             @ViewBag.UsersTabData
         </table>
     </div>
+</div>
 
+
+<div id="DownloadReportModal">
+    <div><i class="fas fa-times CloseModal" onclick="CloseModal()"></i></div>
+    <div style="margin-left: 2%; margin-top: 6%; ">
+        <h1 style="font-family: 'Comfortaa'; color: whitesmoke; ">Download Options</h1>
+        <div id="DownloadOptDiv">
+            <div><input type="checkbox" style="cursor:pointer" id="InProgressCheck"/> Include Videos In Progress </div>
+            <div></div>
+            <div><input type="checkbox" style="cursor:pointer" id="CompletedCheck"/> Include Videos Completed </div>
+            <div>
+                <button class="DownloadModalBtn" onclick="download()">Download Report</button>
+            </div>
+
+        </div>
+    </div>
 </div>
 <script>
+
+    $("#downloadBtn").css("pointer-events", "none");
+    $("#downloadBtn").css("background-color", "grey");
+
+    function download() {
+
+        var allUsers = document.getElementsByClassName("UserCheckBox");
+        var idSeperator = "_";
+        var SelectedUserIdsToDownlod = [];
+        var result = "";
+        for (var i = 0; i < allUsers.length; i++) {
+            if (allUsers[i].checked) {
+                var userId = allUsers[i].id.split(idSeperator)[1];
+                SelectedUserIdsToDownlod.push(userId);
+            }
+        }
+
+        var ajaxPost = $.post('/CodeAtWorkAdmin/DownloadReport', { userIds: SelectedUserIdsToDownlod, includeInProgress: document.getElementById("InProgressCheck").checked, includeCompleted: document.getElementById("CompletedCheck").checked});
+        Promise.all([ajaxPost]).then(() => {
+            document.getElementById("download").click();
+        });
+
+
+    }
+
+
+    function ToggleAllUsers() {
+        var allUsers = document.getElementsByClassName("UserCheckBox");
+        var shouldAllBeChecked = document.getElementById("AllUserCheckBox").checked;
+
+            for (var i = 0; i < allUsers.length; i++) {
+                allUsers[i].checked = shouldAllBeChecked;
+        }
+
+        thisRowSelected();
+    }
+
+    function thisRowSelected() {
+        var allUsers = document.getElementsByClassName("UserCheckBox");
+        var idSeperator = "_";
+
+        var result = "";
+        for (var i = 0; i < allUsers.length; i++) {
+            if (allUsers[i].checked) {
+                var userId = allUsers[i].id.split(idSeperator)[1];
+                result += "<a class=\"SelectedUserRowList\">" + document.getElementById("UserRow_" + userId).innerText.split(" (")[0] + "</a>";
+            }
+        }
+
+        document.getElementById("SelectedUsernameToGenerate").innerHTML = result;
+        toggleDownloadBtn();
+    }
+
+    function toggleDownloadBtn() {
+        var allSelectedUsers = document.getElementsByClassName("SelectedUserRowList");
+
+        if (allSelectedUsers.length > 0) {
+            $("#downloadBtn").css("pointer-events", "all");
+            $("#downloadBtn").css("background-color", "#0084bd");
+        }
+        else {
+            $("#downloadBtn").css("pointer-events", "none");
+            $("#downloadBtn").css("background-color", "grey");
+        }
+    }
+
+    function toggleDropdown() {
+        document.getElementById("myDropdown").classList.toggle("show");
+
+        if (document.getElementById("myDropdown").classList.contains("show")) {
+            document.getElementById("SelectUserDropdownBtn").innerHTML = "Select User <i class=\"fas fa-caret-up\"></i>";
+        }
+        else {
+            document.getElementById("SelectUserDropdownBtn").innerHTML = "Select User <i class=\"fas fa-caret-down\"></i>";
+        }
+
+    }
+
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("ChannelsOuterDiv").style.marginLeft = "250px";
+    }
+
+    function OpenModal() {
+        $("#DownloadReportModal").fadeIn();
+    }
+
+    function CloseModal() {
+        $("#DownloadReportModal").fadeOut();
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("ChannelsOuterDiv").style.marginLeft = "0";
+    }
+
+    function SearchByName() {
+        var searchTxt = document.getElementById("ChannelAddBar").value;
+        var isSelectedTabActive = document.getElementsByClassName("selectedChannelSection")[0].innerText == 'Active';
+
+        var ajaxPost = $.post('/CodeAtWorkAdmin/GetUserList', { isActive: isSelectedTabActive, filterBy: searchTxt });
+        Promise.all([ajaxPost]).then((result) => {
+            document.getElementById("channelListTable").innerHTML = result;
+            $("#deleteChannelBtn").css("pointer-events", "none");
+            $("#deleteChannelBtn").css("background-color", "grey");
+        });
+    }
 
     function OpenChannelDetails(channelId) {
         var url = '@Url.Action("ChannelDetail", "CodeAtWorkApp", new { channelId = "__id" })';
@@ -59,39 +231,59 @@
 
         var softdeletedRows = document.getElementsByClassName("softDeleteRow");
         if (softdeletedRows.length > 0) {
-            $("#deleteChannelBtn").css("pointer-events", "all");
-            $("#deleteChannelBtn").css("background-color", "#0084bd");
+            if ($("#deactiveBtnWrapper").is(':visible')) {
+                $("#deleteChannelBtn").css("pointer-events", "all");
+                $("#deleteChannelBtn").css("background-color", "#0084bd");
+            }
+            else {
+                $("#reactiveBtn").css("pointer-events", "all");
+                $("#reactiveBtn").css("background-color", "#0084bd");
+            }
         }
         else {
-            $("#deleteChannelBtn").css("pointer-events", "none");
-            $("#deleteChannelBtn").css("background-color", "grey");
+            if ($("#deactiveBtnWrapper").is(':visible')) {
+                $("#deleteChannelBtn").css("pointer-events", "none");
+                $("#deleteChannelBtn").css("background-color", "grey");
+            }
+            else {
+                $("#reactiveBtn").css("pointer-events", "none");
+                $("#reactiveBtn").css("background-color", "grey");
+            }
         }
     }
 
 
-    function deleteChannels() {
+    function DeactivateUser(toDeactive) {
         var elems = document.getElementsByClassName("softDeleteRow");
-        var channelIdsToDelete = [];
+        var userIdsToDeactivate = [];
         for (var i = 0; i< elems.length; i++) {
-            var channelId = parseInt(elems[i].id.split('_')[1]);
-            channelIdsToDelete.push(channelId);
+            var userId = parseInt(elems[i].id.split('_')[1]);
+            userIdsToDeactivate.push(userId);
         }
 
-
-        var ajaxPost = $.post('/CodeAtWorkApp/DeleteChannels', { channelIdsToDelete: channelIdsToDelete });
+        var ajaxPost = $.post('/CodeAtWorkAdmin/ManageActiveAccount', { userIds: userIdsToDeactivate, toDeactive: toDeactive });
         Promise.all([ajaxPost]).then(() => {
             location.reload();
         });
     }
 
-    function toggleSelectedDiv(elem, tabId) {
+    function toggleSelectedDiv(elem, tabId, toShow) {
+        if (toShow == 'deactiveBtn') {
+            $("#deactiveBtnWrapper").css("display", "block");
+            $("#reactiveBtnWrapper").css("display", "none");
+        }
+        else {
+            $("#deactiveBtnWrapper").css("display", "none");
+            $("#reactiveBtnWrapper").css("display", "block");
+        }
+
         var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
         $(existingElem).removeClass("selectedChannelSection");
         $(elem).addClass("selectedChannelSection");
+        var searchTxt = document.getElementById("ChannelAddBar").value;
 
-        var ajaxPost = $.post('/CodeAtWorkAdmin/GetUserList', { isActive: tabId });
+        var ajaxPost = $.post('/CodeAtWorkAdmin/GetUserList', { isActive: tabId, filterBy: searchTxt });
         Promise.all([ajaxPost]).then((result) => {
-            console.log(result);
             document.getElementById("channelListTable").innerHTML = result;
             $("#deleteChannelBtn").css("pointer-events", "none");
             $("#deleteChannelBtn").css("background-color", "grey");

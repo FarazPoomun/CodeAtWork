@@ -67,7 +67,9 @@ namespace CodeAtWork.Controllers
 
             if (validLogin > 0)
             {
-                Session["UserInfo"] = bl.GetUserInfo(validLogin);
+                var userInfo = bl.GetUserInfo(validLogin);
+                Session["UserInfo"] = userInfo;
+                bl.UpdateLastLogin(userInfo.UserId);
 
                 return RedirectToAction("Home", "CodeAtWorkApp");
             }
