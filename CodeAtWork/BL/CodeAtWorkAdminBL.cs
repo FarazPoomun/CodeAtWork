@@ -90,12 +90,15 @@ namespace CodeAtWork.BL
 
                 users.ForEach(u =>
                 {
-                    List<Guid> userCompletedVideos = new List<Guid>(); //might help to change to queue
+                    Queue<Guid> userCompletedVideos = new Queue<Guid>(); //might help to change to queue
                     List<Guid> userInProgressVideos = new List<Guid>();
 
                     if (includeCompleted)
                     {
-                        usersVidLog.Where(z => z.AppUserId == u.AppUserId && z.IsFinished)?.ToList().ForEach(v => userCompletedVideos.Add(v.VideoId));
+                        usersVidLog.Where(z => z.AppUserId == u.AppUserId && z.IsFinished)?.ToList().ForEach(v => {
+                            if (!userCompletedVideos.Contains(v.VideoId))
+                                userCompletedVideos.Enqueue(v.VideoId);
+                                });
                     }
 
                     if (includeInProgress)
@@ -106,6 +109,7 @@ namespace CodeAtWork.BL
                         });
 
                     }
+
                     var firstLine = $"{u.Username}, {u.DisplayName}, {u.CreatedOn:dddd; dd MMMM yyyy HH:mm:ss}, {u.LastLogin:dddd; dd MMMM yyyy HH:mm:ss}";
                     List<string> subSequentLines = new List<string>();
                     if (includeInProgress)
@@ -113,37 +117,89 @@ namespace CodeAtWork.BL
                         var firstRow = true;
                         userInProgressVideos.ForEach(PV =>
                         {
+                            var vidName = FormatVidName(PV);
+
                             if (firstRow)
                             {
-                                firstLine += $", {vidsNameAndId.Single(z => z.VideoId == PV).VideoDescription}";
+                                firstLine += $", {vidName}";
                                 firstRow = false;
                             }
                             else
                             {
-                                var vidName = vidsNameAndId.Single(z => z.VideoId == PV).VideoDescription;
-
-                                if (vidName.Contains("\""))
-                                {
-                                    vidName = vidName.Replace("\"", "\"\"");
-                                }
-
-                                if (vidName.Contains(","))
-                                {
-                                    vidName = String.Format("\"{0}\"", vidName);
-                                }
-
-                                if (vidName.Contains(Environment.NewLine))
-                                {
-                                    vidName = String.Format("\"{0}\"", vidName);
-                                }
-
                                 subSequentLines.Add($",,,,{vidName}");
                             }
                         });
                     }
+
+                    if (includeCompleted && userCompletedVideos.Any())
+                    {
+                        var commaCount = firstLine.Count(z => z == ',');
+
+                        if (commaCount == 3 && includeInProgress)
+                            firstLine += ",";
+                        var vidId = userCompletedVideos.Dequeue();
+                        var vidName = FormatVidName(vidId);
+
+                        firstLine += $", {vidName}";
+
+
+                        for (int i = 0; i< subSequentLines.Count; i++)
+                        {
+                            if (userCompletedVideos.Any())
+                            {
+                                commaCount = subSequentLines[i].Count(z => z == ',');
+                                if (commaCount == 3 && includeInProgress)
+                                    subSequentLines[i] += ",";
+                                vidId = userCompletedVideos.Dequeue();
+                                vidName = FormatVidName(vidId);
+
+                                subSequentLines[i] += $", {vidName}";
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        if (userCompletedVideos.Any())
+                        {
+                            var newLine = ",,,,";
+                            if (includeInProgress)
+                                newLine += ",";
+                            do
+                            {
+                                vidId = userCompletedVideos.Dequeue();
+                                vidName = FormatVidName(vidId);
+
+                                subSequentLines.Add(newLine + vidName);
+                            } while (userCompletedVideos.Any());
+
+                        }
+                    }
                     writer.WriteLine(firstLine);
                     subSequentLines.ForEach(z => writer.WriteLine(z));
                 });
+            }
+
+            string FormatVidName (Guid VidId) {
+                var vidName = vidsNameAndId.Single(z => z.VideoId == VidId).VideoDescription;
+
+                if (vidName.Contains("\""))
+                {
+                    vidName = vidName.Replace("\"", "\"\"");
+                }
+
+                if (vidName.Contains(","))
+                {
+                    vidName = String.Format("\"{0}\"", vidName);
+                }
+
+                if (vidName.Contains(Environment.NewLine))
+                {
+                    vidName = String.Format("\"{0}\"", vidName);
+                }
+
+                return vidName;
             }
         }
 

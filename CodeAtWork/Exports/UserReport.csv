@@ -1,4 +1,4 @@
-Username, Full Name, Created On, Last Login, Videos - In Progress
+Username, Full Name, Created On, Last Login, Videos - In Progress, Videos - Completed
 Admin, Admin Admin, Sunday; 31 January 2021 03:10:40, Sunday; 31 January 2021 03:16:07, While Iteration Statement
 ,,,,For Iteration Statement
 ,,,,Working with Strings
@@ -8,5 +8,7 @@ Admin, Admin Admin, Sunday; 31 January 2021 03:10:40, Sunday; 31 January 2021 03
 ,,,,"SQL Joins | Inner, Left, Right, Full Join | SQL Joins With Examples"
 Blah, Blah Blah, Sunday; 31 January 2021 03:10:40, Sunday; 31 January 2021 03:16:07
 Bond, James Bond, Sunday; 31 January 2021 03:10:40, Sunday; 31 January 2021 03:16:07
-Faraz1004, Faraz Poomun, Sunday; 31 January 2021 03:10:40, Monday; 01 February 2021 02:40:47, For Iteration Statement
-,,,,Nullable Types in C#
+Faraz1004, Faraz Poomun, Sunday; 31 January 2021 03:10:40, Monday; 01 February 2021 02:40:47, For Iteration Statement, String type in c#
+,,,,Nullable Types in C#, "SQL Joins | Inner, Left, Right, Full Join | SQL Joins With Examples"
+,,,,,For Iteration Statement
+,,,,,While Iteration Statement
