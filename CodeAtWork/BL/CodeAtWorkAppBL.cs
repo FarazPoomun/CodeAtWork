@@ -250,6 +250,31 @@ namespace CodeAtWork.BL
             return ConvertToTableHtml(dal.GetChannelLists(userId, isShared));
         }
 
+        internal HtmlString GetQuestionnaireForVid(Guid vidId, int userId)
+        {
+            return ConvertToHtmlQOpt(dal.GetQuestionnaireForVid(vidId));
+        }
+
+        private HtmlString ConvertToHtmlQOpt(List<QuestionnaireWithOptions> lists)
+        {
+            var result = "";
+            var QOptsGrouped = lists.GroupBy(z => z.VideoQuestionnaireId);
+
+            foreach (var oneQ in QOptsGrouped)
+            {
+                result += "<div class=\"QDiv\">";
+                result += $"<h3>{lists.First(z => z.VideoQuestionnaireId == oneQ.Key).Question}</h3>";
+                result += $" <div class=\"QOptions\">";
+                foreach (var opts in oneQ)
+                {
+                    result += $" <div> <input class=\"TitleCheckbox\" onchange=\"TitleCheck(this)\" type=\"checkbox\" id=\"Title_1\"><label for=\"Title_1\">{opts.OptionValue}</label></div>";
+                }
+                result += "</div></div>";
+            }
+
+            return new HtmlString(result);
+        }
+
         private HtmlString ConvertTopicsToHTMLSting(List<InterestCatergoryTopic> topics)
         {
 
@@ -318,6 +343,7 @@ namespace CodeAtWork.BL
 
             return resultStr;
         }
+
 
         public string ConvertToChannelLists(List<UserChannel> Channels, Guid videoId)
         {

@@ -31,10 +31,50 @@
     </div>
     <div id="AddContentsModal">
         <div><i class="fas fa-times CloseModal" onclick="CloseAddContentModal()"></i></div>
-        <div id="ModalContainer">
-        <h2 style="font-family:comfortaa; color:white; border-bottom: 1px solid grey; font-weight: 100;">Recommended Next Watch</h2>
-        <div class="ModalScreenshots" id="FilteredVidsGrid">
+
+        <div id="ChannelTable">
+            <div class="selectedChannelSection" onclick="toggleSelectedDiv(this, 1)">
+                Questionnaire
+            </div>
+            <div onclick="toggleSelectedDiv(this, 2)">
+                Recommended Next Watch
+            </div>
+            <div>
+            </div>
         </div>
+        <div id="ModalContainer">
+            <div id="RecommendedContainer" style="display:none">
+                <div class="ModalScreenshots" id="FilteredVidsGrid">
+                </div>
+            </div>
+            <div id="QuestionnaireContainer">
+                <div id="passMarkBanner">
+                    Get 80% or over to pass test.
+                </div>
+                <div id="QWithOptsDivs"></div>
+                @*<div class="QDiv">
+                    <h3>Number of wings</h3>
+                    <div class="QOptions">
+                        <div>
+                            <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_1" checked>
+                            <label for="Title_1">Developer</label>
+                        </div>
+                        <div>
+                            <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_2">
+                            <label for="Title_2">IT Professional</label>
+                        </div>
+                        <div>
+                            <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_3">
+                            <label for="Title_3">Tester</label>
+                        </div>
+                        <div>
+                            <input class="TitleCheckbox" onchange="TitleCheck(this)" type="checkbox" id="Title_4">
+                            <label for="Title_4">Other</label>
+                        </div>
+                    </div>
+                </div>*@
+                <button style="width:auto" class="SubmitQBtn">Submit</button>
+            </div>
         </div>
     </div>
     <div class="main">
@@ -44,6 +84,25 @@
 </html>
 <script>
     var player;
+
+    function toggleSelectedDiv(elem, divId) {
+
+        var QId = "#QuestionnaireContainer";
+        var NextId = "#RecommendedContainer";
+
+        var existingElem = document.getElementsByClassName("selectedChannelSection")[0];
+        $(existingElem).removeClass("selectedChannelSection");
+        $(elem).addClass("selectedChannelSection");
+
+        if (divId == 1) {
+            $(QId).css("display", "block");
+            $(NextId).css("display", "none");
+        }
+        else {
+            $(NextId).css("display", "block");
+            $(QId).css("display", "none");
+        }
+    }
 
     //this function is called by the API
     function onYouTubeIframeAPIReady() {
@@ -72,19 +131,24 @@
     }
 
 
-
     function onYouTubePlayerStateChange(event) {
         if (event.data == YT.PlayerState.PAUSED) {
             captureTime();
         }
         else if (event.data == YT.PlayerState.ENDED) {
             captureTime(1);
-            var nextRecommendation = $.post('/CodeAtWorkApp/GetNextRecommendedWatch', { videoId: '@ViewBag.VideoId' });
-            Promise.all([nextRecommendation]).then((result) => {
 
-                if (result != null && result != "" && result != " ") {
-                    document.getElementById("FilteredVidsGrid").innerHTML = result;
-                    $("#AddContentsModal").fadeToggle();
+            var questionnairesQs = $.post('/CodeAtWorkApp/GetQuestionnaireForVid', { vidId: '@ViewBag.VideoId' });
+            var nextRecommendation = $.post('/CodeAtWorkApp/GetNextRecommendedWatch', { videoId: '@ViewBag.VideoId' });
+            Promise.all([questionnairesQs, nextRecommendation]).then((result) => {
+                if (result != null && result[0]  && result[0] != "" && result[0] != " ") {
+                    document.getElementById("QWithOptsDivs").innerHTML = result[0];
+                    $("#AddContentsModal").fadeIn();
+                }
+
+                if (result != null && result[1] &&  result[1] != "" && result[1] != " ") {
+                    document.getElementById("FilteredVidsGrid").innerHTML = result[1];
+                    $("#AddContentsModal").fadeIn();
                 }
             });
         }

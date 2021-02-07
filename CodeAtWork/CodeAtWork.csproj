@@ -199,6 +199,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ML\RecommendedWatchML.cs" />
+    <Compile Include="Models\Questionnaire.cs" />
     <Compile Include="Models\UserVideoLog.cs" />
     <Compile Include="Models\InterestCatergoryTopic.cs" />
     <Compile Include="Models\Misc\Category.cs" />

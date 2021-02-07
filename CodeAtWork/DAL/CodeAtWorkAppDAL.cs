@@ -178,7 +178,7 @@ namespace CodeAtWork.DAL
             return subscribedChannelUsers;
         }
 
-    
+
 
         internal void UnsubscribeUserToChannel(int channelSubscribedUserId)
         {
@@ -277,6 +277,36 @@ namespace CodeAtWork.DAL
             dataReader.Close();
             command.Dispose();
             return vidChannelDetails;
+        }
+
+        internal List<QuestionnaireWithOptions> GetQuestionnaireForVid(Guid vidId)
+        {
+            List<QuestionnaireWithOptions> questionnaireWithOptions = new List<QuestionnaireWithOptions>();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            string sql = $@"  select vqo.*, vq.Question, vq.VideoId from videoQuestionnaire vq
+                        inner join VideoQuestionnaireOption vqo on vq.VideoQuestionnaireId = vqo.VideoQuestionnaireId
+                    where vq.VideoId = '{vidId}'
+            ";
+
+            command = new SqlCommand(sql, conn);
+            dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                questionnaireWithOptions.Add(new QuestionnaireWithOptions()
+                {
+                    VideoQuestionnaireId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("VideoQuestionnaireId")).ToString()),
+                    VideoQuestionnaireOptionId = Convert.ToInt32(dataReader.GetValue(dataReader.GetOrdinal("VideoQuestionnaireOptionId")).ToString()),
+                    Question = dataReader.GetValue(dataReader.GetOrdinal("Question")).ToString(),
+                    OptionValue = dataReader.GetValue(dataReader.GetOrdinal("OptionValue")).ToString(),
+                    VideoId = Guid.Parse(dataReader.GetValue(dataReader.GetOrdinal("VideoId")).ToString())
+                });
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            return questionnaireWithOptions;
         }
 
         public List<InterestCatergoryTopic> GetTopicsByCategoryName(List<string> CategoryNames, int userId)
@@ -719,7 +749,7 @@ namespace CodeAtWork.DAL
             SqlDataReader dataReader;
 
             string sql = $@"   SELECT vr.* FROM VideoRepository vr
-                                WHERE vr.MLVideoId in ({string.Join(",",MLVideoIds)})
+                                WHERE vr.MLVideoId in ({string.Join(",", MLVideoIds)})
             ";
 
             command = new SqlCommand(sql, conn);
@@ -865,14 +895,14 @@ namespace CodeAtWork.DAL
             string sql = "";
             string whereCond = null;
 
-            if(whereNotIn != null && whereNotIn.Any())
+            if (whereNotIn != null && whereNotIn.Any())
             {
-                whereCond = $" where vr.MLVideoId not in ({string.Join(",",whereNotIn)})";
+                whereCond = $" where vr.MLVideoId not in ({string.Join(",", whereNotIn)})";
             }
-            else if(whereIn != null && whereIn.Any())
+            else if (whereIn != null && whereIn.Any())
             {
-                if(whereCond is null)
-                whereCond = $" where vr.MLVideoId in ({string.Join(",", whereIn)})";
+                if (whereCond is null)
+                    whereCond = $" where vr.MLVideoId in ({string.Join(",", whereIn)})";
                 else
                 {
                     whereCond = $" and vr.MLVideoId in ({string.Join(",", whereIn)})";

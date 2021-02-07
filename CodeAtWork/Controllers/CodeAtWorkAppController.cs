@@ -340,6 +340,11 @@ namespace CodeAtWork.Controllers
         }
         #endregion
 
+        public HtmlString GetQuestionnaireForVid(Guid VidId)
+        {
+            var userInfo = Session["UserInfo"] as UserInfo;
+            return codeAtWorkAppBL.GetQuestionnaireForVid(VidId, userInfo.UserId);
+        }
 
         public ActionResult Logout()
         {
